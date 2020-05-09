@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1e3d60</color>
+    <color name="colorPrimaryDark">#1e3d60</color>
+    <color name="colorAccent">#1e3d60</color>
+    <color name="colorPrimarySecond">#ffffff</color>
+    <color name="input">#040227</color>
+    <color name="white">#fff</color>
+    <color name="black">#000000</color>
+    <color name="second">#f3a18e</color>
+    <color name="gray0">#fafafa</color>
+    <color name="gray1">#f5f5f5</color>
+    <color name="gray2">#eee</color>
+    <color name="gray3">#e0e0e0</color>
+    <color name="gray4">#bababa</color>
+    <color name="gray5">#c3c3c3</color>
+    <color name="gray6">#a0a0a0</color>
+    <color name="gray7">#f8f8f8</color>
+    <color name="gray8">#b0afbb</color>
+    <color name="gray9">#fafaf7</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="color_bg">#b0b5b9</color>
+    <color name="accessories">#FFF579</color>
+    <color name="spare_parts">#94EA7A</color>
+    <color name="search">#33BDC2</color>
+    <color name="products">#79F6FF</color>
+
+    <color name="secondColor">#32db64</color>
+    <color name="endColor">#26A84D</color>
+    <color name="book_trans">#99000000</color>
+</resources>

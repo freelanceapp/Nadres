@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Nadres</string>
+    <string name="field_req">Field required</string>
+    <string name="login">Login</string>
+    <string name="code">Code</string>
+    <string name="user_phone">User Phone</string>
+    <string name="are_you_have_account">Are You Have Account ?</string>
+</resources>
