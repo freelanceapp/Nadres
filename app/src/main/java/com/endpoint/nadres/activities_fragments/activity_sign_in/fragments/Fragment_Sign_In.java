@@ -1,43 +1,30 @@
 package com.endpoint.nadres.activities_fragments.activity_sign_in.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.endpoint.ghair.R;
-import com.endpoint.ghair.activities_fragments.activity_home.HomeActivity;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.activities.SignInActivity;
-import com.endpoint.ghair.databinding.FragmentSignInBinding;
-import com.endpoint.ghair.interfaces.Listeners;
-import com.endpoint.ghair.models.LoginModel;
-import com.endpoint.ghair.models.UserModel;
-import com.endpoint.ghair.preferences.Preferences;
-import com.endpoint.ghair.remote.Api;
-import com.endpoint.ghair.share.Common;
-import com.endpoint.ghair.tags.Tags;
+import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
+import com.endpoint.nadres.databinding.FragmentSignInBinding;
+import com.endpoint.nadres.interfaces.Listeners;
+import com.endpoint.nadres.models.LoginModel;
+import com.endpoint.nadres.preferences.Preferences;
 import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Fragment_Sign_In extends Fragment implements Listeners.LoginListener,Listeners.CreateAccountListener,Listeners.SkipListener,Listeners.ShowCountryDialogListener, OnCountryPickerListener {
     private FragmentSignInBinding binding;
@@ -63,17 +50,12 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         current_language = Paper.book().read("lang", Locale.getDefault().getLanguage());binding.setLoginModel(loginModel);
         binding.setLang(current_language);
         binding.setLoginListener(this);
-        binding.setNewAccountListener(this);
-        binding.setSkipListener(this);
+      //  binding.setNewAccountListener(this);
+      //  binding.setSkipListener(this);
         binding.setShowDialogListener(this);
         createCountryDialog();
 
-binding.tvForget.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        activity.displayFragmentForgetpass();
-    }
-});
+
 
 
     }
@@ -114,85 +96,86 @@ binding.tvForget.setOnClickListener(new View.OnClickListener() {
 
 
     @Override
-    public void checkDataLogin(String phone_code, String phone, String password) {
+    public void checkDataLogin(String phone_code, String phone) {
         if (phone.startsWith("0")) {
             phone = phone.replaceFirst("0", "");
         }
-        loginModel = new LoginModel(phone_code,phone,password);
+        loginModel = new LoginModel(phone_code,phone);
         binding.setLoginModel(loginModel);
 
         if (loginModel.isDataValid(activity))
         {
-            login(phone_code,phone,password);
+            login(phone_code,phone);
         }
     }
 
-    private void login(String phone_code, String phone, String password)
+    private void login(String phone_code, String phone)
     {
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
-        dialog.setCancelable(false);
-        dialog.show();
-        try {
-
-            Api.getService(Tags.base_url)
-                    .login(phone_code,phone,password)
-                    .enqueue(new Callback<UserModel>() {
-                        @Override
-                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                            dialog.dismiss();
-                            if (response.isSuccessful()&&response.body()!=null)
-                            {
-                               activity.displayFragmentCodeVerification(response.body(),1);
-
-                            }else
-                            {
-                                if (response.code() == 422) {
-                                    Toast.makeText(activity, getString(R.string.inc_phone_pas), Toast.LENGTH_SHORT).show();
-                                } else if (response.code() == 500) {
-                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
-
-
-                                }else if (response.code()==401||response.code()==404)
-                                {
-                                    Toast.makeText(activity, R.string.inc_phone_pas, Toast.LENGTH_SHORT).show();
-
-                                }else
-                                {
-                                    Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
-
-                                    try {
-
-                                        Log.e("error",response.code()+"_"+response.errorBody().string());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<UserModel> call, Throwable t) {
-                            try {
-                                dialog.dismiss();
-                                if (t.getMessage()!=null)
-                                {
-                                    Log.e("error",t.getMessage());
-                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
-                                    {
-                                        Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
-                                    }else
-                                    {
-                                        Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-
-                            }catch (Exception e){}
-                        }
-                    });
-        }catch (Exception e){
-            dialog.dismiss();
-
-        }
+        activity.displayFragmentCodeVerification();
+//        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+//        dialog.setCancelable(false);
+//        dialog.show();
+//        try {
+//
+//            Api.getService(Tags.base_url)
+//                    .login(phone_code,phone,password)
+//                    .enqueue(new Callback<UserModel>() {
+//                        @Override
+//                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+//                            dialog.dismiss();
+//                            if (response.isSuccessful()&&response.body()!=null)
+//                            {
+//                               activity.displayFragmentCodeVerification(response.body(),1);
+//
+//                            }else
+//                            {
+//                                if (response.code() == 422) {
+//                                    Toast.makeText(activity, getString(R.string.inc_phone_pas), Toast.LENGTH_SHORT).show();
+//                                } else if (response.code() == 500) {
+//                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
+//
+//
+//                                }else if (response.code()==401||response.code()==404)
+//                                {
+//                                    Toast.makeText(activity, R.string.inc_phone_pas, Toast.LENGTH_SHORT).show();
+//
+//                                }else
+//                                {
+//                                    Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+//
+//                                    try {
+//
+//                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+//                                    } catch (IOException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<UserModel> call, Throwable t) {
+//                            try {
+//                                dialog.dismiss();
+//                                if (t.getMessage()!=null)
+//                                {
+//                                    Log.e("error",t.getMessage());
+//                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+//                                    {
+//                                        Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
+//                                    }else
+//                                    {
+//                                        Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//
+//                            }catch (Exception e){}
+//                        }
+//                    });
+//        }catch (Exception e){
+//            dialog.dismiss();
+//
+//        }
     }
 
     @Override
@@ -201,14 +184,14 @@ binding.tvForget.setOnClickListener(new View.OnClickListener() {
     }
 
     private void navigateToHomeActivity() {
-        Intent intent = new Intent(activity, HomeActivity.class);
-        startActivity(intent);
-        activity.finish();
+//        Intent intent = new Intent(activity, HomeActivity.class);
+//        startActivity(intent);
+//        activity.finish();
     }
 
     @Override
     public void createNewAccount() {
-        activity.DisplayFragmentSignUpCustomer();
+        activity.DisplayFragmentSignUpTeacher();
     }
 
     @Override

@@ -4,7 +4,7 @@ package com.endpoint.nadres.interfaces;
 public interface Listeners {
 
     interface LoginListener {
-        void checkDataLogin(String phone_code, String phone, String password);
+        void checkDataLogin(String phone_code, String phone);
     }
     interface TransFerListener {
         void checkData(String amount);

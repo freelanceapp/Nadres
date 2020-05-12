@@ -20,13 +20,13 @@
     <color name="gray9">#fafaf7</color>
 
     <color name="transparent">#00000000</color>
-    <color name="color_bg">#b0b5b9</color>
-    <color name="accessories">#FFF579</color>
-    <color name="spare_parts">#94EA7A</color>
-    <color name="search">#33BDC2</color>
-    <color name="products">#79F6FF</color>
-
-    <color name="secondColor">#32db64</color>
-    <color name="endColor">#26A84D</color>
-    <color name="book_trans">#99000000</color>
+    <color name="colorred">#ef0607</color>
+    <color name="listen">#f9ad59</color>
+    <color name="speak">#746dcc</color>
+    <color name="read">#3ed3c0</color>
+    <color name="write">#fe6a66</color>
+    <color name="voc">#1ac06a</color>
+    <color name="grammer">#1c8ae9</color>
+    <color name="dire">#c88dad</color>
+    <color name="know">#ff805d</color>
 </resources>

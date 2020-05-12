@@ -9,17 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 
-import com.endpoint.ghair.R;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.fragments.FragmentSignUpAsMarketr;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.fragments.Fragment_Code_Verification;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.fragments.Fragment_ForgetPassword;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.fragments.Fragment_Newpass;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.fragments.Fragment_SignUpAsCustomer;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.fragments.Fragment_Sign_In;
-import com.endpoint.ghair.databinding.ActivitySignInBinding;
-import com.endpoint.ghair.language.Language;
-import com.endpoint.ghair.models.UserModel;
-import com.endpoint.ghair.preferences.Preferences;
+import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.FragmentSignUpAsTeacher;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_ChooseType;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_Code_Verification;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_SignUpAsStudent;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_Sign_In;
+import com.endpoint.nadres.databinding.ActivitySignInBinding;
+import com.endpoint.nadres.language.Language;
+import com.endpoint.nadres.models.UserModel;
+import com.endpoint.nadres.preferences.Preferences;
 
 import java.util.Locale;
 
@@ -32,13 +31,12 @@ public class SignInActivity extends AppCompatActivity {
 
     private int fragment_count = 0;
     private Fragment_Sign_In fragment_sign_in;
-    private Fragment_SignUpAsCustomer fragment_signUpAsCustomer;
-    private FragmentSignUpAsMarketr fragmentSignUpAsMarketr;
+    private FragmentSignUpAsTeacher fragmentSignUpAsTeacher;
+    private Fragment_SignUpAsStudent fragment_signUpAsStudent;
     private String cuurent_language;
     private Preferences preferences;
     private Fragment_Code_Verification fragment_code_verification;
-    private Fragment_ForgetPassword fragment_forgetpass;
-    private Fragment_Newpass fragment_newpass;
+    private Fragment_ChooseType fragment_chooseType;
 
 
     @Override
@@ -87,23 +85,23 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    public void DisplayFragmentSignUpCustomer() {
+    public void DisplayFragmentSignUpTeacher() {
         fragment_count += 1;
-        fragment_signUpAsCustomer = Fragment_SignUpAsCustomer.newInstance();
-        if (fragment_signUpAsCustomer.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_signUpAsCustomer).commit();
+        fragmentSignUpAsTeacher = FragmentSignUpAsTeacher.newInstance();
+        if (fragmentSignUpAsTeacher.isAdded()) {
+            fragmentManager.beginTransaction().show(fragmentSignUpAsTeacher).commit();
         } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_signUpAsCustomer, "fragment_signUpAsCustomer").addToBackStack("fragment_signUpAsCustomer").commit();
+            fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragmentSignUpAsTeacher, "fragment_signUpAsCustomer").addToBackStack("fragment_signUpAsCustomer").commit();
         }
     }
 
-    public void DisplayFragmentSignUpMarketr() {
+    public void DisplayFragmentSignUpStudent() {
         fragment_count+=1;
-        fragmentSignUpAsMarketr = FragmentSignUpAsMarketr.newInstance();
-        if (fragmentSignUpAsMarketr.isAdded()) {
-            fragmentManager.beginTransaction().show(fragmentSignUpAsMarketr).commit();
+        fragment_signUpAsStudent = Fragment_SignUpAsStudent.newInstance();
+        if (fragment_signUpAsStudent.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_signUpAsStudent).commit();
         } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragmentSignUpAsMarketr, "fragmentSignUpAsMarketr").addToBackStack("fragmentSignUpAsMarketr").commit();
+            fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_signUpAsStudent, "fragmentSignUpAsMarketr").addToBackStack("fragmentSignUpAsMarketr").commit();
         }
     }
 
@@ -133,24 +131,18 @@ public class SignInActivity extends AppCompatActivity {
 
 
     }
-    public void displayFragmentCodeVerification(UserModel userModel,int type) {
+    public void displayFragmentCodeVerification() {
         fragment_count ++;
-        fragment_code_verification = Fragment_Code_Verification.newInstance(userModel,type);
+        fragment_code_verification = Fragment_Code_Verification.newInstance();
         fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_code_verification, "fragment_code_verification").addToBackStack("fragment_code_verification").commit();
 
     }
-    public void displayFragmentForgetpass() {
+    public void displayFragmentChooseType() {
         fragment_count ++;
-        fragment_forgetpass = Fragment_ForgetPassword.newInstance();
+        fragment_chooseType = Fragment_ChooseType.newInstance();
 
-        fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_forgetpass, "fragment_forgetpass").addToBackStack("fragment_forgetpass").commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_chooseType, "fragment_forgetpass").addToBackStack("fragment_forgetpass").commit();
 
     }
-    public void displayFragmentNewpass(UserModel userModel) {
-        fragment_count ++;
-        fragment_newpass = Fragment_Newpass.newInstance(userModel,1);
 
-        fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_newpass, "fragment_newpass").addToBackStack("fragment_newpass").commit();
-
-    }
 }

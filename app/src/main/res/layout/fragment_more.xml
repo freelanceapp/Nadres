@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:background="@color/gray0"
+
+        >
+
+
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="8dp"
+                  >
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:gravity="end"
+                      >
+                  <FrameLayout
+                      android:id="@+id/f1"
+                      android:layout_width="70dp"
+                      android:layout_height="45dp"
+                      android:background="@drawable/changelanguage2"
+
+                      >
+                      <TextView
+                          android:id="@+id/tv_ar"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:text="عربى"
+                          android:layout_gravity="center"
+                          android:textColor="@color/white"
+                          android:textSize="20sp"
+                          android:gravity="center"
+                          android:layout_marginBottom="5dp"
+                          android:textStyle="bold"
+                          />
+                  </FrameLayout>
+                  <FrameLayout
+                      android:id="@+id/f2"
+                      android:layout_width="70dp"
+                      android:layout_height="45dp"
+                      android:background="@drawable/changelanguage"
+                      app:layout_constraintTop_toTopOf="parent"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintStart_toEndOf="@+id/f1"
+
+                      >
+                      <TextView
+                          android:id="@+id/tv_en"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:text="En"
+                          android:layout_gravity="center"
+                          android:textColor="@color/white"
+                          android:textSize="20sp"
+                          android:gravity="center"
+                          />
+                  </FrameLayout>
+                  </LinearLayout>
+                  <LinearLayout
+                      android:id="@+id/ll_terms"
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+
+                      >
+
+                      <ImageView
+                          android:layout_width="45dp"
+                          android:layout_height="45dp"
+                          android:layout_gravity="center_vertical"
+
+                          />
+
+                      <TextView
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_gravity="center_vertical"
+                          android:layout_weight="1"
+                          android:gravity="start|center"
+                          android:paddingLeft="10dp"
+                          android:paddingRight="10dp"
+                          android:text="@string/about_app"
+                          android:textColor="@color/black"
+                          android:textSize="15sp"
+
+                          />
+
+                      <ImageView
+                          android:id="@+id/arrow4"
+                          android:layout_width="50dp"
+                          android:layout_height="50dp"
+                          android:layout_gravity="center_vertical"
+                          android:clickable="false"
+                          android:longClickable="false"
+                          android:padding="15dp"
+                          android:src="@drawable/ic_right_arrow"
+                          />
+                  </LinearLayout>
+
+                  <View
+                      android:layout_width="match_parent"
+                      android:layout_height="1px"
+                      android:background="@color/gray4" />
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+
+                      >
+
+                      <ImageView
+                          android:layout_width="45dp"
+                          android:layout_height="45dp"
+                          android:layout_gravity="center_vertical"
+
+                          />
+
+                      <TextView
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:layout_gravity="center_vertical"
+                          android:layout_weight="1"
+                          android:gravity="start|center"
+                          android:paddingLeft="10dp"
+                          android:paddingRight="10dp"
+                          android:text="@string/terms_and_conditions"
+                          android:textColor="@color/black"
+                          android:textSize="15sp"
+
+                          />
+
+                      <ImageView
+                          android:layout_width="50dp"
+                          android:layout_height="50dp"
+                          android:layout_gravity="center_vertical"
+                          android:clickable="false"
+                          android:longClickable="false"
+                          android:padding="15dp"
+                          android:src="@drawable/ic_right_arrow"
+                          />
+                  </LinearLayout>
+
+                  <View
+                      android:layout_width="match_parent"
+                      android:layout_height="1px"
+                      android:background="@color/gray4" />
+
+
+                  <LinearLayout
+                      android:id="@+id/llShare"
+
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp"
+                      android:orientation="horizontal"
+                      android:gravity="center_vertical"
+                      android:layout_marginTop="5dp"
+                      >
+                      <ImageView
+                          android:layout_width="25dp"
+                          android:layout_height="25dp"
+                          android:src="@drawable/ic_share"
+                          android:padding="3dp"
+
+                          />
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical"
+                          android:layout_marginLeft="10dp"
+                          android:layout_marginRight="10dp"
+                          android:textSize="13sp"
+                          android:textColor="@color/colorPrimary"
+                          android:text="@string/share_app"
+                          />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:id="@+id/llRate"
+
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp"
+                      android:orientation="horizontal"
+                      android:gravity="center_vertical"
+                      android:layout_marginTop="5dp"
+                      >
+                      <ImageView
+                          android:layout_width="25dp"
+                          android:layout_height="25dp"
+                          android:src="@drawable/ic_star"
+                          android:padding="3dp"
+
+                          />
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical"
+                          android:layout_marginLeft="10dp"
+                          android:layout_marginRight="10dp"
+                          android:textSize="13sp"
+                          android:textColor="@color/colorPrimary"
+                          android:text="@string/rate_app"
+                          />
+                  </LinearLayout>
+
+
+
+                  <LinearLayout
+                      android:id="@+id/llLogout"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp"
+                      android:orientation="horizontal"
+                      android:gravity="center_vertical"
+                      android:layout_marginTop="5dp"
+                      >
+                      <ImageView
+                          android:layout_width="25dp"
+                          android:layout_height="25dp"
+                          android:src="@drawable/ic_logout"
+                          android:padding="3dp"
+
+                          />
+                      <TextView
+                          android:id="@+id/tv_logout"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical"
+                          android:layout_marginLeft="10dp"
+                          android:layout_marginRight="10dp"
+                          android:textSize="13sp"
+                          android:textColor="@color/colorPrimary"
+                          android:text="@string/logout"
+                          />
+                  </LinearLayout>
+                  <LinearLayout
+                      android:id="@+id/llll"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_horizontal"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="15dp"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+                      android:paddingLeft="12dp"
+                      android:paddingRight="12dp"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintLeft_toLeftOf="parent"
+                      app:layout_constraintRight_toRightOf="parent"
+                      app:layout_constraintTop_toBottomOf="@+id/ll">
+
+                      <ImageView
+                          android:id="@+id/image_twitter"
+                          android:layout_width="30dp"
+                          android:layout_height="30dp"
+                          android:clickable="false"
+                          android:longClickable="false"
+                          android:src="@drawable/twitter" />
+
+                      <ImageView
+                          android:id="@+id/image_instagram"
+                          android:layout_width="30dp"
+                          android:layout_height="30dp"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:clickable="false"
+                          android:longClickable="false"
+                          android:src="@drawable/instgrame" />
+
+                      <ImageView
+                          android:id="@+id/image_facebook"
+                          android:layout_width="30dp"
+                          android:layout_height="30dp"
+
+                          android:clickable="false"
+                          android:longClickable="false"
+                          android:src="@drawable/whatsapp" />
+
+
+                  </LinearLayout>
+
+              </LinearLayout>
+
+    </ScrollView>
+
+</layout>

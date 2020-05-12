@@ -16,14 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.endpoint.ghair.R;
-import com.endpoint.ghair.activities_fragments.activity_home.HomeActivity;
-import com.endpoint.ghair.activities_fragments.activity_sign_in.activities.SignInActivity;
-import com.endpoint.ghair.databinding.FragmentCodeVerificationBinding;
-import com.endpoint.ghair.models.UserModel;
-import com.endpoint.ghair.preferences.Preferences;
-import com.endpoint.ghair.share.Common;
-import com.endpoint.ghair.tags.Tags;
+
+import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
+import com.endpoint.nadres.databinding.FragmentCodeVerificationBinding;
+import com.endpoint.nadres.models.UserModel;
+import com.endpoint.nadres.preferences.Preferences;
+import com.endpoint.nadres.share.Common;
+import com.endpoint.nadres.tags.Tags;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -63,51 +63,51 @@ private int type;
         return view;
     }
 
-    public static Fragment_Code_Verification newInstance(UserModel userModel,int type) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(TAG, userModel);
-        bundle.putInt(TAG2,type);
+    public static Fragment_Code_Verification newInstance() {
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(TAG, userModel);
+//        bundle.putInt(TAG2,type);
         Fragment_Code_Verification fragment_code_verification = new Fragment_Code_Verification();
-        fragment_code_verification.setArguments(bundle);
+       // fragment_code_verification.setArguments(bundle);
         return fragment_code_verification;
     }
 
     private void initView() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            userModel = (UserModel) bundle.getSerializable(TAG);
-            type=bundle.getInt(TAG2);
-        }
+//        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            userModel = (UserModel) bundle.getSerializable(TAG);
+//            type=bundle.getInt(TAG2);
+//        }
 
         activity = (SignInActivity) getActivity();
         preferences = Preferences.getInstance();
         Paper.init(activity);
         binding.btnConfirm.setOnClickListener(v -> {
-
-            checkData();
+activity.displayFragmentChooseType();
+         //   checkData();
 
         });
 
-        binding.btnResend.setOnClickListener(v -> {
+//        binding.btnResend.setOnClickListener(v -> {
+//
+//            if (canResend) {
+//                startCounter();
+//                sendverficationcode(userModel.getPhone(),userModel.getPhone_code().replace("00","+"));
+//
+//            }
+//        });
 
-            if (canResend) {
-                startCounter();
-                sendverficationcode(userModel.getPhone(),userModel.getPhone_code().replace("00","+"));
 
-            }
-        });
+      //  startCounter();
 
-
-        startCounter();
-
-        authn();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sendverficationcode(userModel.getPhone(),userModel.getPhone_code().replace("00","+"));
-            }
-        },3);
-        startCounter();
+//        authn();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                sendverficationcode(userModel.getPhone(),userModel.getPhone_code().replace("00","+"));
+//            }
+//        },3);
+     //   startCounter();
 
     }
 
@@ -171,18 +171,12 @@ private int type;
 
                     // activity.NavigateToHomeActivity();
                     mAuth.signOut();
-                    if(type==1){
                     preferences.create_update_userdata(activity,userModel);
                     preferences.create_update_session(activity, Tags.session_login);
-                    Intent intent = new Intent(activity, HomeActivity.class);
-                    startActivity(intent);
-                    activity.finish();}
-                else {
-activity.displayFragmentNewpass(userModel);
-                   //     checkconfirmation(code);
-
-
-                }}
+//                    Intent intent = new Intent(activity, HomeActivity.class);
+//                    startActivity(intent);
+//                    activity.finish();
+            }
 
 
             }
@@ -208,27 +202,27 @@ activity.displayFragmentNewpass(userModel);
 
 
 
-    private void startCounter() {
-        countDownTimer = new CountDownTimer(60000, 1000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                canResend = false;
-
-                int AllSeconds = (int) (millisUntilFinished / 1000);
-                int seconds = AllSeconds % 60;
-
-
-                binding.btnResend.setText("00:" + seconds);
-            }
-
-            @Override
-            public void onFinish() {
-                canResend = true;
-                binding.btnResend.setText(activity.getResources().getString(R.string.resend));
-            }
-        }.start();
-    }
+//    private void startCounter() {
+//        countDownTimer = new CountDownTimer(60000, 1000) {
+//
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                canResend = false;
+//
+//                int AllSeconds = (int) (millisUntilFinished / 1000);
+//                int seconds = AllSeconds % 60;
+//
+//
+//              //  binding.btnResend.setText("00:" + seconds);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                canResend = true;
+//             //   binding.btnResend.setText(activity.getResources().getString(R.string.resend));
+//            }
+//        }.start();
+//    }
 
 
 
