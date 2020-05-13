@@ -1,47 +1,38 @@
-package com.endpoint.nadres.activities_fragments.activity_notification;
+package com.endpoint.nadres.activities_fragments.activity_teachers;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.adapters.Notification_Adapter;
+import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivityNotificationsBinding;
+import com.endpoint.nadres.databinding.ActivityTeachersBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
-import com.endpoint.nadres.remote.Api;
-import com.endpoint.nadres.tags.Tags;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class NotificationsActivity extends AppCompatActivity implements Listeners.BackListener {
-    private ActivityNotificationsBinding binding;
+public class TeacherActivity extends AppCompatActivity implements Listeners.BackListener {
+    private ActivityTeachersBinding binding;
     private LinearLayoutManager manager;
     private List<NotificationDataModel.NotificationModel> notificationModelList;
-    private Notification_Adapter notification_adapter;
+    private Teacher_Adapter notification_adapter;
     private Preferences preferences;
     private UserModel userModel;
     private boolean isLoading = false;
@@ -59,7 +50,7 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_notifications);
+        binding = DataBindingUtil.setContentView(this, R.layout.teacher_row);
         initView();
 //        if(userModel!=null){
 //        getnotification();}
@@ -72,7 +63,7 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
         manager = new LinearLayoutManager(this);
         binding.recView.setLayoutManager(manager);
         notificationModelList = new ArrayList<>();
-        notification_adapter = new Notification_Adapter(notificationModelList, this);
+        notification_adapter = new Teacher_Adapter(notificationModelList, this);
         binding.recView.setAdapter(notification_adapter);
         binding.setBackListener(this);
         Paper.init(this);

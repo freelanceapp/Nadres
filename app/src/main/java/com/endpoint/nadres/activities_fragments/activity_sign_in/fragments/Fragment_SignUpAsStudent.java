@@ -23,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.FragmentSignUpAsTeacherBinding;
 import com.endpoint.nadres.interfaces.Listeners;
@@ -75,7 +76,13 @@ public class Fragment_SignUpAsStudent extends Fragment implements  Listeners.Sho
         binding.setShowDialogListener(this);
         createCountryDialog();
 
-
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

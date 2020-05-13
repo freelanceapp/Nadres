@@ -41,8 +41,6 @@ public class TermsActivity extends AppCompatActivity implements Listeners.BackLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_terms);
         initView();
 
@@ -52,10 +50,11 @@ public class TermsActivity extends AppCompatActivity implements Listeners.BackLi
     private void initView() {
 
         Paper.init(this);
-        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());binding.setLang(lang);
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        binding.setLang(lang);
         binding.setBackListener(this);
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-     //   getTerms();
+        //   getTerms();
 
 
     }

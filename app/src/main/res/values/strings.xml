@@ -32,4 +32,9 @@
     <string name="user_name">User Name</string>
     <string name="notifications">Notifications</string>
     <string name="wait">Wait</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+    <string name="profile">Profile</string>
+    <string name="more">More</string>
+    <string name="teachers">Teachers</string>
 </resources>
