@@ -50,7 +50,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.teacher_row);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_teachers);
         initView();
 //        if(userModel!=null){
 //        getnotification();}
