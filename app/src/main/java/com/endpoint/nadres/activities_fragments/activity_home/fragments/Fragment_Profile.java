@@ -1,6 +1,7 @@
 package com.endpoint.nadres.activities_fragments.activity_home.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_editprofile.EditProfileActivity;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
+import com.endpoint.nadres.activities_fragments.activity_knowdetilas.KnowledegeDetialsActivity;
 import com.endpoint.nadres.databinding.FragmentProfileBinding;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -57,7 +60,13 @@ public class Fragment_Profile extends Fragment {
         activity = (HomeActivity) getActivity();
         preferences=Preferences.getInstance();
         userModel=preferences.getUserData(activity);
-
+binding.llShow.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(activity, EditProfileActivity.class);
+     startActivity(intent);
+    }
+});
 
     }
 

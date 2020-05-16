@@ -69,6 +69,7 @@
                                 android:layout_marginTop="10dp"
                                 app:civ_border_color="@color/colorPrimary"
                                 app:civ_border_width="1dp"
+                                android:src="@drawable/logo"
                                 app:civ_circle_background_color="@color/white" />
 
                             <TextView
@@ -107,11 +108,11 @@ android:text="@string/user_name"
                 >
 
                 <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
-                    android:padding="8dp"
-
+                    android:padding="5dp"
+android:src="@drawable/ic_gradution"
                     android:tint="@color/colorAccent" />
 
                 <TextView
@@ -202,10 +203,10 @@ android:layout_margin="7dp"
                     >
 
                     <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:padding="8dp"
+                        android:padding="5dp"
 android:src="@drawable/ic_phone"
                         android:tint="@color/colorAccent" />
 
@@ -265,11 +266,11 @@ android:src="@drawable/ic_phone"
                     >
 
                     <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:padding="8dp"
-
+                        android:padding="5dp"
+android:src="@drawable/ic_mail"
                         android:tint="@color/colorAccent" />
 
                     <TextView
@@ -328,10 +329,11 @@ android:src="@drawable/ic_phone"
                     >
 
                     <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:padding="8dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_class"
 
                         android:tint="@color/colorAccent" />
 
@@ -386,10 +388,11 @@ android:src="@drawable/ic_phone"
                     >
 
                     <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:padding="8dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_class"
 
                         android:tint="@color/colorAccent" />
 

@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
+import com.endpoint.nadres.databinding.FragmentSignUpAsStudentBinding;
 import com.endpoint.nadres.databinding.FragmentSignUpAsTeacherBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.preferences.Preferences;
@@ -40,7 +41,7 @@ import io.paperdb.Paper;
 public class Fragment_SignUpAsStudent extends Fragment implements  Listeners.ShowCountryDialogListener, OnCountryPickerListener {
     private SignInActivity activity;
     private String current_language;
-    private FragmentSignUpAsTeacherBinding binding;
+    private FragmentSignUpAsStudentBinding binding;
     private CountryPicker countryPicker;
     private Preferences preferences;
     private int isAcceptTerms = 0;

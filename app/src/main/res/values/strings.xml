@@ -37,4 +37,6 @@
     <string name="profile">Profile</string>
     <string name="more">More</string>
     <string name="teachers">Teachers</string>
+    <string name="educational_level">Educational level</string>
+    <string name="classs">Class</string>
 </resources>

@@ -2,6 +2,7 @@ package com.endpoint.nadres.activities_fragments.activity_home.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
+import com.endpoint.nadres.activities_fragments.knowledge_activity.KnowledegeActivity;
 import com.endpoint.nadres.databinding.FragmnetMainBinding;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -66,7 +68,13 @@ public class Fragment_Main extends Fragment {
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
         Paper.init(activity);
-
+binding.llknow.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(activity, KnowledegeActivity.class);
+        startActivity(intent);
+    }
+});
 
 
     }

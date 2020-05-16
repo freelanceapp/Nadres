@@ -57,7 +57,26 @@
         android:name=".activities_fragments.activity_sign_in.activities.SignInActivity"
         android:configChanges="orientation|screenSize|keyboardHidden"
         android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
+        <activity
+            android:name=".activities_fragments.activity_teachers.TeacherActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activities_fragments.activity_notification.NotificationsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activities_fragments.activity_editprofile.EditProfileActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activities_fragments.knowledge_activity.KnowledegeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activities_fragments.activity_knowdetilas.KnowledegeDetialsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
     <uses-library
         android:name="org.apache.http.legacy"
         android:required="false" />

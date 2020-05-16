@@ -108,7 +108,7 @@
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:src="@drawable/Listening"
+                    android:src="@drawable/listening"
                     android:clickable="false"
                     android:longClickable="false"
 
@@ -146,7 +146,7 @@
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/Listening"
+                android:src="@drawable/listening"
                 android:clickable="false"
                 android:longClickable="false"
 
@@ -182,7 +182,7 @@
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/Listening"
+                android:src="@drawable/listening"
                 android:clickable="false"
                 android:longClickable="false"
 
@@ -219,7 +219,7 @@
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/Listening"
+                android:src="@drawable/listening"
                 android:clickable="false"
                 android:longClickable="false"
 

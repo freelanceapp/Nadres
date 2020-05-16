@@ -64,7 +64,7 @@
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:src="@drawable/Listening"
+                    android:src="@drawable/listening"
                     android:clickable="false"
                     android:longClickable="false"
 
@@ -222,7 +222,7 @@
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/Vocabulary"
+                android:src="@drawable/vocabulary"
                 android:clickable="false"
                 android:longClickable="false"
 
@@ -321,6 +321,7 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llknow"
                 android:layout_width="0dp"
                 android:layout_height="185dp"
 

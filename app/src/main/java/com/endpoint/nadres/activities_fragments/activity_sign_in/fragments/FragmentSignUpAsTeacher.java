@@ -101,7 +101,7 @@ public class FragmentSignUpAsTeacher extends Fragment implements  Listeners.Show
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_as_student, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_as_teacher, container, false);
 
         initView();
 
