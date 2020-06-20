@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.ActivitySplashBinding;
 import com.endpoint.nadres.language.Language;
@@ -52,17 +53,17 @@ public class Splash_Activity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 String session = preferences.getSession(Splash_Activity.this);
-//                if (session.equals(Tags.session_login))
-//                {
-//                    Intent intent=new Intent(Splash_Activity.this, HomeActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                }else
-//                {
+                if (session.equals(Tags.session_login))
+                {
+                    Intent intent=new Intent(Splash_Activity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else
+                {
                     Intent intent=new Intent(Splash_Activity.this, SignInActivity.class);
                     startActivity(intent);
                     finish();
-               // }
+                }
 
             }
 

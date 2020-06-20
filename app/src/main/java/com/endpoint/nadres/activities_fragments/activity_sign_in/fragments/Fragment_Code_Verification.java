@@ -89,6 +89,7 @@ private int type;
         preferences = Preferences.getInstance();
         Paper.init(activity);
         binding.btnConfirm.setOnClickListener(v -> {
+            Common.CloseKeyBoard(activity,binding.edtCode);
 //activity.displayFragmentChooseType(phone,phone_code);
             checkData();
 

@@ -28,13 +28,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.endpoint.nadres.R;
-import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
+import com.endpoint.nadres.activities_fragments.activity_terms.TermsActivity;
 import com.endpoint.nadres.adapters.ClassAdapter;
 import com.endpoint.nadres.adapters.StageAdapter;
 import com.endpoint.nadres.databinding.DialogSelectImageBinding;
 import com.endpoint.nadres.databinding.FragmentSignUpAsStudentBinding;
-import com.endpoint.nadres.databinding.FragmentSignUpAsTeacherBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.models.SignUpStudentModel;
 import com.endpoint.nadres.models.StageDataModel;
@@ -133,7 +132,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
         binding.checkbox.setOnClickListener(v -> {
             if (binding.checkbox.isChecked()) {
                 signUpModel.setTermsAccepted(true);
-                navigateToAboutAppActivity();
+                navigateToTermsActivity();
             } else {
                 signUpModel.setTermsAccepted(false);
             }
@@ -142,7 +141,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
 
         });
 
-        binding.llimage.setOnClickListener(new View.OnClickListener() {
+        binding.flimagw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateImageAlertDialog();
@@ -156,9 +155,10 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                 if (position == 0) {
                     signUpModel.setStage("");
                 } else {
-                    signUpModel.setStage(stageList.get(position) + "");
+                    signUpModel.setStage(stageList.get(position).getId() + "");
                     classesFkList.clear();
                     classesFkList.add(new StageDataModel.Stage.ClassesFk(activity.getResources().getString(R.string.choose_classe)));
+                    classesFkList.addAll(stageList.get(position).getClasses_fk());
                     classAdapter.notifyDataSetChanged();
                 }
 
@@ -176,7 +176,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                 if (position == 0) {
                     signUpModel.setClsses("");
                 } else {
-                    signUpModel.setClsses(stageList.get(position).getId() + "");
+                    signUpModel.setClsses(classesFkList.get(position).getId() + "");
 
 
                 }
@@ -247,11 +247,11 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                 });
     }
 
-    private void navigateToAboutAppActivity() {
+    private void navigateToTermsActivity() {
 
-//        Intent intent = new Intent(this, AboutAppActivity.class);
-//        intent.putExtra("type",1);
-//        startActivity(intent);
+       Intent intent = new Intent(activity, TermsActivity.class);
+       intent.putExtra("type",1);
+        startActivity(intent);
     }
 
     private void CreateImageAlertDialog() {
@@ -484,10 +484,12 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                         dialog.dismiss();
+
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(activity, response.body());
                             activity.navigateToHomeActivity();
-                        } else {
+                        }
+                        else {
 
                             if (response.code() == 500) {
                                 Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
@@ -509,7 +511,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                             }
 
                             try {
-                                Log.e("error", response.errorBody().string());
+                                Log.e("error code", response.errorBody().string());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -564,14 +566,32 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(activity, response.body());
                             activity.navigateToHomeActivity();
-                        } else {
+                        }
+                        else {
+
                             if (response.code() == 500) {
                                 Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
                             } else if (response.code() == 422) {
-                                // Toast.makeText(activity, R.string.user_found, Toast.LENGTH_SHORT).show();
 
+                                Toast.makeText(activity, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 409) {
+
+                                Log.e("99999999", response.message() + "");
+
+                                Toast.makeText(activity, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 406) {
+
+                                Log.e("6666666", response.message() + "");
+
+                                Toast.makeText(activity, response.errorBody() + "", Toast.LENGTH_SHORT).show();
                             } else {
-                                //  Toast.makeText(activity,getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(activity,getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+
+                            try {
+                                Log.e("error code", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
