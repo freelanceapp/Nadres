@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
+import com.endpoint.nadres.activities_fragments.activity_teachers.TeacherActivity;
 import com.endpoint.nadres.activities_fragments.knowledge_activity.KnowledegeActivity;
 import com.endpoint.nadres.databinding.FragmnetMainBinding;
 import com.endpoint.nadres.models.UserModel;
@@ -68,6 +69,62 @@ public class Fragment_Main extends Fragment {
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
         Paper.init(activity);
+        binding.lllisting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.listening));
+                startActivity(intent);
+            }
+        });
+        binding.llgrammer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.grammer));
+                startActivity(intent);
+            }
+        });
+        binding.llread.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.reading));
+                startActivity(intent);
+            }
+        });
+        binding.llwrite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.writing));
+                startActivity(intent);
+            }
+        });
+        binding.llspeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.speaking));
+                startActivity(intent);
+            }
+        });
+        binding.llvoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.vocabulary));
+                startActivity(intent);
+            }
+        });
+        binding.lldictation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill",activity.getResources().getString(R.string.dictation));
+                startActivity(intent);
+            }
+        });
 binding.llknow.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {

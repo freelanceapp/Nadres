@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.databinding.LoadMoreBinding;
-import com.endpoint.nadres.databinding.NotificationRowBinding;
 import com.endpoint.nadres.databinding.TeacherRowBinding;
 import com.endpoint.nadres.models.NotificationDataModel;
+import com.endpoint.nadres.models.TeacherModel;
 
 import java.util.List;
 import java.util.Locale;
@@ -24,13 +24,13 @@ import io.paperdb.Paper;
 public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int ITEM_DATA = 1;
     private final int LOAD = 2;
-    private List<NotificationDataModel.NotificationModel> orderlist;
+    private List<TeacherModel.Data> dataList;
     private Context context;
     private LayoutInflater inflater;
     private String lang;
 
-    public Teacher_Adapter(List<NotificationDataModel.NotificationModel> orderlist, Context context) {
-        this.orderlist = orderlist;
+    public Teacher_Adapter(List<TeacherModel.Data> dataList, Context context) {
+        this.dataList = dataList;
         this.context = context;
         inflater = LayoutInflater.from(context);
         Paper.init(context);
@@ -54,13 +54,13 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NotificationDataModel.NotificationModel order_data = orderlist.get(position);
+        TeacherModel.Data order_data = dataList.get(position);
         if (holder instanceof EventHolder)
         {
             EventHolder eventHolder = (EventHolder) holder;
            // eventHolder.binding.setLang(lang);
 
-          //  eventHolder.binding.setNotificationModel(order_data);
+            eventHolder.binding.setModel(order_data);
 
 
         }else
@@ -72,7 +72,7 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return orderlist.size();
+        return dataList.size();
     }
 
     public class EventHolder extends RecyclerView.ViewHolder {
@@ -96,7 +96,7 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        NotificationDataModel.NotificationModel order_Model = orderlist.get(position);
+     TeacherModel.Data order_Model = dataList.get(position);
         if (order_Model!=null)
         {
             return ITEM_DATA;

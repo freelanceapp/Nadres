@@ -19,6 +19,7 @@ import com.endpoint.nadres.databinding.KnowledegeRowBinding;
 import com.endpoint.nadres.databinding.LoadMoreBinding;
 import com.endpoint.nadres.databinding.TeacherRowBinding;
 import com.endpoint.nadres.models.NotificationDataModel;
+import com.endpoint.nadres.models.SingleArticleModel;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,12 +29,12 @@ import io.paperdb.Paper;
 public class Know_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int ITEM_DATA = 1;
     private final int LOAD = 2;
-    private List<NotificationDataModel.NotificationModel> orderlist;
+    private List<SingleArticleModel> orderlist;
     private Context context;
     private LayoutInflater inflater;
     private String lang;
 private KnowledegeActivity knowledegeActivity;
-    public Know_Adapter(List<NotificationDataModel.NotificationModel> orderlist, Context context) {
+    public Know_Adapter(List<SingleArticleModel> orderlist, Context context) {
         this.orderlist = orderlist;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -59,7 +60,7 @@ private KnowledegeActivity knowledegeActivity;
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        NotificationDataModel.NotificationModel order_data = orderlist.get(position);
+        SingleArticleModel order_data = orderlist.get(position);
         if (holder instanceof EventHolder)
         {
             EventHolder eventHolder = (EventHolder) holder;
@@ -67,11 +68,10 @@ private KnowledegeActivity knowledegeActivity;
 eventHolder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent(knowledegeActivity, KnowledegeDetialsActivity.class);
-        knowledegeActivity.startActivity(intent);
+
     }
 });
-          //  eventHolder.binding.setNotificationModel(order_data);
+            eventHolder.binding.setModel(order_data);
 
 
         }else
@@ -107,7 +107,7 @@ eventHolder.itemView.setOnClickListener(new View.OnClickListener() {
 
     @Override
     public int getItemViewType(int position) {
-        NotificationDataModel.NotificationModel order_Model = orderlist.get(position);
+        SingleArticleModel order_Model = orderlist.get(position);
         if (order_Model!=null)
         {
             return ITEM_DATA;

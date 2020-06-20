@@ -368,13 +368,13 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
 
             imgUri1 = getUriFromBitmap(bitmap);
             binding.llimage.setVisibility(View.GONE);
-            Picasso.with(activity).load(imgUri1).fit().into(binding.imageFill);
+            Picasso.get().load(imgUri1).fit().into(binding.imageFill);
 
 
         } else if (requestCode == IMG_REQ1 && resultCode == Activity.RESULT_OK && data != null) {
             imgUri1 = data.getData();
             binding.llimage.setVisibility(View.GONE);
-            Picasso.with(activity).load(imgUri1).fit().into(binding.imageFill);
+            Picasso.get().load(imgUri1).fit().into(binding.imageFill);
 
         }
     }

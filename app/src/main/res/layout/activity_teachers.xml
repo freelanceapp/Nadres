@@ -49,6 +49,7 @@
                     android:rotation='@{lang.equals("en")?180:0}'
                     />
                 <TextView
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

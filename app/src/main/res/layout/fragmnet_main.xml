@@ -50,6 +50,8 @@
             >
 
             <LinearLayout
+                android:id="@+id/lllisting"
+
                 android:layout_width="0dp"
                 android:layout_height="185dp"
 
@@ -84,6 +86,8 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llspeak"
+
                 android:layout_width="0dp"
                 android:layout_height="185dp"
 
@@ -129,6 +133,8 @@
             >
 
             <LinearLayout
+                android:id="@+id/llread"
+
                 android:layout_width="0dp"
                 android:layout_height="185dp"
 
@@ -163,6 +169,8 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llwrite"
+
                 android:layout_width="0dp"
                 android:layout_height="185dp"
 
@@ -208,6 +216,8 @@
         >
 
         <LinearLayout
+            android:id="@+id/llvoc"
+
             android:layout_width="0dp"
             android:layout_height="185dp"
 
@@ -242,6 +252,8 @@
                 />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/llgrammer"
+
             android:layout_width="0dp"
             android:layout_height="185dp"
 
@@ -287,6 +299,8 @@
             >
 
             <LinearLayout
+                android:id="@+id/lldictation"
+
                 android:layout_width="0dp"
                 android:layout_height="185dp"
 

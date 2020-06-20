@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="model"
+            type="com.endpoint.nadres.models.TeacherModel.Data" />
 
     </data>
 
@@ -20,8 +23,10 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
+            android:background="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="2dp"
+
             app:contentPadding="5dp">
 
 
@@ -32,14 +37,14 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="3dp"
-                android:background="@color/gray0">
+                android:background="@color/white">
 
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_margin="5dp"
-                    android:background="@color/gray0"
+                    android:background="@color/white"
                     app:cardElevation="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/card"
@@ -51,14 +56,15 @@
 
                     <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/image"
+                        image="@{model.teachers_fk.image}"
                         android:layout_width="130dp"
                         android:layout_height="130dp"
+                        android:layout_marginStart="8dp"
                         android:scaleType="fitXY"
-
-
                         android:src="@drawable/logo"
-
-                        />
+                        app:riv_border_width="0dp"
+                        app:riv_corner_radius="20dp"
+                        tools:ignore="RtlCompat" />
                 </androidx.cardview.widget.CardView>
 
 
@@ -97,7 +103,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginStart="8dp"
-                                android:text="@string/user_name"
+                                android:text="@{model.teachers_fk.name}"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="15sp"
                                 tools:ignore="RtlCompat" />

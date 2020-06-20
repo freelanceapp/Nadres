@@ -1,7 +1,10 @@
 package com.endpoint.nadres.services;
 
 
+import com.endpoint.nadres.models.ArticleModel;
+import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.StageDataModel;
+import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
 
 import org.androidannotations.annotations.rest.Get;
@@ -60,4 +63,16 @@ public interface Service {
 
     @GET("api/stages-classess")
     Call<StageDataModel>getStage();
+    @GET("api/teachers-by-skill_type")
+    Call<TeacherModel> getteacher(
+            @Header("Authorization") String user_token,
+            @Query("skill_type") String skill_type);
+    @GET("api/all-articles")
+    Call<ArticleModel> getaricles(
+
+                                  @Query("pagination_status") String pagination_status,
+                                  @Query("page") int page,
+                                  @Query("per_link_") int limit_per_page
+
+    );
 }
