@@ -58,6 +58,6 @@ public interface Service {
                                     @Part MultipartBody.Part image
     );
 
-    @Get("api/stages-classess")
-    Call<StageDataModel> getStage();
+    @GET("api/stages-classess")
+    Call<StageDataModel>getStage();
 }

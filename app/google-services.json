@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "149301158912",
+    "firebase_url": "https://nadres-7e61d.firebaseio.com",
+    "project_id": "nadres-7e61d",
+    "storage_bucket": "nadres-7e61d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149301158912:android:99b2af22a2361b8d8564e5",
+        "android_client_info": {
+          "package_name": "com.endpoint.nadres"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149301158912-ruqjvmai3oq586c7pur7dv5ea17dahnu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRTuwy9ElskXmUDm-BPYih3Ak18PoJTto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149301158912-ruqjvmai3oq586c7pur7dv5ea17dahnu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
