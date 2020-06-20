@@ -40,7 +40,9 @@ public class Fragment_ChooseType extends Fragment {
     private SignInActivity activity;
     private FragmentUserTypeBinding binding;
     private boolean canResend = true;
-
+    private static final String TAG = "DATA";
+    private static final String TAG2 = "Type";
+    private String phone,phone_code;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,13 +52,21 @@ public class Fragment_ChooseType extends Fragment {
         return view;
     }
 
-    public static Fragment_ChooseType newInstance() {
-
-        return new Fragment_ChooseType();
+    public static Fragment_ChooseType newInstance(String phone, String phone_code) {
+        Bundle bundle = new Bundle();
+        bundle.putString(TAG, phone);
+        bundle.putString(TAG2,phone_code);
+        Fragment_ChooseType fragment_chooseType = new Fragment_ChooseType();
+        fragment_chooseType.setArguments(bundle);
+        return fragment_chooseType;
     }
 
     private void initView() {
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            phone =  bundle.getString(TAG);
+            phone_code=bundle.getString(TAG2);
+        }
 
         activity = (SignInActivity) getActivity();
         Paper.init(activity);
@@ -67,7 +77,7 @@ binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             activity.DisplayFragmentSignUpTeacher();
         }
         else {
-            activity.DisplayFragmentSignUpStudent();
+            activity.DisplayFragmentSignUpStudent(phone,phone_code);
         }
     }
 });

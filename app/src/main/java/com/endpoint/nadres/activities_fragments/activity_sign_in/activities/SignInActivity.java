@@ -1,6 +1,7 @@
 package com.endpoint.nadres.activities_fragments.activity_sign_in.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.FragmentSignUpAsTeacher;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_ChooseType;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_Code_Verification;
@@ -93,9 +95,9 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    public void DisplayFragmentSignUpStudent() {
+    public void DisplayFragmentSignUpStudent(String phone, String phone_code) {
         fragment_count+=1;
-        fragment_signUpAsStudent = Fragment_SignUpAsStudent.newInstance();
+        fragment_signUpAsStudent = Fragment_SignUpAsStudent.newInstance(phone,phone_code);
         if (fragment_signUpAsStudent.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_signUpAsStudent).commit();
         } else {
@@ -129,18 +131,23 @@ public class SignInActivity extends AppCompatActivity {
 
 
     }
-    public void displayFragmentCodeVerification() {
+    public void displayFragmentCodeVerification(String phone,String phone_code) {
         fragment_count ++;
-        fragment_code_verification = Fragment_Code_Verification.newInstance();
+        fragment_code_verification = Fragment_Code_Verification.newInstance(phone,phone_code);
         fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_code_verification, "fragment_code_verification").addToBackStack("fragment_code_verification").commit();
 
     }
-    public void displayFragmentChooseType() {
+    public void displayFragmentChooseType(String phone,String phone_code) {
         fragment_count ++;
-        fragment_chooseType = Fragment_ChooseType.newInstance();
+        fragment_chooseType = Fragment_ChooseType.newInstance(phone,phone_code);
 
         fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_chooseType, "fragment_forgetpass").addToBackStack("fragment_forgetpass").commit();
 
+    }
+    public void navigateToHomeActivity() {
+       Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+       startActivity(intent);
+      finish();
     }
 
 }
