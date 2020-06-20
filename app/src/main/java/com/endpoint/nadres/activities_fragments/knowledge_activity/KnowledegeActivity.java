@@ -108,7 +108,7 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
         try {
             current_page = 1;
             Api.getService(Tags.base_url)
-                    .getaricles("on",current_page,20)
+                    .getArticles("on",current_page,20)
                     .enqueue(new Callback<ArticleModel>() {
                         @Override
                         public void onResponse(Call<ArticleModel> call, Response<ArticleModel> response) {
@@ -171,7 +171,7 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
         try {
 
             Api.getService(Tags.base_url)
-                    .getaricles("on",page,20)
+                    .getArticles("on",page,20)
                     .enqueue(new Callback<ArticleModel>() {
                         @Override
                         public void onResponse(Call<ArticleModel> call, Response<ArticleModel> response) {

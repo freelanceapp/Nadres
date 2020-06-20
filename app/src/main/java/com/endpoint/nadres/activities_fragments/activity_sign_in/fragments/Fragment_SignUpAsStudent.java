@@ -190,15 +190,14 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
             }
         });
 
-        getCities();
+        getStages();
     }
 
-    private void getCities() {
+    private void getStages() {
         ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.show();
-
         Api.getService(Tags.base_url)
-                .getStage()
+                .getStages()
                 .enqueue(new Callback<StageDataModel>() {
                     @Override
                     public void onResponse(Call<StageDataModel> call, Response<StageDataModel> response) {
@@ -249,8 +248,8 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
 
     private void navigateToTermsActivity() {
 
-       Intent intent = new Intent(activity, TermsActivity.class);
-       intent.putExtra("type",1);
+        Intent intent = new Intent(activity, TermsActivity.class);
+        intent.putExtra("type", 1);
         startActivity(intent);
     }
 
@@ -488,8 +487,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(activity, response.body());
                             activity.navigateToHomeActivity();
-                        }
-                        else {
+                        } else {
 
                             if (response.code() == 500) {
                                 Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
@@ -558,7 +556,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
         classes.add(claaess_part);
 
         Api.getService(Tags.base_url)
-                .signUpWithImage(name_part, email_part, phone_code_part, phone_part, user_type_part, software_part,stages,classes, image)
+                .signUpWithImage(name_part, email_part, phone_code_part, phone_part, user_type_part, software_part, stages, classes, image)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -566,8 +564,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(activity, response.body());
                             activity.navigateToHomeActivity();
-                        }
-                        else {
+                        } else {
 
                             if (response.code() == 500) {
                                 Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();

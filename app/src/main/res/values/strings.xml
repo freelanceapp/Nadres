@@ -51,7 +51,9 @@
     <string name="select_image_to_upload">Select Image to Upload</string>
     <string name="cancel">Cancel</string>
     <string name="choose_stage">Choose Stage</string>
-    <string name="choose_classe">Choose Classe</string>
+    <string name="choose_classe">Choose Class</string>
     <string name="skill">Skill</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="failed">Failed</string>
 
 </resources>

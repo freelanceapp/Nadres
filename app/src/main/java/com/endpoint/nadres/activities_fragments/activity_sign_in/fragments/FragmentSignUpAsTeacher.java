@@ -39,9 +39,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
+import com.endpoint.nadres.activities_fragments.activity_terms.TermsActivity;
+import com.endpoint.nadres.activities_fragments.knowledge_activity.KnowledegeActivity;
+import com.endpoint.nadres.adapters.ClassAdapter;
+import com.endpoint.nadres.adapters.StageAdapter;
+import com.endpoint.nadres.databinding.DialogSelectImageBinding;
 import com.endpoint.nadres.databinding.FragmentSignUpAsTeacherBinding;
 import com.endpoint.nadres.interfaces.Listeners;
+import com.endpoint.nadres.models.ArticleModel;
+import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.preferences.Preferences;
+import com.endpoint.nadres.remote.Api;
+import com.endpoint.nadres.tags.Tags;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -81,19 +90,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentSignUpAsTeacher extends Fragment implements  Listeners.ShowCountryDialogListener, OnCountryPickerListener {
+public class FragmentSignUpAsTeacher extends Fragment {
     private SignInActivity activity;
-    private String current_language;
+    private String lang;
     private FragmentSignUpAsTeacherBinding binding;
-    private CountryPicker countryPicker;
     private Preferences preferences;
-    private int isAcceptTerms = 0;
-
     private final int IMG_REQ1 = 1, IMG_REQ2 = 2;
     private Uri imgUri1 = null;
     private final String READ_PERM = Manifest.permission.READ_EXTERNAL_STORAGE;
     private final String write_permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private final String camera_permission = Manifest.permission.CAMERA;
+    private List<StageDataModel.Stage> stageList;
+    private StageAdapter stageAdapter;
+    private ClassAdapter classAdapter;
+    private List<StageDataModel.Stage.ClassesFk> classesList;
+
     public static FragmentSignUpAsTeacher newInstance() {
         return new FragmentSignUpAsTeacher();
     }
@@ -111,62 +122,156 @@ public class FragmentSignUpAsTeacher extends Fragment implements  Listeners.Show
 
     private void initView() {
 
+        stageList = new ArrayList<>();
+        stageList.add(new StageDataModel.Stage(0,getString(R.string.choose_stage)));
+
+        classesList = new ArrayList<>();
+        classesList.add(new StageDataModel.Stage.ClassesFk(0,getString(R.string.choose_classe)));
+
         activity = (SignInActivity) getActivity();
         Paper.init(activity);
-       // binding.setSignUpListener(this);
         preferences = Preferences.getInstance();
 
-//       binding.setSignUpListener(this);
-        binding.setShowDialogListener(this);
-        createCountryDialog();
 
-binding.btnSend.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(activity, HomeActivity.class);
-        startActivity(intent);
+        ///////////////////////////////////////////////////////
+        stageAdapter = new StageAdapter(stageList,activity);
+        binding.spinnerStage.setAdapter(stageAdapter);
+
+        classAdapter = new ClassAdapter(classesList,activity);
+        binding.spinnerClass.setAdapter(classAdapter);
+
+        binding.spinnerStage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                    classesList.clear();
+                    classesList.add(new StageDataModel.Stage.ClassesFk(0,getString(R.string.choose_classe)));
+                    classAdapter.notifyDataSetChanged();
+
+                }else {
+
+                    classesList.addAll(stageList.get(position).getClasses_fk());
+                    classAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ///////////////////////////////////////////////////////
+
+
+        binding.btnSend.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, HomeActivity.class);
+            startActivity(intent);
+        });
+        binding.flSelectImage.setOnClickListener(v -> {
+            CreateImageAlertDialog();
+        });
+
+        binding.checkbox.setOnClickListener(v -> {
+            if (binding.checkbox.isChecked()){
+
+            }else {
+                navigateToTermsActivity();
+            }
+        });
+
+        getStages();
+
     }
-});
+
+    private void getStages()
+    {
+        try {
+            Api.getService(Tags.base_url)
+                    .getStages()
+                    .enqueue(new Callback<StageDataModel>() {
+                        @Override
+                        public void onResponse(Call<StageDataModel> call, Response<StageDataModel> response) {
+                            if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                                stageList.addAll(response.body().getData());
+                                if (stageList.size() > 0) {
+
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            stageAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+
+                                }
+                            } else {
+                                if (response.code() == 500) {
+                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
 
 
+                                } else {
+                                     Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
 
+                                    try {
 
+                                        Log.e("error", response.code() + "_" + response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<StageDataModel> call, Throwable t) {
+                            try {
 
+                                if (t.getMessage() != null) {
+                                    Log.e("error", t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                        //  Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
 
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+        } catch (Exception e) {
 
-
-
+        }
     }
-//    private void CreateImageAlertDialog() {
-//
-//        final AlertDialog dialog = new AlertDialog.Builder(activity)
-//                .setCancelable(true)
-//                .create();
-//
-//        DialogSelectImageBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_select_image, null, false);
-//
-//
-//        binding.btnCamera.setOnClickListener(v -> {
-//            dialog.dismiss();
-//            Check_CameraPermission();
-//
-//        });
-//
-//        binding.btnGallery.setOnClickListener(v -> {
-//            dialog.dismiss();
-//            CheckReadPermission();
-//
-//
-//        });
-//
-//        binding.btnCancel.setOnClickListener(v -> dialog.dismiss());
-//
-//       // dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
-//        dialog.setCanceledOnTouchOutside(false);
-//        dialog.setView(binding.getRoot());
-//        dialog.show();
-//    }
+
+    private void CreateImageAlertDialog() {
+
+        final AlertDialog dialog = new AlertDialog.Builder(activity)
+                .setCancelable(true)
+                .create();
+
+        DialogSelectImageBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_select_image, null, false);
+
+
+        binding.btnCamera.setOnClickListener(v -> {
+            dialog.dismiss();
+            Check_CameraPermission();
+
+        });
+
+        binding.btnGallery.setOnClickListener(v -> {
+            dialog.dismiss();
+            CheckReadPermission();
+
+
+        });
+
+        binding.btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        // dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
+    }
 
     private void CheckReadPermission() {
         if (ActivityCompat.checkSelfPermission(activity, READ_PERM) != PackageManager.PERMISSION_GRANTED) {
@@ -208,9 +313,9 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
                 intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, img_req);
             } catch (SecurityException e) {
-             // Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-             // Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -227,54 +332,48 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 SelectImage(IMG_REQ1);
             } else {
-           //   Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
             }
 
         } else if (requestCode == IMG_REQ2) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 SelectImage(IMG_REQ2);
             } else {
-             // Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
             }
         }
 
 
-
     }
-
-
-
-
-
-
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == IMG_REQ2 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == IMG_REQ2 && resultCode == Activity.RESULT_OK && data != null) {
 
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
             imgUri1 = getUriFromBitmap(bitmap);
-         // binding.icon.setVisibility(View.GONE);
-         //   Picasso.with(activity).load(imgUri1).fit().into(binding.image);
+            binding.flIcon.setVisibility(View.GONE);
+            Picasso.get().load(imgUri1).fit().into(binding.imageProfile);
 
 
         } else if (requestCode == IMG_REQ1 && resultCode == Activity.RESULT_OK && data != null) {
             imgUri1 = data.getData();
-           //inding.icon.setVisibility(View.GONE);
-         //   Picasso.with(activity).load(imgUri1).fit().into(binding.image);
+            binding.flIcon.setVisibility(View.GONE);
+            Picasso.get().load(imgUri1).fit().into(binding.imageProfile);
 
-        }}
+        }
+    }
 
-//    private void navigateToTermsActivity() {
-//
-//        Intent intent = new Intent(activity, TermsActivity.class);
-//        startActivity(intent);
-//
-//    }
+    private void navigateToTermsActivity() {
+
+        Intent intent = new Intent(activity, TermsActivity.class);
+        startActivity(intent);
+
+    }
 
     private Uri getUriFromBitmap(Bitmap bitmap) {
         String path = "";
@@ -285,66 +384,14 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
             return Uri.parse(path);
 
         } catch (SecurityException e) {
-           //oast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-          //Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
 
         }
         return null;
     }
-
-
-
-    private void createCountryDialog()
-    {
-        countryPicker = new CountryPicker.Builder()
-                .canSearch(false)
-                .listener(this)
-                .theme(CountryPicker.THEME_NEW)
-                .with(activity)
-                .build();
-
-        TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
-
-        if (countryPicker.getCountryFromSIM()!=null)
-        {
-            updatePhoneCode(countryPicker.getCountryFromSIM());
-        }else if (telephonyManager!=null&&countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso())!=null)
-        {
-            updatePhoneCode(countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso()));
-        }else if (countryPicker.getCountryByLocale(Locale.getDefault())!=null)
-        {
-            updatePhoneCode(countryPicker.getCountryByLocale(Locale.getDefault()));
-        }else
-        {
-            String code = "+966";
-           // binding.tvCode.setText(code);
-           //ignUpModel.setPhone_code(code.replace("+","00"));
-
-        }
-
-    }
-
-    @Override
-    public void showDialog() {
-
-        countryPicker.showDialog(activity);
-    }
-
-    @Override
-    public void onSelectCountry(Country country) {
-        updatePhoneCode(country);
-
-    }
-
-    private void updatePhoneCode(Country country)
-    {
-      //  binding.tvCode.setText(country.getDialCode());
-        //signUpModel.setPhone_code(country.getDialCode().replace("+","00"));
-
-    }
-
 
 
 }

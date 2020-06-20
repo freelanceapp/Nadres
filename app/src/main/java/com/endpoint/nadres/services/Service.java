@@ -61,18 +61,19 @@ public interface Service {
                                     @Part MultipartBody.Part image
     );
 
-    @GET("api/stages-classess")
-    Call<StageDataModel>getStage();
-    @GET("api/teachers-by-skill_type")
-    Call<TeacherModel> getteacher(
-            @Header("Authorization") String user_token,
-            @Query("skill_type") String skill_type);
-    @GET("api/all-articles")
-    Call<ArticleModel> getaricles(
 
-                                  @Query("pagination_status") String pagination_status,
-                                  @Query("page") int page,
-                                  @Query("per_link_") int limit_per_page
+
+    @GET("api/teachers-by-skill_type")
+    Call<TeacherModel> getTeacher(@Header("Authorization") String user_token,
+                                  @Query("skill_type") String skill_type);
+
+    @GET("api/all-articles")
+    Call<ArticleModel> getArticles(@Query("pagination_status") String pagination_status,
+                                   @Query("page") int page,
+                                   @Query("per_link_") int limit_per_page
 
     );
+
+    @GET("api/stages-classess")
+    Call<StageDataModel> getStages();
 }

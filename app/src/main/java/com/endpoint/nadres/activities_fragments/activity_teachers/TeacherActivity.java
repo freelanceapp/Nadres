@@ -6,9 +6,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -16,13 +13,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.endpoint.nadres.R;
-import com.endpoint.nadres.adapters.Notification_Adapter;
 import com.endpoint.nadres.adapters.Teacher_Adapter;
-import com.endpoint.nadres.databinding.ActivityNotificationsBinding;
 import com.endpoint.nadres.databinding.ActivityTeachersBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
-import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -138,7 +132,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
 
             Api.getService(Tags.base_url)
-                    .getteacher("Bearer  "+userModel.getData().getToken(),skill)
+                    .getTeacher("Bearer  "+userModel.getData().getToken(),skill)
                     .enqueue(new Callback<TeacherModel>() {
                         @Override
                         public void onResponse(Call<TeacherModel> call, Response<TeacherModel> response) {

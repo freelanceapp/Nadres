@@ -26,7 +26,7 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Fragment_Sign_In extends Fragment implements Listeners.LoginListener,Listeners.CreateAccountListener,Listeners.SkipListener,Listeners.ShowCountryDialogListener, OnCountryPickerListener {
+public class Fragment_Sign_In extends Fragment implements Listeners.LoginListener, Listeners.CreateAccountListener, Listeners.SkipListener, Listeners.ShowCountryDialogListener, OnCountryPickerListener {
     private FragmentSignInBinding binding;
     private SignInActivity activity;
     private String current_language;
@@ -47,15 +47,14 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         activity = (SignInActivity) getActivity();
         preferences = Preferences.getInstance();
         Paper.init(activity);
-        current_language = Paper.book().read("lang", Locale.getDefault().getLanguage());binding.setLoginModel(loginModel);
+        current_language = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        binding.setLoginModel(loginModel);
         binding.setLang(current_language);
         binding.setLoginListener(this);
-      //  binding.setNewAccountListener(this);
-      //  binding.setSkipListener(this);
+        //  binding.setNewAccountListener(this);
+        //  binding.setSkipListener(this);
         binding.setShowDialogListener(this);
         createCountryDialog();
-
-
 
 
     }
@@ -70,20 +69,16 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
         TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
 
-        if (countryPicker.getCountryFromSIM()!=null)
-        {
+        if (countryPicker.getCountryFromSIM() != null) {
             updatePhoneCode(countryPicker.getCountryFromSIM());
-        }else if (telephonyManager!=null&&countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso())!=null)
-        {
+        } else if (telephonyManager != null && countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso()) != null) {
             updatePhoneCode(countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso()));
-        }else if (countryPicker.getCountryByLocale(Locale.getDefault())!=null)
-        {
+        } else if (countryPicker.getCountryByLocale(Locale.getDefault()) != null) {
             updatePhoneCode(countryPicker.getCountryByLocale(Locale.getDefault()));
-        }else
-        {
+        } else {
             String code = "+966";
             binding.tvCode.setText(code);
-            loginModel.setPhone_code(code.replace("+","00"));
+            loginModel.setPhone_code(code.replace("+", "00"));
 
         }
 
@@ -100,15 +95,13 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         if (phone.startsWith("0")) {
             phone = phone.replaceFirst("0", "");
         }
-        loginModel = new LoginModel(phone_code,phone);
+        loginModel = new LoginModel(phone_code, phone);
         binding.setLoginModel(loginModel);
 
-        if (loginModel.isDataValid(activity))
-        {
-            activity.displayFragmentCodeVerification(phone,phone_code);
+        if (loginModel.isDataValid(activity)) {
+            activity.displayFragmentCodeVerification(phone, phone_code);
         }
     }
-
 
 
     @Override
@@ -134,12 +127,11 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
     }
 
-    private void updatePhoneCode(Country country)
-    {
+    private void updatePhoneCode(Country country) {
         binding.tvCode.setText(country.getDialCode());
-        loginModel.setPhone_code(country.getDialCode().replace("+","00"));
+        loginModel.setPhone_code(country.getDialCode().replace("+", "00"));
 
     }
 
 
-    }
+}

@@ -17,6 +17,14 @@ public class StageDataModel implements Serializable {
         private String title;
         private List<ClassesFk> classes_fk;
 
+        public Stage() {
+        }
+
+        public Stage(int id, String title) {
+            this.id = id;
+            this.title = title;
+        }
+
         public int getId() {
             return id;
         }
@@ -36,6 +44,14 @@ public class StageDataModel implements Serializable {
         public static class ClassesFk implements Serializable {
             private int id;
             private String title;
+
+            public ClassesFk() {
+            }
+
+            public ClassesFk(int id, String title) {
+                this.id = id;
+                this.title = title;
+            }
 
             public int getId() {
                 return id;

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.endpoint.nadres.R;
@@ -22,6 +25,7 @@ import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -58,10 +62,10 @@ public class SignInActivity extends AppCompatActivity {
         initView();
         if (savedInstanceState == null) {
 
-                DisplayFragmentSignIn();
+            DisplayFragmentSignIn();
 
-            
-          //  DisplayFragmentSignIn();
+
+            //  DisplayFragmentSignIn();
 
         }
 
@@ -96,8 +100,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void DisplayFragmentSignUpStudent(String phone, String phone_code) {
-        fragment_count+=1;
-        fragment_signUpAsStudent = Fragment_SignUpAsStudent.newInstance(phone,phone_code);
+        fragment_count += 1;
+        fragment_signUpAsStudent = Fragment_SignUpAsStudent.newInstance(phone, phone_code);
         if (fragment_signUpAsStudent.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_signUpAsStudent).commit();
         } else {
@@ -111,18 +115,16 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void Back() {
-        if (fragment_sign_in !=null&& fragment_sign_in.isAdded()&& fragment_sign_in.isVisible())
-        {
+        if (fragment_sign_in != null && fragment_sign_in.isAdded() && fragment_sign_in.isVisible()) {
             finish();
 
-        }else
-        {
-            if (fragment_count >1) {
+        } else {
+            if (fragment_count > 1) {
                 fragment_count -= 1;
                 super.onBackPressed();
 
 
-            } else  {
+            } else {
 
                 finish();
 
@@ -131,23 +133,44 @@ public class SignInActivity extends AppCompatActivity {
 
 
     }
-    public void displayFragmentCodeVerification(String phone,String phone_code) {
-        fragment_count ++;
-        fragment_code_verification = Fragment_Code_Verification.newInstance(phone,phone_code);
+
+    public void displayFragmentCodeVerification(String phone, String phone_code) {
+        fragment_count++;
+        fragment_code_verification = Fragment_Code_Verification.newInstance(phone, phone_code);
         fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_code_verification, "fragment_code_verification").addToBackStack("fragment_code_verification").commit();
 
     }
-    public void displayFragmentChooseType(String phone,String phone_code) {
-        fragment_count ++;
-        fragment_chooseType = Fragment_ChooseType.newInstance(phone,phone_code);
+
+    public void displayFragmentChooseType(String phone, String phone_code) {
+        fragment_count++;
+        fragment_chooseType = Fragment_ChooseType.newInstance(phone, phone_code);
 
         fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_chooseType, "fragment_forgetpass").addToBackStack("fragment_forgetpass").commit();
 
     }
+
     public void navigateToHomeActivity() {
-       Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-       startActivity(intent);
-      finish();
+        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        for (Fragment fragment:fragmentList){
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        for (Fragment fragment:fragmentList){
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }
