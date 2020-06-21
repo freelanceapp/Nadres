@@ -385,6 +385,9 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     public void onBackPressed() {
 
+
+
+        if (userModel.getData().getType().equals("student")){
             if (fragment_main != null && fragment_main.isAdded() && fragment_main.isVisible()) {
                 if (userModel == null) {
                     NavigateToSignInActivity();
@@ -393,7 +396,26 @@ public class HomeActivity extends AppCompatActivity  {
                 }
             } else {
                 displayFragmentMain();
+
+
+
             }
+        }else {
+
+            if (fragment_messages != null && fragment_messages.isAdded() && fragment_messages.isVisible()) {
+                if (userModel == null) {
+                    NavigateToSignInActivity();
+                } else {
+                    finish();
+                }
+            } else {
+                displayFragmentMessages();
+
+
+
+            }
+        }
+
 
 
     }

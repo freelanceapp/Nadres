@@ -27,6 +27,7 @@ public class UserModel implements Serializable {
         private String user_type;
         private List<Stage> stage_fk;
         private List<Stage_CLASS> class_fk;
+        private List<SkillModel> skills_fk;
 
         public int getId() {
             return id;
@@ -78,6 +79,10 @@ public class UserModel implements Serializable {
 
         public String getType() {
             return user_type;
+        }
+
+        public List<SkillModel> getSkills_fk() {
+            return skills_fk;
         }
 
         public List<Stage> getStage_fk() {
@@ -140,5 +145,18 @@ public class UserModel implements Serializable {
             }
         }
 
+
+        public static class SkillModel implements Serializable{
+            private int id;
+            private String skill_type;
+
+            public int getId() {
+                return id;
+            }
+
+            public String getSkill_type() {
+                return skill_type;
+            }
+        }
     }
 }

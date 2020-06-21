@@ -340,7 +340,7 @@ sssssssssssssssssssssssssssssssssssssssssssssssssss"
                         android:layout_gravity="center_vertical"
 
                         android:gravity="center_vertical"
-                        android:text='@{@string/classs+":"+usermodel.data.class_fk.get(0).stage_class_name.title}'
+                        android:text='@{usermodel.data.type.equals("student")?@string/classs+":"+usermodel.data.class_fk.get(0).stage_class_name.title:@string/classs+":"+usermodel.data.skills_fk.get(0).skill_type}'
                         android:textColor="@color/black"
                         android:textSize="15sp"
 
