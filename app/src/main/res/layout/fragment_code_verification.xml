@@ -63,7 +63,7 @@ android:src="@drawable/logo"
                     android:layout_height="45dp"
                     android:cursorVisible="false"
 
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/white"
                     android:maxLength="6"
                     android:textSize="15sp"
                     app:pinBackgroundDrawable="@drawable/edit_shape"

@@ -25,6 +25,8 @@ public class UserModel implements Serializable {
         private String latitude;
         private String longitude;
         private String address;
+        private List<Stage> stage_fk;
+        private List<Stage_CLASS> class_fk;
 
         public int getId() {
             return id;
@@ -73,5 +75,66 @@ public class UserModel implements Serializable {
         public String getAddress() {
             return address;
         }
+
+        public List<Stage> getStage_fk() {
+            return stage_fk;
+        }
+
+        public List<Stage_CLASS> getClass_fk() {
+            return class_fk;
+        }
+
+        public static class Stage implements Serializable {
+            private int id;
+            private StageClassName stage_class_name;
+
+            public int getId() {
+                return id;
+            }
+
+            public StageClassName getStage_class_name() {
+                return stage_class_name;
+            }
+
+            public class StageClassName implements Serializable {
+                private int id;
+                private String title;
+
+                public int getId() {
+                    return id;
+                }
+
+                public String getTitle() {
+                    return title;
+                }
+            }
+        }
+
+        public static class Stage_CLASS implements Serializable {
+            private int id;
+            private StageClassName stage_class_name;
+
+            public int getId() {
+                return id;
+            }
+
+            public StageClassName getStage_class_name() {
+                return stage_class_name;
+            }
+
+            public class StageClassName implements Serializable {
+                private int id;
+                private String title;
+
+                public int getId() {
+                    return id;
+                }
+
+                public String getTitle() {
+                    return title;
+                }
+            }
+        }
+
     }
 }

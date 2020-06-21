@@ -1,6 +1,7 @@
 package com.endpoint.nadres.activities_fragments.knowledge_activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_knowdetilas.KnowledegeDetialsActivity;
 import com.endpoint.nadres.adapters.Know_Adapter;
 import com.endpoint.nadres.databinding.ActivityKnowledegesBinding;
 import com.endpoint.nadres.interfaces.Listeners;
@@ -243,6 +245,11 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
     }
 
 
+    public void setItemData(SingleArticleModel model) {
 
+        Intent intent = new Intent(KnowledegeActivity.this, KnowledegeDetialsActivity.class);
+        intent.putExtra("article_id", model.getId()+"");
+        startActivityForResult(intent, 100);
+    }
 
 }

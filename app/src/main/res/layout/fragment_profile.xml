@@ -14,16 +14,16 @@
         <variable
             name="lang"
             type="String" />
-<variable
-    name="usermodel"
-    type="com.endpoint.nadres.models.UserModel" />
+
+        <variable
+            name="usermodel"
+            type="com.endpoint.nadres.models.UserModel" />
 
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -35,24 +35,25 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false"
 
                 >
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    >
-                <FrameLayout
-                    android:id="@+id/logo"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_height="match_parent"
 
                     >
+
+                    <FrameLayout
+                        android:id="@+id/logo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        >
 
 
                         <LinearLayout
@@ -64,13 +65,13 @@
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/image"
+                                image="@{usermodel.data.image}"
                                 android:layout_width="90dp"
                                 android:layout_height="90dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="10dp"
                                 app:civ_border_color="@color/colorPrimary"
                                 app:civ_border_width="1dp"
-                                android:src="@drawable/logo"
                                 app:civ_circle_background_color="@color/white" />
 
                             <TextView
@@ -80,19 +81,18 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="30dp"
                                 android:gravity="center"
+                                android:text="@{usermodel.data.name}"
                                 android:textColor="@color/white"
-                                android:textSize="15sp"
-                                />
+                                android:textSize="15sp" />
 
                             <LinearLayout
                                 android:id="@+id/ll_show"
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
+                                android:layout_gravity="center"
                                 android:orientation="horizontal"
                                 android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
-                                android:layout_gravity="center"
-                             >
+                                android:paddingRight="10dp">
 
                                 <ImageView
                                     android:layout_width="20dp"
@@ -100,14 +100,13 @@
                                     android:layout_gravity="center_vertical"
                                     android:padding="3dp"
                                     android:src="@drawable/ic_edit"
-                                    android:tint="@color/white"
-                                     />
+                                    android:tint="@color/white" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="@string/user_name"
+                                    android:text="@string/edit_profile"
                                     android:textColor="@color/white"
                                     android:textSize="13sp" />
                             </LinearLayout>
@@ -116,8 +115,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:gravity="center"
                                 android:layout_marginBottom="5dp"
+                                android:gravity="center"
+                                android:visibility="gone"
                                 app:srb_drawBorderEnabled="true"
                                 app:srb_numberOfStars="5"
                                 app:srb_starBackgroundColor="@color/white"
@@ -125,63 +125,61 @@
                                 app:srb_starSize="20dp"
                                 app:srb_starsSeparation="10dp"
                                 app:srb_stepSize=".5"
-                                tools:ignore="RtlCompat"
-                                />
+                                tools:ignore="RtlCompat" />
                         </LinearLayout>
 
-                </FrameLayout>
+                    </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+
             <LinearLayout
                 android:id="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cons_shape"
-                android:padding="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-
+                android:background="@drawable/cons_shape"
+                android:padding="10dp"
 
 
                 >
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="top"
-                    android:padding="5dp"
-android:src="@drawable/ic_gradution"
-                    android:tint="@color/colorAccent" />
-
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
 
-                    android:gravity="center_vertical"
-                    android:text="sssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                    android:visibility="gone"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="top"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_gradution"
+                        android:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:gravity="center_vertical"
+                        android:text="sssssssssssssssssssssssssssssssssssssssssssssssssssssss
 ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 sssssssssssssssssssssssssssssssssssssssssssssssssss"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
 
-                    />
+                        />
 
-
+                </LinearLayout>
             </LinearLayout>
-
-
-
-
-
-
-
-
-
 
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -189,21 +187,22 @@ sssssssssssssssssssssssssssssssssssssssssssssssssss"
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:fillViewport="true"
-android:background="@color/white"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                >
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1px"
-    android:background="@color/gray5"
-    />
+                android:paddingRight="15dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray5"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,7 +218,7 @@ android:background="@color/white"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
                         android:padding="5dp"
-android:src="@drawable/ic_phone"
+                        android:src="@drawable/ic_phone"
                         android:tint="@color/colorAccent" />
 
                     <TextView
@@ -228,7 +227,7 @@ android:src="@drawable/ic_phone"
                         android:layout_gravity="center_vertical"
 
                         android:gravity="center_vertical"
-                        android:text="@string/user_phone"
+                        android:text='@{@string/user_phone+":"+usermodel.data.phone}'
                         android:textColor="@color/black"
                         android:textSize="15sp"
 
@@ -236,11 +235,11 @@ android:src="@drawable/ic_phone"
 
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/gray5"
-                    />
+                    android:background="@color/gray5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -256,7 +255,7 @@ android:src="@drawable/ic_phone"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
                         android:padding="5dp"
-android:src="@drawable/ic_mail"
+                        android:src="@drawable/ic_mail"
                         android:tint="@color/colorAccent" />
 
                     <TextView
@@ -265,7 +264,7 @@ android:src="@drawable/ic_mail"
                         android:layout_gravity="center_vertical"
 
                         android:gravity="center_vertical"
-                        android:text="@string/email"
+                        android:text='@{@string/email+":"+usermodel.data.email}'
                         android:textColor="@color/black"
                         android:textSize="15sp"
 
@@ -273,11 +272,11 @@ android:src="@drawable/ic_mail"
 
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/gray5"
-                    />
+                    android:background="@color/gray5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -293,7 +292,7 @@ android:src="@drawable/ic_mail"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
                         android:padding="5dp"
-android:src="@drawable/ic_class"
+                        android:src="@drawable/ic_class"
                         android:tint="@color/colorAccent" />
 
                     <TextView
@@ -302,7 +301,8 @@ android:src="@drawable/ic_class"
                         android:layout_gravity="center_vertical"
 
                         android:gravity="center_vertical"
-                        android:text="@string/educational_level"
+                        android:text='@{@string/educational_level+":"+usermodel.data.stage_fk.get(0).stage_class_name.title}'
+
                         android:textColor="@color/black"
                         android:textSize="15sp"
 
@@ -310,11 +310,11 @@ android:src="@drawable/ic_class"
 
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/gray5"
-                    />
+                    android:background="@color/gray5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -340,7 +340,7 @@ android:src="@drawable/ic_class"
                         android:layout_gravity="center_vertical"
 
                         android:gravity="center_vertical"
-                        android:text="@string/classs"
+                        android:text='@{@string/classs+":"+usermodel.data.class_fk.get(0).stage_class_name.title}'
                         android:textColor="@color/black"
                         android:textSize="15sp"
 

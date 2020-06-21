@@ -55,5 +55,6 @@
     <string name="skill">مهارة</string>
     <string name="sign_up">إنشاء حساب</string>
     <string name="failed">يوجد مشكلة وجار العمل عليها</string>
+    <string name="edit_profile">Edit Profile</string>
 
 </resources>

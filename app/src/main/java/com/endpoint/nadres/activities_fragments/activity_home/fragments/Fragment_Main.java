@@ -62,7 +62,6 @@ public class Fragment_Main extends Fragment {
     }
 
 
-
     private void initView() {
 
         activity = (HomeActivity) getActivity();
@@ -72,66 +71,66 @@ public class Fragment_Main extends Fragment {
         binding.lllisting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.listening));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "listening");
                 startActivity(intent);
             }
         });
         binding.llgrammer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.grammer));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "grammer");
                 startActivity(intent);
             }
         });
         binding.llread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.reading));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "reading");
                 startActivity(intent);
             }
         });
         binding.llwrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.writing));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "writing");
                 startActivity(intent);
             }
         });
         binding.llspeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.speaking));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "speaking");
                 startActivity(intent);
             }
         });
         binding.llvoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.vocabulary));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "vocabulary");
                 startActivity(intent);
             }
         });
         binding.lldictation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(activity, TeacherActivity.class);
-                intent.putExtra("skill",activity.getResources().getString(R.string.dictation));
+                Intent intent = new Intent(activity, TeacherActivity.class);
+                intent.putExtra("skill", "dictation");
                 startActivity(intent);
             }
         });
-binding.llknow.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(activity, KnowledegeActivity.class);
-        startActivity(intent);
-    }
-});
+        binding.llknow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, KnowledegeActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

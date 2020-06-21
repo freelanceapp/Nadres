@@ -3,6 +3,7 @@ package com.endpoint.nadres.services;
 
 import com.endpoint.nadres.models.ArticleModel;
 import com.endpoint.nadres.models.NotificationDataModel;
+import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
@@ -62,7 +63,6 @@ public interface Service {
     );
 
 
-
     @GET("api/teachers-by-skill_type")
     Call<TeacherModel> getTeacher(@Header("Authorization") String user_token,
                                   @Query("skill_type") String skill_type);
@@ -71,6 +71,18 @@ public interface Service {
     Call<ArticleModel> getArticles(@Query("pagination_status") String pagination_status,
                                    @Query("page") int page,
                                    @Query("per_link_") int limit_per_page
+
+    );
+
+    @GET("api/articles-no-this_id")
+    Call<ArticleModel> getArticlesExpext(@Query("pagination_status") String pagination_status,
+                                         @Query("page") int page,
+                                         @Query("per_link_") int limit_per_page,
+                                         @Query("article_id") String article_id
+    );
+
+    @GET("api/articles-details")
+    Call<SingleArticleModel> articledetials(@Query("article_id") String article_id
 
     );
 

@@ -51,22 +51,23 @@ public class Fragment_Profile extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
         initView();
         return binding.getRoot();
     }
 
     private void initView() {
         activity = (HomeActivity) getActivity();
-        preferences=Preferences.getInstance();
-        userModel=preferences.getUserData(activity);
-binding.llShow.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(activity, EditProfileActivity.class);
-     startActivity(intent);
-    }
-});
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(activity);
+        binding.setUsermodel(userModel);
+        binding.llShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

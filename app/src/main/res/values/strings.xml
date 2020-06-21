@@ -55,5 +55,6 @@
     <string name="skill">Skill</string>
     <string name="sign_up">Sign Up</string>
     <string name="failed">Failed</string>
+    <string name="edit_profile">Edit Profile</string>
 
 </resources>

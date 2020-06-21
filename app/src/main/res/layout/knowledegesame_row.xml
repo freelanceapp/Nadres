@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable
+            name="model"
+            type="com.endpoint.nadres.models.SingleArticleModel" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="180dp"
@@ -24,6 +26,7 @@
             android:scaleType="fitXY"
             app:riv_corner_radius="20dp"
             android:src="@drawable/reading"
+            image="@{model.photo}"
             />
 
 
@@ -33,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/terms_and_conditions"
+            android:text="@{model.title}"
             android:textColor="@android:color/white"
             android:textSize="15sp"
             android:background="@drawable/book_container_bg"
