@@ -112,7 +112,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
     @Override
     public void createNewAccount() {
-        activity.DisplayFragmentSignUpTeacher();
+
     }
 
     @Override

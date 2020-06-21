@@ -19,12 +19,12 @@ public class UserModel implements Serializable {
         private String phone_code;
         private String phone;
         private String image;
-
         private String banner_image;
         private String token;
         private String latitude;
         private String longitude;
         private String address;
+        private String user_type;
         private List<Stage> stage_fk;
         private List<Stage_CLASS> class_fk;
 
@@ -74,6 +74,10 @@ public class UserModel implements Serializable {
 
         public String getAddress() {
             return address;
+        }
+
+        public String getType() {
+            return user_type;
         }
 
         public List<Stage> getStage_fk() {

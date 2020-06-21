@@ -101,7 +101,12 @@ public class HomeActivity extends AppCompatActivity  {
         if (savedInstanceState == null) {
            // CheckPermission();
 
-            displayFragmentMain();
+            if (userModel.getData().getType().equals("student")){
+                displayFragmentMain();
+
+            }else {
+                displayFragmentMessages();
+            }
         }
         if (userModel != null) {
             updateToken();
@@ -162,6 +167,7 @@ public class HomeActivity extends AppCompatActivity  {
         binding.toolbar.setTitle("");
 
 
+
         binding.imagenotifi.setOnClickListener(view -> {
             Intent intent = new Intent(this, NotificationsActivity.class);
             startActivityForResult(intent, 1);
@@ -187,9 +193,15 @@ public class HomeActivity extends AppCompatActivity  {
         binding.ahBottomNav.setAccentColor(ContextCompat.getColor(this, R.color.white));
         binding.ahBottomNav.setInactiveColor(ContextCompat.getColor(this, R.color.gray0));
 
-        binding.ahBottomNav.addItem(item1);
+
+        if (userModel.getData().getType().equals("student")){
+            binding.ahBottomNav.addItem(item1);
+
+        }
         binding.ahBottomNav.addItem(item2);
         binding.ahBottomNav.addItem(item3);
+
+
         binding.ahBottomNav.addItem(item4);
 
         updateBottomNavigationPosition(0);
@@ -197,15 +209,29 @@ public class HomeActivity extends AppCompatActivity  {
         binding.ahBottomNav.setOnTabSelectedListener((position, wasSelected) -> {
             switch (position) {
                 case 0:
-                    displayFragmentMain();
+                    if (userModel.getData().getType().equals("student")){
+                        displayFragmentMain();
+
+                    }else {
+                        displayFragmentMessages();
+                    }
                     break;
                 case 1:
-                    displayFragmentMessages();
+                    if (userModel.getData().getType().equals("student")){
+                        displayFragmentMessages();
+
+                    }else {
+                        displayFragmentProfile();
+                    }
 
                     break;
                 case 2:
-                    displayFragmentProfile();
+                    if (userModel.getData().getType().equals("student")){
+                        displayFragmentProfile();
 
+                    }else {
+                        displayFragmentMore();
+                    }
                     break;
                 case 3:
                     displayFragmentMore();

@@ -89,9 +89,9 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    public void DisplayFragmentSignUpTeacher() {
+    public void DisplayFragmentSignUpTeacher(String phone,String phone_code) {
         fragment_count += 1;
-        fragmentSignUpAsTeacher = FragmentSignUpAsTeacher.newInstance();
+        fragmentSignUpAsTeacher = FragmentSignUpAsTeacher.newInstance(phone,phone_code);
         if (fragmentSignUpAsTeacher.isAdded()) {
             fragmentManager.beginTransaction().show(fragmentSignUpAsTeacher).commit();
         } else {

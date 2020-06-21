@@ -8,12 +8,15 @@
         <variable
             name="lang"
             type="String" />
+
         <variable
             name="loginModel"
             type="com.endpoint.nadres.models.LoginModel" />
+
         <variable
             name="loginListener"
             type="com.endpoint.nadres.interfaces.Listeners.LoginListener" />
+
         <variable
             name="showDialogListener"
             type="com.endpoint.nadres.interfaces.Listeners.ShowCountryDialogListener" />
@@ -22,263 +25,230 @@
     </data>
 
 
-
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        >
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:scrollbars="none"
+            android:layout_height="wrap_content">
 
-         >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
+                android:id="@+id/logo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="350dp"
+                android:background="@drawable/frame_shape"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1" />
 
+            <FrameLayout
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo"
+                app:layout_constraintVertical_weight="1"
+
+                />
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="100dp"
                 >
-
-                <FrameLayout
-                    android:id="@+id/logo"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:background="@drawable/frame_shape"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="1"
-                    />
-                <FrameLayout
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_weight="1"
+                    android:layout_height="wrap_content"
 
-                    />
-                <LinearLayout
-                    android:id="@+id/ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-
-                    android:padding="15dp"
-                    android:layout_marginTop="90dp"
-                    android:layout_marginBottom="190dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/logo"
-                    app:layout_constraintTop_toBottomOf="@+id/logo"
-                 app:layout_constraintStart_toStartOf="@+id/logo"
-                    app:layout_constraintEnd_toEndOf="@+id/logo"
-                   android:background="@drawable/btn_code_confirm"
                     >
 
-                    <TextView
+
+                    <LinearLayout
+                        android:id="@+id/ll"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginRight="15dp"
-                        android:paddingStart="8dp"
-                        android:paddingLeft="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingRight="8dp"
-                        android:singleLine="true"
-                        android:text="@string/login"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="17sp"
-
-                        />
-                    <ImageView
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
-                        android:layout_marginTop="15dp"
-                        android:src="@drawable/logo"
-               android:layout_gravity="center" />
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginRight="15dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:singleLine="true"
-                        android:text="@string/user_phone"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="17sp"
-
-                        />
-                    <androidx.constraintlayout.widget.ConstraintLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/linear_shape"
-                        android:padding="5dp"
-android:layout_marginTop="8dp"
-
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="90dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="190dp"
+                        android:background="@drawable/btn_code_confirm"
+                        android:orientation="vertical"
+                        android:padding="15dp"
                         >
 
-                        <ImageView
-                            android:id="@+id/icon"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center_vertical"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_phone"
-                            android:tint="@color/input"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-
-                            />
-
                         <TextView
-                            android:id="@+id/tv_code"
-                            android:layout_width="wrap_content"
-                            android:layout_height="37dp"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center"
-                            android:hint="@string/code"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="15dp"
+                            android:paddingStart="8dp"
+                            android:paddingLeft="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingRight="8dp"
                             android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/gray4"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/icon"
-                            app:layout_constraintTop_toTopOf="parent"
-                            error="@{loginModel.error_phone_code}"
+                            android:text="@string/login"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="17sp"
 
                             />
-
-                        <View
-                            android:id="@+id/view"
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@color/gray4"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tv_code"
-                            app:layout_constraintTop_toTopOf="parent"
-
-                            />
-
-                        <EditText
-                            android:id="@+id/edt_phone"
-                            android:layout_width="0dp"
-                            android:layout_height="37dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@color/white"
-                            android:hint="@string/user_phone"
-                            android:inputType="phone"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/gray4"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/view2"
-                            app:layout_constraintStart_toEndOf="@id/view"
-                            android:text="@={loginModel.phone}"
-                            error="@{loginModel.error_phone}"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <View
-                            android:id="@+id/view2"
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@color/gray4"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/image_phone_code"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/image_phone_code"
-                            android:layout_width="40dp"
-                            android:layout_height="37dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:onClick="@{()->showDialogListener.showDialog()}"
-                            android:padding="12dp"
-                            android:rotation='@{lang.equals("ar")?180:0}'
-                            android:src="@drawable/ic_right_arrow"
-                            android:tint="@color/colorAccent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-                    <Button
-                        android:id="@+id/btnSend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="30dp"
-                        android:background="@drawable/bt_shape"
-                        android:paddingLeft="50dp"
-                        android:paddingRight="50dp"
-                        android:text="@string/login"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:onClick="@{()->loginListener.checkDataLogin(loginModel.phone_code,loginModel.phone)}"
-
-                        />
-                </LinearLayout>
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintBottom_toBottomOf="@+id/image"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintVertical_bias="1"
-android:visibility="gone"
-    >
-                <TextView
-                    android:id="@+id/tv_new"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:padding="15dp"
-                    android:text="@string/are_you_have_account"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/logo" />
 
 
 
 
-                    tools:ignore="RtlCompat" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="15dp"
-        android:text="@string/login"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/rounded_stroke_gray"
+                            android:padding="5dp"
+
+                            >
+
+                            <ImageView
+                                android:id="@+id/icon"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center_vertical"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_phone"
+                                android:tint="@color/input"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_code"
+                                error="@{loginModel.error_phone_code}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="37dp"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:hint="@string/code"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray4"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/icon"
+                                app:layout_constraintTop_toTopOf="parent"
+
+                                />
+
+                            <View
+                                android:id="@+id/view"
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@color/gray4"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/tv_code"
+                                app:layout_constraintTop_toTopOf="parent"
+
+                                />
+
+                            <EditText
+                                android:id="@+id/edt_phone"
+                                error="@{loginModel.error_phone}"
+                                android:layout_width="0dp"
+                                android:layout_height="37dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@color/white"
+                                android:hint="@string/user_phone"
+                                android:inputType="phone"
+                                android:singleLine="true"
+                                android:text="@={loginModel.phone}"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray4"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/view2"
+                                app:layout_constraintStart_toEndOf="@id/view"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/view2"
+                                android:layout_width="1px"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@color/gray4"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/image_phone_code"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/image_phone_code"
+                                android:layout_width="40dp"
+                                android:layout_height="37dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:onClick="@{()->showDialogListener.showDialog()}"
+                                android:padding="12dp"
+                                android:rotation='@{lang.equals("ar")?180:0}'
+                                android:src="@drawable/ic_right_arrow"
+                                android:tint="@color/colorAccent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <Button
+                            android:id="@+id/btnSend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="30dp"
+                            android:background="@drawable/bt_shape"
+                            android:onClick="@{()->loginListener.checkDataLogin(loginModel.phone_code,loginModel.phone)}"
+                            android:paddingLeft="50dp"
+                            android:paddingRight="50dp"
+                            android:text="@string/login"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+
+                            />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
 
 
-        tools:ignore="RtlCompat" />
-</LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </FrameLayout>
+
+    </ScrollView>
 
 </layout>

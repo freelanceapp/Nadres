@@ -12,6 +12,9 @@
         <variable
             name="signUpListener"
             type="com.endpoint.nadres.interfaces.Listeners.SignUpListener" />
+        <variable
+            name="model"
+            type="com.endpoint.nadres.models.TeacherSignUpModel" />
 
 
 
@@ -180,6 +183,9 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:layout_marginTop="8dp"
+                        android:text="@={model.name}"
+                        error="@{model.error_name}"
+
 
                         />
 
@@ -207,6 +213,9 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:layout_marginTop="8dp"
+                        android:inputType="textEmailAddress"
+                        android:text="@={model.email}"
+                        error="@{model.error_email}"
 
                         />
 
@@ -253,7 +262,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
                         android:singleLine="true"
-                        android:text="@string/classs"
+                        android:text="@string/skill"
                         android:textColor="@color/colorAccent"
                         android:textSize="15sp"
 
@@ -270,7 +279,7 @@
 
 
                         <Spinner
-                            android:id="@+id/spinnerClass"
+                            android:id="@+id/spinnerSkill"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
@@ -283,7 +292,12 @@
 
 
                     </FrameLayout>
-
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -320,7 +334,11 @@
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHint="@color/gray4"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:text="@={model.details}"
+                            error="@{model.error_details}"
+
+                            />
 
 
                     </FrameLayout>

@@ -63,6 +63,34 @@ public interface Service {
     );
 
 
+    @FormUrlEncoded
+    @POST("api/register")
+    Call<UserModel> signUpWithoutImageTeacher(@Field("name") String name,
+                                              @Field("email") String email,
+                                              @Field("phone_code") String phone_code,
+                                              @Field("phone") String phone,
+                                              @Field("user_type") String user_type,
+                                              @Field("software_type") String software_type,
+                                              @Field("stage[]") List<String> stage,
+                                              @Field("skills[]") List<String> skills
+
+
+    );
+
+    @Multipart
+    @POST("api/register")
+    Call<UserModel> signUpWithImageTeacher(@Part("name") RequestBody name,
+                                           @Part("email") RequestBody email,
+                                           @Part("phone_code") RequestBody phone_code,
+                                           @Part("phone") RequestBody phone,
+                                           @Part("user_type") RequestBody user_type,
+                                           @Part("software_type") RequestBody software_type,
+                                           @Part("stage[]") List<RequestBody> stage,
+                                           @Part("skills[]") List<RequestBody> skills,
+                                           @Part MultipartBody.Part image
+    );
+
+
     @GET("api/teachers-by-skill_type")
     Call<TeacherModel> getTeacher(@Header("Authorization") String user_token,
                                   @Query("skill_type") String skill_type);

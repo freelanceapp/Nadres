@@ -56,5 +56,6 @@
     <string name="sign_up">Sign Up</string>
     <string name="failed">Failed</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="ch_skill">Choose Skills</string>
 
 </resources>
