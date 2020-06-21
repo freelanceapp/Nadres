@@ -109,7 +109,9 @@
                         android:gravity="center"
                         android:text="@{model.title}"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        />
 
 
                 </FrameLayout>
@@ -126,7 +128,7 @@
                         android:padding="8dp"
                         android:text="@{model.details}"
                         android:textColor="@color/colorAccent"
-                        android:textSize="14sp" />
+                        android:textSize="18sp" />
 
 
                 </FrameLayout>

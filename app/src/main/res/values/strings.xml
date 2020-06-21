@@ -58,5 +58,7 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="ch_skill">Choose Skills</string>
     <string name="type_a_message">Type a message...</string>
+    <string name="no_tearchers_found">No Tearchers Found</string>
+    <string name="no_articles_found">آNo Articles Found</string>
 
 </resources>

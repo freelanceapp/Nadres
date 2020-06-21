@@ -83,18 +83,16 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy>0)
-                {
+                if (dy > 0) {
                     int total_item = binding.recView.getAdapter().getItemCount();
-                    int last_visible_item = ((LinearLayoutManager)binding.recView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                    int last_visible_item = ((LinearLayoutManager) binding.recView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
 
-                    if (total_item>=20&&(total_item-last_visible_item)==5&&!isLoading)
-                    {
+                    if (total_item >= 20 && (total_item - last_visible_item) == 5 && !isLoading) {
 
                         isLoading = true;
-                        int page = current_page+1;
+                        int page = current_page + 1;
                         singleArticleModelList.add(null);
-                        know_adapter.notifyItemInserted(singleArticleModelList.size()-1);
+                        know_adapter.notifyItemInserted(singleArticleModelList.size() - 1);
 
                         loadMore(page);
                     }
@@ -105,12 +103,11 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
 
     }
 
-    private void getArticles()
-    {
+    private void getArticles() {
         try {
             current_page = 1;
             Api.getService(Tags.base_url)
-                    .getArticles("on",current_page,20)
+                    .getArticles("on", current_page, 20)
                     .enqueue(new Callback<ArticleModel>() {
                         @Override
                         public void onResponse(Call<ArticleModel> call, Response<ArticleModel> response) {
@@ -122,9 +119,9 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
 
                                     know_adapter.notifyDataSetChanged();
 
-                                    binding.tvNoEvents.setVisibility(View.GONE);
+                                    binding.llNoStore.setVisibility(View.GONE);
                                 } else {
-                                    binding.tvNoEvents.setVisibility(View.VISIBLE);
+                                    binding.llNoStore.setVisibility(View.VISIBLE);
 
                                 }
                             } else {
@@ -133,7 +130,7 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
 
 
                                 } else {
-                                   // Toast.makeText(KnowledegeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    // Toast.makeText(KnowledegeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
 
                                     try {
 
@@ -149,13 +146,13 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
                         public void onFailure(Call<ArticleModel> call, Throwable t) {
                             try {
                                 binding.progBar.setVisibility(View.GONE);
-
+                                binding.llNoStore.setVisibility(View.VISIBLE);
                                 if (t.getMessage() != null) {
                                     Log.e("error", t.getMessage());
                                     if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                                      //  Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
+                                        //  Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
                                     } else {
-                                       // Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        // Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -168,12 +165,11 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
         }
     }
 
-    private void loadMore(int page)
-    {
+    private void loadMore(int page) {
         try {
 
             Api.getService(Tags.base_url)
-                    .getArticles("on",page,20)
+                    .getArticles("on", page, 20)
                     .enqueue(new Callback<ArticleModel>() {
                         @Override
                         public void onResponse(Call<ArticleModel> call, Response<ArticleModel> response) {
@@ -184,13 +180,13 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
 
                             if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
 
-                                int oldPos = singleArticleModelList.size()-1;
+                                int oldPos = singleArticleModelList.size() - 1;
 
                                 singleArticleModelList.addAll(response.body().getData());
 
                                 if (response.body().getData().size() > 0) {
                                     current_page = response.body().getCurrent_page();
-                                    know_adapter.notifyItemRangeChanged(oldPos,singleArticleModelList.size()-1);
+                                    know_adapter.notifyItemRangeChanged(oldPos, singleArticleModelList.size() - 1);
 
                                 }
                             } else {
@@ -225,9 +221,9 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
                                 if (t.getMessage() != null) {
                                     Log.e("error", t.getMessage());
                                     if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                                     //   Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
+                                        //   Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
                                     } else {
-                                       // Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        // Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -239,6 +235,7 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
 
         }
     }
+
     @Override
     public void back() {
         finish();
@@ -248,7 +245,7 @@ public class KnowledegeActivity extends AppCompatActivity implements Listeners.B
     public void setItemData(SingleArticleModel model) {
 
         Intent intent = new Intent(KnowledegeActivity.this, KnowledegeDetialsActivity.class);
-        intent.putExtra("article_id", model.getId()+"");
+        intent.putExtra("article_id", model.getId() + "");
         startActivityForResult(intent, 100);
     }
 

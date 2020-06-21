@@ -93,6 +93,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:text="@string/no_tearchers_found"
                     />
 
             </LinearLayout>

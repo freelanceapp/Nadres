@@ -52,6 +52,9 @@ public interface Listeners {
         void rateApp();
         void arLang();
         void enLang();
+        void whatsapp();
+        void twitter();
+        void instagram();
 
     }
 

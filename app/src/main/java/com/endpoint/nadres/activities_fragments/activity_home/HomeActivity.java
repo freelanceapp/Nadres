@@ -67,7 +67,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity  {
+public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
     private FragmentManager fragmentManager;
     private Fragment_Main fragment_main;
@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity  {
 
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
+    //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void listenToNewMessage(MessageModel.SingleMessageModel messageModel) {
 //        Intent intent = new Intent(this, ChatActivity.class);
 //        intent.putExtra("data",messageModel.getSender_id()+"");
@@ -99,12 +99,12 @@ public class HomeActivity extends AppCompatActivity  {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         initView();
         if (savedInstanceState == null) {
-           // CheckPermission();
+            // CheckPermission();
 
-            if (userModel.getData().getType().equals("student")){
+            if (userModel.getData().getType().equals("student")) {
                 displayFragmentMain();
 
-            }else {
+            } else {
                 displayFragmentMessages();
             }
         }
@@ -114,6 +114,7 @@ public class HomeActivity extends AppCompatActivity  {
         }
 
     }
+
     private void updateToken() {
         FirebaseInstanceId.getInstance()
                 .getInstanceId()
@@ -121,7 +122,7 @@ public class HomeActivity extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (task.isSuccessful()) {
-                             token = task.getResult().getToken();
+                            token = task.getResult().getToken();
                             task.getResult().getId();
                             Log.e("sssssss", token);
 //                            Api.getService(Tags.base_url)
@@ -159,13 +160,13 @@ public class HomeActivity extends AppCompatActivity  {
                     }
                 });
     }
+
     @SuppressLint("RestrictedApi")
     private void initView() {
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
         fragmentManager = getSupportFragmentManager();
         binding.toolbar.setTitle("");
-
 
 
         binding.imagenotifi.setOnClickListener(view -> {
@@ -176,7 +177,6 @@ public class HomeActivity extends AppCompatActivity  {
 
         setUpBottomNavigation();
     }
-
 
 
     private void setUpBottomNavigation() {
@@ -194,7 +194,7 @@ public class HomeActivity extends AppCompatActivity  {
         binding.ahBottomNav.setInactiveColor(ContextCompat.getColor(this, R.color.gray0));
 
 
-        if (userModel.getData().getType().equals("student")){
+        if (userModel.getData().getType().equals("student")) {
             binding.ahBottomNav.addItem(item1);
 
         }
@@ -207,29 +207,35 @@ public class HomeActivity extends AppCompatActivity  {
         updateBottomNavigationPosition(0);
 
         binding.ahBottomNav.setOnTabSelectedListener((position, wasSelected) -> {
+            binding.toolbar.setVisibility(View.VISIBLE);
+
             switch (position) {
                 case 0:
-                    if (userModel.getData().getType().equals("student")){
+                    if (userModel.getData().getType().equals("student")) {
                         displayFragmentMain();
 
-                    }else {
+                    } else {
                         displayFragmentMessages();
                     }
                     break;
                 case 1:
-                    if (userModel.getData().getType().equals("student")){
+                    if (userModel.getData().getType().equals("student")) {
                         displayFragmentMessages();
 
-                    }else {
+
+                    } else {
                         displayFragmentProfile();
+                        binding.toolbar.setVisibility(View.GONE);
                     }
 
                     break;
                 case 2:
-                    if (userModel.getData().getType().equals("student")){
+                    if (userModel.getData().getType().equals("student")) {
                         displayFragmentProfile();
+                        binding.toolbar.setVisibility(View.GONE);
 
-                    }else {
+
+                    } else {
                         displayFragmentMore();
                     }
                     break;
@@ -374,11 +380,9 @@ public class HomeActivity extends AppCompatActivity  {
         if (userModel == null) {
             NavigateToSignInActivity();
         } else {
-          //  deletetoken();
+            Logout();
         }
     }
-
-
 
 
     @SuppressLint("RestrictedApi")
@@ -386,8 +390,7 @@ public class HomeActivity extends AppCompatActivity  {
     public void onBackPressed() {
 
 
-
-        if (userModel.getData().getType().equals("student")){
+        if (userModel.getData().getType().equals("student")) {
             if (fragment_main != null && fragment_main.isAdded() && fragment_main.isVisible()) {
                 if (userModel == null) {
                     NavigateToSignInActivity();
@@ -398,9 +401,8 @@ public class HomeActivity extends AppCompatActivity  {
                 displayFragmentMain();
 
 
-
             }
-        }else {
+        } else {
 
             if (fragment_messages != null && fragment_messages.isAdded() && fragment_messages.isVisible()) {
                 if (userModel == null) {
@@ -412,80 +414,48 @@ public class HomeActivity extends AppCompatActivity  {
                 displayFragmentMessages();
 
 
-
             }
         }
 
 
-
     }
-//    public void deletetoken() {
-//        final ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
-//
-//        dialog.show();
-//        Api.getService(Tags.base_url)
-//                .delteToken(userModel.getUser().getId() ,token)
-//                .enqueue(new Callback<ResponseBody>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                        dialog.dismiss();
-//                        if (response.isSuccessful()) {
-//                            /*new Handler()
-//                                    .postDelayed(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                                            manager.cancelAll();
-//                                        }
-//                                    },1);
-//                            userSingleTone.clear(ClientHomeActivity.this);*/
-//                         Logout();
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                    }
-//                });
-//    }
-//
-//    public void Logout() {
-//        final ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
-//
-//        dialog.show();
-//        Api.getService(Tags.base_url)
-//                .Logout(userModel.getUser().getId() + "")
-//                .enqueue(new Callback<ResponseBody>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                        dialog.dismiss();
-//                        if (response.isSuccessful()) {
-//                            /*new Handler()
-//                                    .postDelayed(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                                            manager.cancelAll();
-//                                        }
-//                                    },1);
-//                            userSingleTone.clear(ClientHomeActivity.this);*/
-//                            preferences.create_update_userdata(HomeActivity.this, null);
-//                            preferences.create_update_session(HomeActivity.this, Tags.session_logout);
-//                            Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
-//                            startActivity(intent);
-//                            finish();
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                    }
-//                });
-//    }
+
+
+    public void Logout() {
+        final ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .Logout("Bearer  "+userModel.getData().getToken() + "")
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful()) {
+                            /*new Handler()
+                                    .postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                            manager.cancelAll();
+                                        }
+                                    },1);
+                            userSingleTone.clear(ClientHomeActivity.this);*/
+                            preferences.create_update_userdata(HomeActivity.this, null);
+                            preferences.create_update_session(HomeActivity.this, Tags.session_logout);
+                            Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+    }
 
 
 //    private void CheckPermission() {

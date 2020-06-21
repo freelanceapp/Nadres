@@ -8,6 +8,7 @@ import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.androidannotations.annotations.rest.Get;
 
@@ -117,6 +118,10 @@ public interface Service {
 
     @GET("api/stages-classess")
     Call<StageDataModel> getStages();
+
+    @FormUrlEncoded
+    @POST("api/logout")
+    Call<ResponseBody> Logout(@Header("Authorization") String user_token);
 
 
     @GET("api/show-setting")

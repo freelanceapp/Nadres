@@ -58,5 +58,7 @@
     <string name="ch_skill">إختر المهارات</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="type_a_message">إكتب رسالتك هنا...</string>
+    <string name="no_tearchers_found">لا يوجد معلمين</string>
+    <string name="no_articles_found">آNo Articles Found</string>
 
 </resources>

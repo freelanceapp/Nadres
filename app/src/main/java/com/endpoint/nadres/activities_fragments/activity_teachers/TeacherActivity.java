@@ -57,13 +57,14 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_teachers);
-      getDataFromIntent();
+        getDataFromIntent();
         initView();
         getTeacher();
 //        if(userModel!=null){
 //        getnotification();}
 
     }
+
     private void getDataFromIntent() {
         Intent intent = getIntent();
         if (intent != null) {
@@ -71,6 +72,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
         }
     }
+
     private void initView() {
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
@@ -82,8 +84,9 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         binding.recView.setAdapter(teacher_adapter);
         binding.setBackListener(this);
         Paper.init(this);
-        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());binding.setLang(lang);
-       binding.tvTitle.setText(skill);
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        binding.setLang(lang);
+        binding.tvTitle.setText(getResources().getString(R.string.teachers));
         //adddata();
 //        binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
@@ -132,7 +135,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
 
             Api.getService(Tags.base_url)
-                    .getTeacher("Bearer  "+userModel.getData().getToken(),skill)
+                    .getTeacher("Bearer  " + userModel.getData().getToken(), skill)
                     .enqueue(new Callback<TeacherModel>() {
                         @Override
                         public void onResponse(Call<TeacherModel> call, Response<TeacherModel> response) {
@@ -174,7 +177,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
                                 binding.progBar.setVisibility(View.GONE);
                                 binding.llNoStore.setVisibility(View.VISIBLE);
-                               // Toast.makeText(TeacherActivity.this, getResources().getString(R.string.something), Toast.LENGTH_LONG).show();
+                                // Toast.makeText(TeacherActivity.this, getResources().getString(R.string.something), Toast.LENGTH_LONG).show();
 
 
                                 Log.e("errorcode", t.getMessage());
@@ -241,8 +244,6 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
     public void back() {
         finish();
     }
-
-
 
 
 }
