@@ -382,7 +382,7 @@
                     android:id="@+id/image_facebook"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-
+                    android:layout_marginLeft="20dp"
                     android:clickable="false"
                     android:longClickable="false"
                     android:src="@drawable/whatsapp" />

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,8 @@ import com.endpoint.nadres.activities_fragments.activity_about.AboutActivity;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_terms.TermsActivity;
 import com.endpoint.nadres.databinding.FragmentMoreBinding;
+import com.endpoint.nadres.interfaces.Listeners;
+import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.share.Common;
@@ -28,7 +31,9 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Fragment_More extends Fragment {
+import static android.app.Activity.RESULT_OK;
+
+public class Fragment_More extends Fragment implements Listeners.SettingActions {
 
     private HomeActivity activity;
     private FragmentMoreBinding binding;
@@ -58,7 +63,7 @@ public class Fragment_More extends Fragment {
         userModel = preferences.getUserData(activity);
         binding.setLang(lang);
 
-        binding.llterms.setOnClickListener(view -> {
+       /* binding.llterms.setOnClickListener(view -> {
             Intent intent = new Intent(activity, TermsActivity.class);
             startActivity(intent);
         });
@@ -95,9 +100,68 @@ public class Fragment_More extends Fragment {
                 // Common.CreateNoSignAlertDialog(activity);
             }
         });
-
+*/
 
     }
+
+
+
+    @Override
+    public void contactUs() {
+
+    }
+
+    @Override
+    public void terms() {
+        Intent intent = new Intent(activity, TermsActivity.class);
+        intent.putExtra("type",1);
+        startActivity(intent);
+    }
+
+    @Override
+    public void aboutApp() {
+        Intent intent = new Intent(activity, AboutActivity.class);
+        intent.putExtra("type",2);
+        startActivity(intent);
+    }
+
+    @Override
+    public void logout() {
+
+    }
+
+    @Override
+    public void share() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT,"https://play.google.com/store/apps/details?id="+activity.getPackageName());
+        startActivity(intent);
+    }
+
+    @Override
+    public void rateApp() {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+activity.getPackageName())));
+        } catch (ActivityNotFoundException e1) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id="+activity.getPackageName())));
+            } catch (ActivityNotFoundException e2) {
+                Toast.makeText(activity, "You don't have any app that can open this link", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void arLang() {
+
+    }
+
+    @Override
+    public void enLang() {
+
+    }
+
+
 
 
 //    private void CreateLangDialog() {
