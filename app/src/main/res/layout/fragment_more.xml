@@ -5,6 +5,9 @@
     >
 
     <data>
+        <variable
+            name="action"
+            type="com.endpoint.nadres.interfaces.Listeners.SettingActions" />
 
         <variable
             name="lang"
@@ -79,198 +82,278 @@
                 </FrameLayout>
             </LinearLayout>
 
+
             <LinearLayout
-                android:id="@+id/llabout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:onClick="@{()->action.aboutApp()}"
 
                 >
-
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_setting" />
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_info"
+                    android:clickable="false"
+                    android:longClickable="false"
 
+                    />
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:clickable="false"
+                    android:longClickable="false"
                     android:text="@string/about_app"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-
                     />
-
                 <ImageView
-                    android:id="@+id/arrow4"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/colorPrimaryDark"
                     android:clickable="false"
                     android:longClickable="false"
-                    android:padding="7dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:rotation='@{lang.equals("ar")?180:0}'
-                    android:src="@drawable/ic_right_arrow"
 
                     />
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="1px"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@color/gray3" />
+                android:background="@color/gray4"/>
+
 
             <LinearLayout
-                android:id="@+id/llterms"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:onClick="@{()->action.terms()}"
 
                 >
-
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_setting" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/terms_and_conditions"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-
-                    />
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_list"
                     android:clickable="false"
                     android:longClickable="false"
-                    android:padding="7dp"
+
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:text="@string/terms_and_conditions"
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/colorPrimaryDark"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:rotation='@{lang.equals("ar")?180:0}'
-                    android:src="@drawable/ic_right_arrow" />
+                    />
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="1px"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@color/gray3" />
+                android:background="@color/gray4"/>
+
 
 
             <LinearLayout
-                android:id="@+id/llShare"
-
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:onClick="@{()->action.share()}"
 
+
+                >
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="3dp"
+                    android:tint="@color/colorPrimaryDark"
                     android:src="@drawable/ic_share"
+                    android:clickable="false"
+                    android:longClickable="false"
 
                     />
-
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:clickable="false"
+                    android:longClickable="false"
                     android:text="@string/share_app"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="13sp" />
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/colorPrimaryDark"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+
+                    />
             </LinearLayout>
 
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:background="@color/gray4"/>
+
             <LinearLayout
-                android:id="@+id/llRate"
-
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:onClick="@{()->action.rateApp()}"
 
+
+                >
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="3dp"
+                    android:tint="@color/colorPrimaryDark"
                     android:src="@drawable/ic_star"
+                    android:clickable="false"
+                    android:longClickable="false"
 
                     />
-
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:clickable="false"
+                    android:longClickable="false"
                     android:text="@string/rate_app"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="13sp" />
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/colorPrimaryDark"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+
+                    />
             </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/llLogout"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:background="@color/gray4"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:onClick="@{()->action.logout()}"
+
+                >
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="3dp"
+                    android:tint="@color/colorPrimaryDark"
                     android:src="@drawable/ic_logout"
+                    android:clickable="false"
+                    android:longClickable="false"
 
                     />
-
                 <TextView
-                    android:id="@+id/tv_logout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:clickable="false"
+                    android:longClickable="false"
                     android:text="@string/logout"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="13sp" />
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/colorPrimaryDark"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+
+                    />
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/llll"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="15dp"
-                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+               android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -278,26 +361,27 @@
 
                 <ImageView
                     android:id="@+id/image_twitter"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:clickable="false"
                     android:longClickable="false"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/twitter" />
 
                 <ImageView
                     android:id="@+id/image_instagram"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:clickable="false"
                     android:longClickable="false"
                     android:src="@drawable/instgrame" />
 
                 <ImageView
                     android:id="@+id/image_facebook"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
 
                     android:clickable="false"
                     android:longClickable="false"

@@ -42,7 +42,18 @@ public interface Listeners {
     }
 
 
+    interface SettingActions
+    {
+        void contactUs();
+        void terms();
+        void aboutApp();
+        void logout();
+        void share();
+        void rateApp();
+        void arLang();
+        void enLang();
 
+    }
 
 
 
