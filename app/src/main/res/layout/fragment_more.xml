@@ -1,298 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     >
 
+    <data>
+
+        <variable
+            name="lang"
+            type="String" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/gray0"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
-        android:background="@color/gray0"
 
         >
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:padding="8dp"
-                  >
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:gravity="end"
-                      >
-                  <FrameLayout
-                      android:id="@+id/f1"
-                      android:layout_width="70dp"
-                      android:layout_height="45dp"
-                      android:background="@drawable/changelanguage2"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
 
-                      >
-                      <TextView
-                          android:id="@+id/tv_ar"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:text="عربى"
-                          android:layout_gravity="center"
-                          android:textColor="@color/white"
-                          android:textSize="20sp"
-                          android:gravity="center"
-                          android:layout_marginBottom="5dp"
-                          android:textStyle="bold"
-                          />
-                  </FrameLayout>
-                  <FrameLayout
-                      android:id="@+id/f2"
-                      android:layout_width="70dp"
-                      android:layout_height="45dp"
-                      android:background="@drawable/changelanguage"
-                      app:layout_constraintTop_toTopOf="parent"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      app:layout_constraintStart_toEndOf="@+id/f1"
+                <FrameLayout
+                    android:id="@+id/f1"
+                    android:layout_width="70dp"
+                    android:layout_height="45dp"
+                    android:background='@{lang.equals("ar")?@drawable/changelanguage:@drawable/changelanguage2}'
 
-                      >
-                      <TextView
-                          android:id="@+id/tv_en"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:text="En"
-                          android:layout_gravity="center"
-                          android:textColor="@color/white"
-                          android:textSize="20sp"
-                          android:gravity="center"
-                          />
-                  </FrameLayout>
-                  </LinearLayout>
-                  <LinearLayout
-                      android:id="@+id/llabout"
-                      android:layout_width="match_parent"
-                      android:layout_height="50dp"
+                    >
 
-                      >
+                    <TextView
+                        android:id="@+id/tv_ar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:text="عربى"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
 
-                      <ImageView
-                          android:layout_width="45dp"
-                          android:layout_height="45dp"
-                          android:layout_gravity="center_vertical"
-android:src="@drawable/ic_setting"
-                          android:padding="8dp"
-                          />
+                <FrameLayout
+                    android:id="@+id/f2"
+                    android:layout_width="70dp"
+                    android:layout_height="45dp"
+                    android:background='@{lang.equals("ar")?@drawable/changelanguage2:@drawable/changelanguage}'
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/f1"
+                    app:layout_constraintTop_toTopOf="parent"
 
-                      <TextView
-                          android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_gravity="center_vertical"
-                          android:layout_weight="1"
-                          android:gravity="start|center"
-                          android:paddingLeft="10dp"
-                          android:paddingRight="10dp"
-                          android:text="@string/about_app"
-                          android:textColor="@color/black"
-                          android:textSize="15sp"
+                    >
 
-                          />
+                    <TextView
+                        android:id="@+id/tv_en"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="En"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </FrameLayout>
+            </LinearLayout>
 
-                      <ImageView
-                          android:id="@+id/arrow4"
-                          android:layout_width="50dp"
-                          android:layout_height="50dp"
-                          android:layout_gravity="center_vertical"
-                          android:clickable="false"
-                          android:longClickable="false"
-                          android:padding="15dp"
-                          android:src="@drawable/ic_right_arrow"
-                          />
-                  </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llabout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
 
-                  <View
-                      android:layout_width="match_parent"
-                      android:layout_height="1px"
-                      android:background="@color/gray4" />
-                  <LinearLayout
-                      android:id="@+id/llterms"
-                      android:layout_width="match_parent"
-                      android:layout_height="50dp"
+                >
 
-                      >
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_setting" />
 
-                      <ImageView
-                          android:layout_width="45dp"
-                          android:layout_height="45dp"
-                          android:layout_gravity="center_vertical"
-                          android:src="@drawable/ic_setting"
-android:padding="8dp"
-                          />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/about_app"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
 
-                      <TextView
-                          android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_gravity="center_vertical"
-                          android:layout_weight="1"
-                          android:gravity="start|center"
-                          android:paddingLeft="10dp"
-                          android:paddingRight="10dp"
-                          android:text="@string/terms_and_conditions"
-                          android:textColor="@color/black"
-                          android:textSize="15sp"
+                    />
 
-                          />
+                <ImageView
+                    android:id="@+id/arrow4"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:padding="7dp"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+                    android:src="@drawable/ic_right_arrow"
 
-                      <ImageView
-                          android:layout_width="50dp"
-                          android:layout_height="50dp"
-                          android:layout_gravity="center_vertical"
-                          android:clickable="false"
-                          android:longClickable="false"
-                          android:padding="15dp"
-                          android:src="@drawable/ic_right_arrow"
-                          />
-                  </LinearLayout>
+                    />
+            </LinearLayout>
 
-                  <View
-                      android:layout_width="match_parent"
-                      android:layout_height="1px"
-                      android:background="@color/gray4" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/gray3" />
 
+            <LinearLayout
+                android:id="@+id/llterms"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
 
-                  <LinearLayout
-                      android:id="@+id/llShare"
+                >
 
-                      android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:layout_marginTop="5dp"
-                      >
-                      <ImageView
-                          android:layout_width="25dp"
-                          android:layout_height="25dp"
-                          android:src="@drawable/ic_share"
-                          android:padding="3dp"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_setting" />
 
-                          />
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                          android:layout_marginLeft="10dp"
-                          android:layout_marginRight="10dp"
-                          android:textSize="13sp"
-                          android:textColor="@color/colorPrimary"
-                          android:text="@string/share_app"
-                          />
-                  </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/terms_and_conditions"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
 
-                  <LinearLayout
-                      android:id="@+id/llRate"
+                    />
 
-                      android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:layout_marginTop="5dp"
-                      >
-                      <ImageView
-                          android:layout_width="25dp"
-                          android:layout_height="25dp"
-                          android:src="@drawable/ic_star"
-                          android:padding="3dp"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:padding="7dp"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+                    android:src="@drawable/ic_right_arrow" />
+            </LinearLayout>
 
-                          />
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                          android:layout_marginLeft="10dp"
-                          android:layout_marginRight="10dp"
-                          android:textSize="13sp"
-                          android:textColor="@color/colorPrimary"
-                          android:text="@string/rate_app"
-                          />
-                  </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/gray3" />
 
 
+            <LinearLayout
+                android:id="@+id/llShare"
 
-                  <LinearLayout
-                      android:id="@+id/llLogout"
-                      android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:layout_marginTop="5dp"
-                      >
-                      <ImageView
-                          android:layout_width="25dp"
-                          android:layout_height="25dp"
-                          android:src="@drawable/ic_logout"
-                          android:padding="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                          />
-                      <TextView
-                          android:id="@+id/tv_logout"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                          android:layout_marginLeft="10dp"
-                          android:layout_marginRight="10dp"
-                          android:textSize="13sp"
-                          android:textColor="@color/colorPrimary"
-                          android:text="@string/logout"
-                          />
-                  </LinearLayout>
-                  <LinearLayout
-                      android:id="@+id/llll"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center_horizontal"
-                      android:layout_marginTop="8dp"
-                      android:layout_marginBottom="15dp"
-                      android:gravity="center_vertical"
-                      android:orientation="horizontal"
-                      android:paddingLeft="12dp"
-                      android:paddingRight="12dp"
-                      app:layout_constraintBottom_toBottomOf="parent"
-                      app:layout_constraintLeft_toLeftOf="parent"
-                      app:layout_constraintRight_toRightOf="parent"
-                      app:layout_constraintTop_toBottomOf="@+id/ll">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_share"
 
-                      <ImageView
-                          android:id="@+id/image_twitter"
-                          android:layout_width="30dp"
-                          android:layout_height="30dp"
-                          android:clickable="false"
-                          android:longClickable="false"
-                          android:src="@drawable/twitter" />
+                    />
 
-                      <ImageView
-                          android:id="@+id/image_instagram"
-                          android:layout_width="30dp"
-                          android:layout_height="30dp"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:clickable="false"
-                          android:longClickable="false"
-                          android:src="@drawable/instgrame" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/share_app"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
-                      <ImageView
-                          android:id="@+id/image_facebook"
-                          android:layout_width="30dp"
-                          android:layout_height="30dp"
+            <LinearLayout
+                android:id="@+id/llRate"
 
-                          android:clickable="false"
-                          android:longClickable="false"
-                          android:src="@drawable/whatsapp" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_star"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/rate_app"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
 
-                  </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llLogout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-              </LinearLayout>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_logout"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tv_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/logout"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll">
+
+                <ImageView
+                    android:id="@+id/image_twitter"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:src="@drawable/twitter" />
+
+                <ImageView
+                    android:id="@+id/image_instagram"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:src="@drawable/instgrame" />
+
+                <ImageView
+                    android:id="@+id/image_facebook"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:src="@drawable/whatsapp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 

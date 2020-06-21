@@ -69,10 +69,10 @@ public class FragmentSignUpAsTeacher extends Fragment {
     private final String camera_permission = Manifest.permission.CAMERA;
     private List<StageDataModel.Stage> stageList;
     private StageAdapter stageAdapter;
-    private List<String> skillList,enSkillList;
+    private List<String> skillList, enSkillList;
     private SkillAdapter skillAdapter;
-    private String phone="",phone_code="";
-    private List<String> selectedSkills =new ArrayList<>();
+    private String phone = "", phone_code = "";
+    private List<String> selectedSkills = new ArrayList<>();
     private TeacherSignUpModel teacherSignUpModel;
     private Selected_Skill_Adapter selected_skill_adapter;
 
@@ -80,8 +80,8 @@ public class FragmentSignUpAsTeacher extends Fragment {
     public static FragmentSignUpAsTeacher newInstance(String phone, String phone_code) {
         FragmentSignUpAsTeacher fragment = new FragmentSignUpAsTeacher();
         Bundle bundle = new Bundle();
-        bundle.putString("phone",phone);
-        bundle.putString("phone_code",phone_code);
+        bundle.putString("phone", phone);
+        bundle.putString("phone_code", phone_code);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -101,7 +101,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
         teacherSignUpModel = new TeacherSignUpModel();
         stageList = new ArrayList<>();
-        stageList.add(new StageDataModel.Stage(0,getString(R.string.choose_stage)));
+        stageList.add(new StageDataModel.Stage(0, getString(R.string.choose_stage)));
         skillList = new ArrayList<>();
         skillList.add(getString(R.string.ch_skill));
         enSkillList = new ArrayList<>();
@@ -111,30 +111,28 @@ public class FragmentSignUpAsTeacher extends Fragment {
         Paper.init(activity);
         preferences = Preferences.getInstance();
         binding.setModel(teacherSignUpModel);
-        binding.recView.setLayoutManager(new LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false));
-        selected_skill_adapter = new Selected_Skill_Adapter(selectedSkills,activity,this);
+        binding.recView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+        selected_skill_adapter = new Selected_Skill_Adapter(selectedSkills, activity, this);
         binding.recView.setAdapter(selected_skill_adapter);
 
         Bundle bundle = getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             phone = bundle.getString("phone");
             phone_code = bundle.getString("phone_code");
         }
 
 
-
-
         ///////////////////////////////////////////////////////
         addSkills();
-        stageAdapter = new StageAdapter(stageList,activity);
+        stageAdapter = new StageAdapter(stageList, activity);
         binding.spinnerStage.setAdapter(stageAdapter);
         binding.spinnerStage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
+                if (position == 0) {
                     teacherSignUpModel.setStage_id("");
 
-                }else {
+                } else {
                     teacherSignUpModel.setStage_id(String.valueOf(stageList.get(position).getId()));
 
                 }
@@ -147,16 +145,16 @@ public class FragmentSignUpAsTeacher extends Fragment {
             }
         });
 
-        skillAdapter = new SkillAdapter(skillList,activity);
+        skillAdapter = new SkillAdapter(skillList, activity);
         binding.spinnerSkill.setAdapter(skillAdapter);
 
         binding.spinnerSkill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position!=0){
-                    if (!isSkillAdded(skillList.get(position))){
+                if (position != 0) {
+                    if (!isSkillAdded(skillList.get(position))) {
                         selectedSkills.add(skillList.get(position));
-                        selected_skill_adapter.notifyItemInserted(selectedSkills.size()-1);
+                        selected_skill_adapter.notifyItemInserted(selectedSkills.size() - 1);
                         teacherSignUpModel.setSkills(selectedSkills);
                     }
                 }
@@ -183,11 +181,11 @@ public class FragmentSignUpAsTeacher extends Fragment {
         });
 
         binding.checkbox.setOnClickListener(v -> {
-            if (binding.checkbox.isChecked()){
+            if (binding.checkbox.isChecked()) {
                 teacherSignUpModel.setAccept_terms(true);
                 navigateToTermsActivity();
 
-            }else {
+            } else {
                 teacherSignUpModel.setAccept_terms(false);
 
             }
@@ -197,11 +195,11 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
         binding.btnSend.setOnClickListener(v -> {
 
-            if (teacherSignUpModel.isDataValid(activity)){
+            if (teacherSignUpModel.isDataValid(activity)) {
 
-                if (imgUri!=null){
+                if (imgUri != null) {
                     signUpWithImage();
-                }else {
+                } else {
                     signUpWithoutImage();
                 }
             }
@@ -211,7 +209,6 @@ public class FragmentSignUpAsTeacher extends Fragment {
         getStages();
 
     }
-
 
 
     private void signUpWithImage() {
@@ -258,7 +255,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
                                 Toast.makeText(activity, response.errorBody() + "", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(activity,getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                             }
 
                             try {
@@ -297,7 +294,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
         dialog.setCancelable(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .signUpWithoutImageTeacher(teacherSignUpModel.getName(),teacherSignUpModel.getEmail(),phone_code,phone,"teacher","1",selectedStage,selectedSkills)
+                .signUpWithoutImageTeacher(teacherSignUpModel.getName(), teacherSignUpModel.getEmail(), phone_code, phone, "teacher", "1", selectedStage, selectedSkills)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -322,7 +319,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
                                 Toast.makeText(activity, response.errorBody() + "", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(activity,getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                             }
 
                             try {
@@ -353,8 +350,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
                 });
     }
 
-    private void addSkills()
-    {
+    private void addSkills() {
         skillList.add(getString(R.string.listening));
         skillList.add(getString(R.string.speaking));
         skillList.add(getString(R.string.reading));
@@ -375,33 +371,28 @@ public class FragmentSignUpAsTeacher extends Fragment {
         enSkillList.add("Knowledge Bank");
 
 
-
-
     }
 
-    private List<RequestBody> getSkillRequestBody()
-    {
+    private List<RequestBody> getSkillRequestBody() {
         List<RequestBody> requestBodies = new ArrayList<>();
-        for (String skill :selectedSkills){
-            RequestBody requestBody  = Common.getRequestBodyText(skill);
+        for (String skill : selectedSkills) {
+            RequestBody requestBody = Common.getRequestBodyText(skill);
             requestBodies.add(requestBody);
         }
         return requestBodies;
     }
 
-    private boolean isSkillAdded(String skill)
-    {
-        for (String skill2 :selectedSkills){
-           if (skill.equals(skill2)){
-               return true;
-           }
+    private boolean isSkillAdded(String skill) {
+        for (String skill2 : selectedSkills) {
+            if (skill.equals(skill2)) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    private void getStages()
-    {
+    private void getStages() {
         try {
             Api.getService(Tags.base_url)
                     .getStages()
@@ -426,7 +417,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
 
                                 } else {
-                                     Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
 
                                     try {
 
@@ -459,6 +450,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
         }
     }
+
     private void CreateImageAlertDialog() {
 
         final AlertDialog dialog = new AlertDialog.Builder(activity)
@@ -497,8 +489,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
         }
     }
 
-    private void Check_CameraPermission()
-    {
+    private void Check_CameraPermission() {
         if (ContextCompat.checkSelfPermission(activity, camera_permission) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, write_permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{camera_permission, write_permission}, IMG_REQ2);
         } else {
@@ -507,8 +498,8 @@ public class FragmentSignUpAsTeacher extends Fragment {
         }
 
     }
-    private void SelectImage(int img_req)
-    {
+
+    private void SelectImage(int img_req) {
 
         Intent intent = new Intent();
 
@@ -530,18 +521,18 @@ public class FragmentSignUpAsTeacher extends Fragment {
                 intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, img_req);
             } catch (SecurityException e) {
-                 Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                 Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.perm_image_denied, Toast.LENGTH_SHORT).show();
 
             }
 
 
         }
     }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == IMG_REQ1) {
 
@@ -563,8 +554,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == IMG_REQ2 && resultCode == Activity.RESULT_OK && data != null) {
@@ -584,8 +574,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
         }
     }
 
-    private void navigateToTermsActivity()
-    {
+    private void navigateToTermsActivity() {
 
         Intent intent = new Intent(activity, TermsActivity.class);
         startActivity(intent);
@@ -610,11 +599,11 @@ public class FragmentSignUpAsTeacher extends Fragment {
         return null;
     }
 
-    public void setItemDelete(int pos){
+    public void setItemDelete(int pos) {
         selectedSkills.remove(pos);
         selected_skill_adapter.notifyItemRemoved(pos);
 
-        if (selectedSkills.size()==0){
+        if (selectedSkills.size() == 0) {
             binding.spinnerSkill.setSelection(0);
         }
     }

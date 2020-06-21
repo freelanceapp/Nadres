@@ -25,6 +25,7 @@ public class UserModel implements Serializable {
         private String longitude;
         private String address;
         private String user_type;
+        private String details;
         private List<Stage> stage_fk;
         private List<Stage_CLASS> class_fk;
         private List<SkillModel> skills_fk;
@@ -83,6 +84,10 @@ public class UserModel implements Serializable {
 
         public List<SkillModel> getSkills_fk() {
             return skills_fk;
+        }
+
+        public String getDetails() {
+            return details;
         }
 
         public List<Stage> getStage_fk() {

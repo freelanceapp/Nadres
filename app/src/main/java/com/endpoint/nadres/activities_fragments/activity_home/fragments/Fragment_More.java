@@ -56,7 +56,7 @@ public class Fragment_More extends Fragment {
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         userModel = preferences.getUserData(activity);
-
+        binding.setLang(lang);
 
         binding.llterms.setOnClickListener(view -> {
             Intent intent = new Intent(activity, TermsActivity.class);
@@ -92,7 +92,7 @@ public class Fragment_More extends Fragment {
 
                 activity.logout();
             } else {
-               // Common.CreateNoSignAlertDialog(activity);
+                // Common.CreateNoSignAlertDialog(activity);
             }
         });
 

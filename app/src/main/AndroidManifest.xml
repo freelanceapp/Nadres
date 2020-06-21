@@ -48,7 +48,9 @@
     <activity
         android:name=".activities_fragments.activity_home.HomeActivity"
         android:configChanges="orientation|screenSize|keyboardHidden"
-        android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+
+        />
     <activity
         android:name=".activities_fragments.activity_sign_in.activities.SignInActivity"
         android:configChanges="orientation|screenSize|keyboardHidden"
