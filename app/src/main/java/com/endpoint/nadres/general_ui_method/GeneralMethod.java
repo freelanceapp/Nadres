@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.databinding.BindingAdapter;
 
 
+import com.endpoint.nadres.R;
 import com.endpoint.nadres.tags.Tags;
 import com.github.siyamed.shapeimageview.HexagonImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -34,6 +35,7 @@ public class GeneralMethod {
 
         }
     }
+
     @BindingAdapter("image")
     public static void image(View view, String endPoint) {
         if (view instanceof CircleImageView) {
@@ -41,26 +43,35 @@ public class GeneralMethod {
 
             if (endPoint != null) {
 
-                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).into(imageView);
+                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).placeholder(R.drawable.logo).into(imageView);
+            } else {
+                Picasso.get().load(R.drawable.logo).into(imageView);
+
             }
         } else if (view instanceof RoundedImageView) {
             RoundedImageView imageView = (RoundedImageView) view;
 
             if (endPoint != null) {
 
-                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).fit().into(imageView);
+                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).placeholder(R.drawable.logo).fit().into(imageView);
+            } else {
+                Picasso.get().load(R.drawable.logo).into(imageView);
+
             }
         } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
 
             if (endPoint != null) {
 
-                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).fit().into(imageView);
+                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).placeholder(R.drawable.logo).fit().into(imageView);
+            } else {
+                Picasso.get().load(R.drawable.logo).into(imageView);
+
             }
         }
 
     }
-    }
+}
 
 
 
