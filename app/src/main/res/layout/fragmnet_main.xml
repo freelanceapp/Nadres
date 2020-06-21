@@ -64,8 +64,8 @@
                 tools:ignore="RtlCompat">
 
                 <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/listening"
                     android:clickable="false"
                     android:longClickable="false"
@@ -80,6 +80,7 @@
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="15dp"
                     android:clickable="false"
                     android:longClickable="false"
 
@@ -100,8 +101,8 @@
                 tools:ignore="RtlCompat">
 
                 <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/speaking"
                     android:clickable="false"
                     android:longClickable="false"
@@ -113,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/speaking"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -147,8 +149,8 @@
                 tools:ignore="RtlCompat">
 
                 <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/reading"
                     android:clickable="false"
                     android:longClickable="false"
@@ -160,6 +162,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/reading"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -183,8 +186,8 @@
                 tools:ignore="RtlCompat">
 
                 <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/writting"
                     android:clickable="false"
                     android:longClickable="false"
@@ -199,6 +202,7 @@
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold"
+                    android:layout_marginTop="15dp"
                     android:clickable="false"
                     android:longClickable="false"
 
@@ -230,8 +234,8 @@
             tools:ignore="RtlCompat">
 
             <ImageView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/vocabulary"
                 android:clickable="false"
                 android:longClickable="false"
@@ -242,6 +246,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="15dp"
                 android:text="@string/vocabulary"
                 android:textColor="@color/white"
                 android:textSize="15sp"
@@ -266,8 +271,8 @@
             tools:ignore="RtlCompat">
 
             <ImageView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/grammer"
                 android:clickable="false"
                 android:longClickable="false"
@@ -279,6 +284,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/grammer"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -313,8 +319,8 @@
                 tools:ignore="RtlCompat">
 
                 <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/dictations"
                     android:clickable="false"
                     android:longClickable="false"
@@ -326,6 +332,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/dictation"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -348,8 +355,8 @@
                 tools:ignore="RtlCompat">
 
                 <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/knowledgebank"
                     android:clickable="false"
                     android:longClickable="false"
@@ -362,6 +369,7 @@
                     android:gravity="center"
                     android:text="@string/knowledge_bank"
                     android:textColor="@color/white"
+                    android:layout_marginTop="15dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:clickable="false"

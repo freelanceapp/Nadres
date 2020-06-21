@@ -185,7 +185,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@color/white"
-                        android:hint="@string/teacher_name"
+                        android:hint="@string/student_name"
                         android:singleLine="true"
                         android:text="@={model.name}"
                         android:textColor="@color/black"

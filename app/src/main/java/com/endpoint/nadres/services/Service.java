@@ -3,6 +3,7 @@ package com.endpoint.nadres.services;
 
 import com.endpoint.nadres.models.ArticleModel;
 import com.endpoint.nadres.models.NotificationDataModel;
+import com.endpoint.nadres.models.SettingModel;
 import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.models.TeacherModel;
@@ -116,4 +117,8 @@ public interface Service {
 
     @GET("api/stages-classess")
     Call<StageDataModel> getStages();
+
+
+    @GET("api/show-setting")
+    Call<SettingModel> getSettings();
 }
