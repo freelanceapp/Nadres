@@ -56,6 +56,7 @@
     <string name="sign_up">إنشاء حساب</string>
     <string name="failed">يوجد مشكلة وجار العمل عليها</string>
     <string name="ch_skill">إختر المهارات</string>
-    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="type_a_message">إكتب رسالتك هنا...</string>
 
 </resources>

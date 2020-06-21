@@ -57,5 +57,6 @@
     <string name="failed">Failed</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="ch_skill">Choose Skills</string>
+    <string name="type_a_message">Type a message...</string>
 
 </resources>
