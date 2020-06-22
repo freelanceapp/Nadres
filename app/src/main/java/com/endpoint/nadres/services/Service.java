@@ -126,4 +126,27 @@ public interface Service {
 
     @GET("api/show-setting")
     Call<SettingModel> getSettings();
+    @FormUrlEncoded
+    @POST("api/register")
+    Call<UserModel> EditstudentprofileWithoutImage(@Field("name") String name,
+                                       @Field("email") String email,
+                                       @Field("user_type") String user_type,
+                                       @Field("software_type") String software_type,
+                                       @Field("stage[]") List<String> stage,
+                                       @Field("class[]") List<String> classs
+
+
+    );
+
+    @Multipart
+    @POST("api/register")
+    Call<UserModel> EditstudentprofileWithImage(@Part("name") RequestBody name,
+                                    @Part("email") RequestBody email,
+                                    @Part("user_type") RequestBody user_type,
+                                    @Part("software_type") RequestBody software_type,
+                                    @Part("stage[]") List<RequestBody> stage,
+                                    @Part("class[]") List<RequestBody> classs,
+                                    @Part MultipartBody.Part image
+    );
+
 }
