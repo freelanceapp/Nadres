@@ -13,15 +13,7 @@
             type="com.endpoint.nadres.interfaces.Listeners.BackListener" />
 
 
-        <variable
-            name="loginModel"
-            type="com.endpoint.nadres.models.LoginModel" />
-        <variable
-            name="loginListener"
-            type="com.endpoint.nadres.interfaces.Listeners.LoginListener" />
-        <variable
-            name="showDialogListener"
-            type="com.endpoint.nadres.interfaces.Listeners.ShowCountryDialogListener" />
+
 
 
     </data>
@@ -120,13 +112,13 @@
                                 android:layout_gravity="center"
                                 >
                                 <RadioButton
-                                    android:id="@+id/rb_stu"
+                                    android:id="@+id/rb_single"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textSize="17sp"
                                     android:padding="8dp"
-                                    android:text="@string/student"
+                                    android:text="@string/single_room"
                                     android:button="@drawable/rb_bg"
                                     />
                                 <View
@@ -135,13 +127,13 @@
                                     android:background="@color/gray3"/>
 
                                 <RadioButton
-                                    android:id="@+id/rb_teach"
+                                    android:id="@+id/rb_group"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textSize="17sp"
                                     android:padding="8dp"
-                                    android:text="@string/teacher"
+                                    android:text="@string/group"
                                     android:button="@drawable/rb_bg"
                                     android:checked="true"
                                     />

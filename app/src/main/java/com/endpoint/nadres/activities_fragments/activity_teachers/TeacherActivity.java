@@ -13,10 +13,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_chat_type.ChatTypeActivity;
+import com.endpoint.nadres.activities_fragments.activity_knowdetilas.KnowledegeDetialsActivity;
+import com.endpoint.nadres.activities_fragments.knowledge_activity.KnowledegeActivity;
 import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivityTeachersBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
+import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -191,6 +195,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
         }
     }
+
 //
 //    private void loadMore(int page) {
 //       try {
@@ -240,6 +245,12 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 //        }
 //    }
 
+    public void setItemData(TeacherModel.Data model) {
+
+        Intent intent = new Intent(TeacherActivity.this, ChatTypeActivity.class);
+        intent.putExtra("teacher_id", model.getId() + "");
+        startActivityForResult(intent, 100);
+    }
     @Override
     public void back() {
         finish();

@@ -60,7 +60,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Fragment_SignUpAsStudent extends Fragment implements Listeners.ShowCountryDialogListener, OnCountryPickerListener, Listeners.SignUpListener {
+public class Fragment_SignUpAsStudent extends Fragment implements Listeners.ShowCountryDialogListener, OnCountryPickerListener, Listeners.SignUpListener, Listeners.BackListener {
     private SignInActivity activity;
     private static final String TAG = "DATA";
     private static final String TAG2 = "Type";
@@ -102,6 +102,7 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
 
 
     private void initView() {
+        binding.setBackListener(this);
         stageList = new ArrayList<>();
         classesFkList = new ArrayList<>();
         Bundle bundle = getArguments();
@@ -611,5 +612,10 @@ public class Fragment_SignUpAsStudent extends Fragment implements Listeners.Show
                         }
                     }
                 });
+    }
+
+    @Override
+    public void back() {
+        activity.Back();
     }
 }

@@ -21,6 +21,7 @@ import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.FragmentChooseStepBinding;
 import com.endpoint.nadres.databinding.FragmentUserTypeBinding;
+import com.endpoint.nadres.interfaces.Listeners;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.paperdb.Paper;
 
-public class Fragment_ChooseType extends Fragment {
+public class Fragment_ChooseType extends Fragment implements Listeners.BackListener {
 
 
     private SignInActivity activity;
@@ -63,6 +64,7 @@ public class Fragment_ChooseType extends Fragment {
     }
 
     private void initView() {
+        binding.setBackListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             phone = bundle.getString(TAG);
@@ -83,4 +85,8 @@ public class Fragment_ChooseType extends Fragment {
     }
 
 
+    @Override
+    public void back() {
+        activity.Back();
+    }
 }

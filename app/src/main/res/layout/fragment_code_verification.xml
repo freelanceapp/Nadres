@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     >
+<data >
+    <variable
+        name="backListener"
+        type="com.endpoint.nadres.interfaces.Listeners.BackListener" />
+
+
+</data>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.endpoint.nadres.activities_fragments.activity_sign_in.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -21,6 +22,7 @@ import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragm
 import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_SignUpAsStudent;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.Fragment_Sign_In;
 import com.endpoint.nadres.databinding.ActivitySignInBinding;
+import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -30,7 +32,7 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity  {
 
     private FragmentManager fragmentManager;
     private ActivitySignInBinding binding;
@@ -76,6 +78,8 @@ public class SignInActivity extends AppCompatActivity {
         Paper.init(this);
         cuurent_language = Paper.book().read("lang", Locale.getDefault().getLanguage());
         fragmentManager = this.getSupportFragmentManager();
+        //binding.setBackListener(this);
+
 
     }
 
@@ -115,7 +119,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void Back() {
-        if (fragment_sign_in != null && fragment_sign_in.isAdded() && fragment_sign_in.isVisible()) {
+        if (fragment_count==1)
+        {
             finish();
 
         } else {
@@ -173,4 +178,5 @@ public class SignInActivity extends AppCompatActivity {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
 }

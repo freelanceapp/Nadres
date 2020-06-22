@@ -61,7 +61,7 @@ public class Fragment_Profile extends Fragment {
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(activity);
         binding.setUsermodel(userModel);
-        binding.llShow.setOnClickListener(new View.OnClickListener() {
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, EditProfileActivity.class);

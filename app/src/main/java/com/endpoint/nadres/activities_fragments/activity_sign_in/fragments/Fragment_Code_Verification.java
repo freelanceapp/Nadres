@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.FragmentCodeVerificationBinding;
+import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
@@ -45,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Fragment_Code_Verification extends Fragment {
+public class Fragment_Code_Verification extends Fragment  implements Listeners.BackListener {
     private static final String TAG = "DATA";
     private static final String TAG2 = "Type";
 
@@ -82,6 +83,7 @@ public class Fragment_Code_Verification extends Fragment {
     }
 
     private void initView() {
+        binding.setBackListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             phone = bundle.getString(TAG);
@@ -158,7 +160,7 @@ public class Fragment_Code_Verification extends Fragment {
 //phoneAuthCredential.getProvider();
                 if (phoneAuthCredential.getSmsCode() != null) {
                     code = phoneAuthCredential.getSmsCode();
-                    binding.edtCode.setPinBackground(getResources().getDrawable(R.drawable.edit_shape2));
+                    binding.edtCode.setPinBackground(activity.getResources().getDrawable(R.drawable.edit_shape2));
                     binding.edtCode.setText(code);
                     siginwithcredental(phoneAuthCredential);
                 } else {
@@ -324,5 +326,10 @@ public class Fragment_Code_Verification extends Fragment {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+    @Override
+    public void back() {
+        activity.Back();
     }
 }

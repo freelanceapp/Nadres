@@ -36,6 +36,7 @@ import com.endpoint.nadres.adapters.SkillAdapter;
 import com.endpoint.nadres.adapters.StageAdapter;
 import com.endpoint.nadres.databinding.DialogSelectImageBinding;
 import com.endpoint.nadres.databinding.FragmentSignUpAsTeacherBinding;
+import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.models.TeacherSignUpModel;
 import com.endpoint.nadres.models.UserModel;
@@ -57,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentSignUpAsTeacher extends Fragment {
+public class FragmentSignUpAsTeacher extends Fragment implements Listeners.BackListener {
     private SignInActivity activity;
     private String lang;
     private FragmentSignUpAsTeacherBinding binding;
@@ -98,7 +99,7 @@ public class FragmentSignUpAsTeacher extends Fragment {
 
 
     private void initView() {
-
+binding.setBackListener(this);
         teacherSignUpModel = new TeacherSignUpModel();
         stageList = new ArrayList<>();
         stageList.add(new StageDataModel.Stage(0, getString(R.string.choose_stage)));
@@ -608,4 +609,8 @@ public class FragmentSignUpAsTeacher extends Fragment {
         }
     }
 
+    @Override
+    public void back() {
+        activity.Back();
+    }
 }

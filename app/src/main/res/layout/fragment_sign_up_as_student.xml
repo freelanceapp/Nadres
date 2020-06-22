@@ -8,6 +8,10 @@
         <variable
             name="lang"
             type="String" />
+        <variable
+            name="backListener"
+            type="com.endpoint.nadres.interfaces.Listeners.BackListener" />
+
 
         <variable
             name="signUpListener"

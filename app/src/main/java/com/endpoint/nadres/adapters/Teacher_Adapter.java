@@ -3,6 +3,7 @@ package com.endpoint.nadres.adapters;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_teachers.TeacherActivity;
 import com.endpoint.nadres.databinding.LoadMoreBinding;
 import com.endpoint.nadres.databinding.TeacherRowBinding;
 import com.endpoint.nadres.models.NotificationDataModel;
@@ -61,6 +63,15 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
            // eventHolder.binding.setLang(lang);
 
             eventHolder.binding.setModel(order_data);
+            eventHolder.binding.imchat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(context instanceof TeacherActivity){
+                        TeacherActivity teacherActivity=(TeacherActivity)context;
+                        teacherActivity.setItemData(dataList.get(eventHolder.getLayoutPosition()));
+                    }
+                }
+            });
 
 
         }else
