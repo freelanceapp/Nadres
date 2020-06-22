@@ -18,7 +18,6 @@ public class EditProfileStudentModel extends BaseObservable {
     private String stage;
     private String clsses;
     private String image_url;
-    private boolean isTermsAccepted;
     public ObservableField<String> error_name = new ObservableField<>();
     public ObservableField<String> error_email = new ObservableField<>();
     public ObservableField<String> error_password = new ObservableField<>();
@@ -29,8 +28,7 @@ public class EditProfileStudentModel extends BaseObservable {
                 !email.trim().isEmpty() &&
                 !stage.trim().isEmpty() &&
                 !clsses.isEmpty() &&
-                Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() &&
-                isTermsAccepted
+                Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
         ) {
             error_name.set(null);
             error_email.set(null);
@@ -65,9 +63,7 @@ public class EditProfileStudentModel extends BaseObservable {
                 Toast.makeText(context, R.string.choose_classe, Toast.LENGTH_SHORT).show();
 
             }
-            if (!isTermsAccepted) {
-                Toast.makeText(context, R.string.cannot_signup, Toast.LENGTH_SHORT).show();
-            }
+
             return false;
         }
     }
@@ -77,7 +73,6 @@ public class EditProfileStudentModel extends BaseObservable {
         setEmail("");
         setStage("");
         setClsses("");
-        isTermsAccepted = false;
     }
 
 
@@ -129,11 +124,5 @@ public class EditProfileStudentModel extends BaseObservable {
         this.clsses = clsses;
     }
 
-    public boolean isTermsAccepted() {
-        return isTermsAccepted;
-    }
 
-    public void setTermsAccepted(boolean termsAccepted) {
-        isTermsAccepted = termsAccepted;
-    }
 }

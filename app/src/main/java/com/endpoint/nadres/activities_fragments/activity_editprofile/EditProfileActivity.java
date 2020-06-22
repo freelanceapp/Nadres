@@ -113,6 +113,10 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                     classesFkList.clear();
                     classesFkList.add(new StageDataModel.Stage.ClassesFk(getResources().getString(R.string.choose_classe)));
                     classesFkList.addAll(stageList.get(position).getClasses_fk());
+                    //binding.spinnerClass.setSelection(0);
+                    if(stageList.get(position).getId()!=userModel.getData().getStage_fk().get(0).getStage_class_name().getId()){
+                        binding.spinnerClass.setSelection(0);
+                    }
                     classAdapter.notifyDataSetChanged();
                 }
 
@@ -427,7 +431,11 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(EditProfileActivity.this, response.body());
                         } else {
-
+                            try {
+                                Log.e("errrrrr",response.code()+response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             if (response.code() == 500) {
                                 Toast.makeText(EditProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
                             } else if (response.code() == 422) {
@@ -503,7 +511,11 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(EditProfileActivity.this, response.body());
                         } else {
-
+                            try {
+                                Log.e("errrrrr",response.code()+response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             if (response.code() == 500) {
                                 Toast.makeText(EditProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
                             } else if (response.code() == 422) {

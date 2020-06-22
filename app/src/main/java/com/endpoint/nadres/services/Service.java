@@ -127,7 +127,7 @@ public interface Service {
     @GET("api/show-setting")
     Call<SettingModel> getSettings();
     @FormUrlEncoded
-    @POST("api/register")
+    @POST("api/update-profile")
     Call<UserModel> EditstudentprofileWithoutImage(@Field("name") String name,
                                        @Field("email") String email,
                                        @Field("user_type") String user_type,
@@ -139,7 +139,7 @@ public interface Service {
     );
 
     @Multipart
-    @POST("api/register")
+    @POST("api/update-profile")
     Call<UserModel> EditstudentprofileWithImage(@Part("name") RequestBody name,
                                     @Part("email") RequestBody email,
                                     @Part("user_type") RequestBody user_type,
