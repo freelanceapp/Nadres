@@ -70,7 +70,7 @@
                     android:cursorVisible="false"
                     android:layoutDirection="ltr"
                     android:maxLength="6"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/white"
                     android:textSize="15sp"
                     app:pinBackgroundDrawable="@drawable/linear_shape" />
             </FrameLayout>

@@ -20,6 +20,7 @@
         <variable
             name="usermodel"
             type="com.endpoint.nadres.models.UserModel" />
+
         <variable
             name="model"
             type="com.endpoint.nadres.models.EditProfileStudentModel" />
@@ -145,8 +146,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="150dp"
                     android:layout_marginEnd="20dp"
-android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -172,7 +172,7 @@ android:orientation="vertical"
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginRight="15dp"
                                 android:padding="10dp"
-android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
+                                android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
 
                                 >
 
@@ -206,14 +206,15 @@ android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIB
                                 android:layout_height="wrap_content"
                                 android:layout_margin="7dp"
                                 android:padding="5dp"
+                                android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
                                 app:cardCornerRadius="8dp"
                                 app:cardElevation="3dp"
-                                android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
 
                                 >
 
 
                                 <EditText
+                                    error="@{model.error_details}"
                                     android:layout_width="match_parent"
                                     android:layout_height="90dp"
                                     android:layout_gravity="center_vertical"
@@ -225,9 +226,11 @@ android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIB
                                     android:inputType="phone"
                                     android:padding="8dp"
                                     android:singleLine="true"
+                                    android:text="@={model.details}"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/gray4"
                                     android:textSize="14sp"
+                                    android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
 
                                     />
 
@@ -339,6 +342,7 @@ android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIB
 
 
                                 <EditText
+                                    error="@{model.error_email}"
                                     android:layout_width="match_parent"
                                     android:layout_height="37dp"
                                     android:layout_gravity="center_vertical"
@@ -348,12 +352,72 @@ android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIB
                                     android:hint="@string/email"
                                     android:inputType="textEmailAddress"
                                     android:singleLine="true"
+                                    android:text="@={model.email}"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/gray4"
-                                    android:textSize="14sp"
-                                    android:text="@={model.email}"
-                                    error="@{model.error_email}"
+                                    android:textSize="14sp" />
+
+
+                            </androidx.cardview.widget.CardView>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:padding="10dp"
+
+
+                                >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:padding="5dp"
+                                    android:src="@drawable/ic_mail"
+                                    android:tint="@color/colorAccent" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+
+                                    android:gravity="center_vertical"
+                                    android:text="@string/user_name"
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp"
+
                                     />
+
+
+                            </LinearLayout>
+
+                            <androidx.cardview.widget.CardView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_margin="7dp"
+                                android:padding="5dp"
+                                app:cardElevation="3dp"
+
+
+                                >
+
+
+                                <EditText
+                                    error="@{model.error_name}"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="37dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@color/white"
+                                    android:hint="@string/user_name"
+                                    android:inputType="textEmailAddress"
+                                    android:singleLine="true"
+                                    android:text="@={model.name}"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/gray4"
+                                    android:textSize="14sp" />
 
 
                             </androidx.cardview.widget.CardView>
@@ -513,14 +577,15 @@ android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIB
                                 android:layout_height="40dp"
                                 android:layout_margin="7dp"
                                 android:padding="5dp"
-                                app:cardElevation="3dp"
                                 android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
+                                app:cardElevation="3dp"
 
 
                                 >
 
 
                                 <Spinner
+                                    android:id="@+id/spinnerSkill"
                                     android:layout_width="match_parent"
                                     android:layout_height="37dp"
                                     android:layout_gravity="center_vertical"
@@ -534,6 +599,16 @@ android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIB
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:visibility='@{usermodel.data.type.equals("student")?View.GONE:View.VISIBLE,default=visible}'
+
+                        />
+
                     <Button
                         android:id="@+id/btnSend"
                         android:layout_width="wrap_content"

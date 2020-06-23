@@ -73,6 +73,7 @@ public interface Service {
                                               @Field("phone") String phone,
                                               @Field("user_type") String user_type,
                                               @Field("software_type") String software_type,
+                                              @Field("details") String details,
                                               @Field("stage[]") List<String> stage,
                                               @Field("skills[]") List<String> skills
 
@@ -87,6 +88,7 @@ public interface Service {
                                            @Part("phone") RequestBody phone,
                                            @Part("user_type") RequestBody user_type,
                                            @Part("software_type") RequestBody software_type,
+                                           @Part("details") RequestBody details,
                                            @Part("stage[]") List<RequestBody> stage,
                                            @Part("skills[]") List<RequestBody> skills,
                                            @Part MultipartBody.Part image
@@ -126,14 +128,16 @@ public interface Service {
 
     @GET("api/show-setting")
     Call<SettingModel> getSettings();
+
     @FormUrlEncoded
     @POST("api/update-profile")
     Call<UserModel> EditstudentprofileWithoutImage(@Field("name") String name,
-                                       @Field("email") String email,
-                                       @Field("user_type") String user_type,
-                                       @Field("software_type") String software_type,
-                                       @Field("stage[]") List<String> stage,
-                                       @Field("class[]") List<String> classs
+                                                   @Field("email") String email,
+                                                   @Field("user_type") String user_type,
+                                                   @Field("software_type") String software_type,
+                                                   @Field("id") String id,
+                                                   @Field("stage[]") List<String> stage,
+                                                   @Field("class[]") List<String> classs
 
 
     );
@@ -141,12 +145,38 @@ public interface Service {
     @Multipart
     @POST("api/update-profile")
     Call<UserModel> EditstudentprofileWithImage(@Part("name") RequestBody name,
-                                    @Part("email") RequestBody email,
-                                    @Part("user_type") RequestBody user_type,
-                                    @Part("software_type") RequestBody software_type,
-                                    @Part("stage[]") List<RequestBody> stage,
-                                    @Part("class[]") List<RequestBody> classs,
-                                    @Part MultipartBody.Part image
+                                                @Part("email") RequestBody email,
+                                                @Part("user_type") RequestBody user_type,
+                                                @Part("software_type") RequestBody software_type,
+                                                @Part("id") RequestBody id,
+                                                @Part("stage[]") List<RequestBody> stage,
+                                                @Part("class[]") List<RequestBody> classs,
+                                                @Part MultipartBody.Part image
+    );
+    @FormUrlEncoded
+    @POST("api/update-profile")
+    Call<UserModel> EditteacherprofileWithoutImage(@Field("name") String name,
+                                                   @Field("email") String email,
+                                                   @Field("user_type") String user_type,
+                                                   @Field("software_type") String software_type,
+                                                   @Field("id") String id,
+                                                   @Field("details") String details,
+                                                   @Field("stage[]") List<String> stage,
+                                                   @Field("skills[]") List<String> skills
+
+
     );
 
+    @Multipart
+    @POST("api/update-profile")
+    Call<UserModel> EditteacherprofileWithImage(@Part("name") RequestBody name,
+                                                @Part("email") RequestBody email,
+                                                @Part("user_type") RequestBody user_type,
+                                                @Part("software_type") RequestBody software_type,
+                                                @Part("id") RequestBody id,
+                                                @Part("details") RequestBody details,
+                                                @Part("stage[]") List<RequestBody> stage,
+                                                @Part("skills[]") List<RequestBody> skills,
+                                                @Part MultipartBody.Part image
+    );
 }

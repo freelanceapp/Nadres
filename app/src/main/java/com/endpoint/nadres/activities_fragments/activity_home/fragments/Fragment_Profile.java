@@ -71,5 +71,12 @@ public class Fragment_Profile extends Fragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(preferences!=null){
+            userModel=preferences.getUserData(activity);
+            binding.setUsermodel(userModel);
+        }
+    }
 }

@@ -153,8 +153,8 @@ binding.setBackListener(this);
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    if (!isSkillAdded(skillList.get(position))) {
-                        selectedSkills.add(skillList.get(position));
+                    if (!isSkillAdded(enSkillList.get(position))) {
+                        selectedSkills.add(enSkillList.get(position));
                         selected_skill_adapter.notifyItemInserted(selectedSkills.size() - 1);
                         teacherSignUpModel.setSkills(selectedSkills);
                     }
@@ -172,10 +172,10 @@ binding.setBackListener(this);
         ///////////////////////////////////////////////////////
 
 
-        binding.btnSend.setOnClickListener(v -> {
-            Intent intent = new Intent(activity, HomeActivity.class);
-            startActivity(intent);
-        });
+//        binding.btnSend.setOnClickListener(v -> {
+//            Intent intent = new Intent(activity, HomeActivity.class);
+//            startActivity(intent);
+//        });
 
         binding.flSelectImage.setOnClickListener(v -> {
             CreateImageAlertDialog();
@@ -223,6 +223,8 @@ binding.setBackListener(this);
         RequestBody phone_code_part = Common.getRequestBodyText(phone_code);
         RequestBody email_part = Common.getRequestBodyText(teacherSignUpModel.getEmail());
         RequestBody stage_part = Common.getRequestBodyText(teacherSignUpModel.getStage_id());
+
+        RequestBody detials_part = Common.getRequestBodyText(teacherSignUpModel.getDetails());
         RequestBody user_type_part = Common.getRequestBodyText("teacher");
         RequestBody software_part = Common.getRequestBodyText("1");
         MultipartBody.Part image = Common.getMultiPart(activity, imgUri, "logo");
@@ -230,7 +232,7 @@ binding.setBackListener(this);
         stageList.add(stage_part);
 
         Api.getService(Tags.base_url)
-                .signUpWithImageTeacher(name_part, email_part, phone_code_part, phone_part, user_type_part, software_part, stageList, getSkillRequestBody(), image)
+                .signUpWithImageTeacher(name_part, email_part, phone_code_part, phone_part, user_type_part, software_part,detials_part, stageList, getSkillRequestBody(), image)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -290,12 +292,14 @@ binding.setBackListener(this);
     private void signUpWithoutImage() {
         List<String> selectedStage = new ArrayList<>();
         selectedStage.add(teacherSignUpModel.getStage_id());
-
+for(int i=0;i<selectedSkills.size();i++){
+    Log.e("kdkkdkd",selectedSkills.get(i));
+}
         ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .signUpWithoutImageTeacher(teacherSignUpModel.getName(), teacherSignUpModel.getEmail(), phone_code, phone, "teacher", "1", selectedStage, selectedSkills)
+                .signUpWithoutImageTeacher(teacherSignUpModel.getName(), teacherSignUpModel.getEmail(), phone_code, phone, "teacher", "1",teacherSignUpModel.getDetails(), selectedStage, selectedSkills)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -305,7 +309,11 @@ binding.setBackListener(this);
                             preferences.create_update_userdata(activity, response.body());
                             activity.navigateToHomeActivity();
                         } else {
-
+                            try {
+                                Log.e("errorsssscode", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             if (response.code() == 500) {
                                 Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
                             } else if (response.code() == 422) {

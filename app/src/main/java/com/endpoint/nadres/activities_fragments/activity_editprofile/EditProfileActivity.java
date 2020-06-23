@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.adapters.ClassAdapter;
 import com.endpoint.nadres.adapters.Notification_Adapter;
+import com.endpoint.nadres.adapters.Selected_Skill_Adapter;
+import com.endpoint.nadres.adapters.SkillAdapter;
 import com.endpoint.nadres.adapters.StageAdapter;
 import com.endpoint.nadres.databinding.ActivityEditprofileBinding;
 import com.endpoint.nadres.databinding.ActivityNotificationsBinding;
@@ -39,6 +41,7 @@ import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.EditProfileStudentModel;
 import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.StageDataModel;
+import com.endpoint.nadres.models.TeacherSignUpModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
@@ -73,6 +76,10 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
     private final String READ_PERM = Manifest.permission.READ_EXTERNAL_STORAGE;
     private final String write_permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private final String camera_permission = Manifest.permission.CAMERA;
+    private List<String> skillList, enSkillList;
+    private SkillAdapter skillAdapter;
+    private List<String> selectedSkills = new ArrayList<>();
+    private Selected_Skill_Adapter selected_skill_adapter;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -94,15 +101,24 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
         editProfileStudentModel = new EditProfileStudentModel();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
+        editProfileStudentModel.setType(userModel.getData().getType());
         stageList = new ArrayList<>();
         classesFkList = new ArrayList<>();
+        skillList = new ArrayList<>();
+        skillList.add(getString(R.string.ch_skill));
+        enSkillList = new ArrayList<>();
+        enSkillList.add(getString(R.string.ch_skill));
+        selectedSkills = new ArrayList<>();
         stageAdapter = new StageAdapter(stageList, this);
         classAdapter = new ClassAdapter(classesFkList, this);
+        binding.recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        selected_skill_adapter = new Selected_Skill_Adapter(selectedSkills, this, null);
+        binding.recView.setAdapter(selected_skill_adapter);
         binding.spinnerStage.setAdapter(stageAdapter);
         binding.spinnerClass.setAdapter(classAdapter);
         binding.setModel(editProfileStudentModel);
         binding.setUsermodel(userModel);
-
+        addSkills();
         binding.spinnerStage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -114,7 +130,7 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                     classesFkList.add(new StageDataModel.Stage.ClassesFk(getResources().getString(R.string.choose_classe)));
                     classesFkList.addAll(stageList.get(position).getClasses_fk());
                     //binding.spinnerClass.setSelection(0);
-                    if(stageList.get(position).getId()!=userModel.getData().getStage_fk().get(0).getStage_class_name().getId()){
+                    if (stageList.get(position).getId() != userModel.getData().getStage_fk().get(0).getStage_class_name().getId()) {
                         binding.spinnerClass.setSelection(0);
                     }
                     classAdapter.notifyDataSetChanged();
@@ -147,21 +163,234 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
 
             }
         });
+        skillAdapter = new SkillAdapter(skillList, this);
+        binding.spinnerSkill.setAdapter(skillAdapter);
+
+        binding.spinnerSkill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    if (!isSkillAdded(skillList.get(position))) {
+                        selectedSkills.add(skillList.get(position));
+                        selected_skill_adapter.notifyItemInserted(selectedSkills.size() - 1);
+                        editProfileStudentModel.setSkills(selectedSkills);
+                    }
+                }
+                binding.setModel(editProfileStudentModel);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         binding.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateImageAlertDialog();
             }
         });
-binding.btnSend.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        if(editProfileStudentModel.isDataValid(EditProfileActivity.this)){
-            editprofile();
-        }
-    }
-});
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editProfileStudentModel.isDataValid(EditProfileActivity.this)) {
+                    editprofile();
+                }
+            }
+        });
         getStages();
+    }
+
+    private void EditprofileTeacherwithimage() {
+        List<RequestBody> stageList = new ArrayList<>();
+
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        RequestBody name_part = Common.getRequestBodyText(editProfileStudentModel.getName());
+        RequestBody id_part = Common.getRequestBodyText(userModel.getData().getId() + "");
+        RequestBody email_part = Common.getRequestBodyText(editProfileStudentModel.getEmail());
+        RequestBody stage_part = Common.getRequestBodyText(editProfileStudentModel.getStage());
+
+        RequestBody detials_part = Common.getRequestBodyText(editProfileStudentModel.getDetails());
+        RequestBody user_type_part = Common.getRequestBodyText("teacher");
+        RequestBody software_part = Common.getRequestBodyText("1");
+        MultipartBody.Part image = Common.getMultiPart(this, imgUri1, "logo");
+
+        stageList.add(stage_part);
+
+        Api.getService(Tags.base_url)
+                .EditteacherprofileWithImage(name_part, email_part, user_type_part, software_part, id_part, detials_part, stageList, getSkillRequestBody(), image)
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+                        if (response.isSuccessful() && response.body() != null) {
+                            preferences.create_update_userdata(EditProfileActivity.this, response.body());
+                            finish();
+                        } else {
+                            dialog.dismiss();
+                            if (response.code() == 500) {
+                                Toast.makeText(EditProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 422) {
+
+                                Toast.makeText(EditProfileActivity.this, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 409) {
+
+                                Log.e("99999999", response.message() + "");
+
+                                Toast.makeText(EditProfileActivity.this, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 406) {
+
+                                Log.e("6666666", response.message() + "");
+
+                                Toast.makeText(EditProfileActivity.this, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(EditProfileActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+
+                            try {
+                                Log.e("error code", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("msg_category_error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    //    Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    //  Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
+    }
+
+    private void EditteacherprofileWithoutImage() {
+        List<String> selectedStage = new ArrayList<>();
+        selectedStage.add(editProfileStudentModel.getStage());
+
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        Api.getService(Tags.base_url)
+                .EditteacherprofileWithoutImage(editProfileStudentModel.getName(), editProfileStudentModel.getEmail(), "teacher", "1", userModel.getData().getId() + "", editProfileStudentModel.getDetails(), selectedStage, selectedSkills)
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        dialog.dismiss();
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            preferences.create_update_userdata(EditProfileActivity.this, response.body());
+                            finish();
+                        } else {
+
+                            if (response.code() == 500) {
+                                Toast.makeText(EditProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 422) {
+
+                                Toast.makeText(EditProfileActivity.this, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 409) {
+
+
+                                Toast.makeText(EditProfileActivity.this, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else if (response.code() == 406) {
+
+
+                                Toast.makeText(EditProfileActivity.this, response.errorBody() + "", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(EditProfileActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+
+                            try {
+                                Log.e("error code", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            if (t.getMessage() != null) {
+                                Log.e("msg_category_error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    //Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    //Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
+    }
+
+    private void addSkills() {
+        skillList.add(getString(R.string.listening));
+        skillList.add(getString(R.string.speaking));
+        skillList.add(getString(R.string.reading));
+        skillList.add(getString(R.string.writing));
+        skillList.add(getString(R.string.vocabulary));
+        skillList.add(getString(R.string.grammer));
+        skillList.add(getString(R.string.dictation));
+        skillList.add(getString(R.string.knowledge_bank));
+
+
+        enSkillList.add("Listening");
+        enSkillList.add("Speaking");
+        enSkillList.add("Reading");
+        enSkillList.add("Writing");
+        enSkillList.add("Vocabulary");
+        enSkillList.add("Grammar");
+        enSkillList.add("Dictation");
+        enSkillList.add("Knowledge Bank");
+        if (userModel.getData().getSkills_fk() != null) {
+            for (int i = 0; i < userModel.getData().getSkills_fk().size(); i++) {
+                selectedSkills.add(userModel.getData().getSkills_fk().get(i).getSkill_type());
+
+            }
+            editProfileStudentModel.setSkills(selectedSkills);
+
+            selected_skill_adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    private List<RequestBody> getSkillRequestBody() {
+        List<RequestBody> requestBodies = new ArrayList<>();
+        for (String skill : selectedSkills) {
+            RequestBody requestBody = Common.getRequestBodyText(skill);
+            requestBodies.add(requestBody);
+        }
+        return requestBodies;
+    }
+
+    private boolean isSkillAdded(String skill) {
+        for (String skill2 : selectedSkills) {
+            if (skill.equals(skill2)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void CreateImageAlertDialog() {
@@ -405,11 +634,18 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
 
     private void editprofile() {
 
-
-        if (imgUri1 == null) {
-            editprofilestudentWithoutImage();
+        if (userModel.getData().getType().equals("student")) {
+            if (imgUri1 == null) {
+                editprofilestudentWithoutImage();
+            } else {
+                editprofilestudentpWithImage();
+            }
         } else {
-            editprofilestudentpWithImage();
+            if (imgUri1 == null) {
+                EditteacherprofileWithoutImage();
+            } else {
+                EditprofileTeacherwithimage();
+            }
         }
     }
 
@@ -422,7 +658,7 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
         dialog.setCancelable(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .EditstudentprofileWithoutImage(editProfileStudentModel.getName(), editProfileStudentModel.getEmail(), "student", "1", stages, classes)
+                .EditstudentprofileWithoutImage(editProfileStudentModel.getName(), editProfileStudentModel.getEmail(), "student", "1", userModel.getData().getId() + "", stages, classes)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -430,9 +666,11 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
 
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(EditProfileActivity.this, response.body());
+                            finish();
+
                         } else {
                             try {
-                                Log.e("errrrrr",response.code()+response.errorBody().string());
+                                Log.e("errrrrr", response.code() + response.errorBody().string());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -492,7 +730,7 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
         dialog.show();
         RequestBody name_part = Common.getRequestBodyText(editProfileStudentModel.getName());
 //        RequestBody phone_code_part = Common.getRequestBodyText(editProfileStudentModel.getPhone_code());
-//        RequestBody phone_part = Common.getRequestBodyText(editProfileStudentModel.getPhone());
+        RequestBody id_part = Common.getRequestBodyText(userModel.getData().getId() + "");
         RequestBody email_part = Common.getRequestBodyText(editProfileStudentModel.getEmail());
         RequestBody stage_part = Common.getRequestBodyText(editProfileStudentModel.getStage());
         RequestBody user_type_part = Common.getRequestBodyText("student");
@@ -503,16 +741,17 @@ binding.btnSend.setOnClickListener(new View.OnClickListener() {
         classes.add(claaess_part);
 
         Api.getService(Tags.base_url)
-                .EditstudentprofileWithImage(name_part, email_part, user_type_part, software_part, stages, classes, image)
+                .EditstudentprofileWithImage(name_part, email_part, user_type_part, software_part, id_part, stages, classes, image)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                         dialog.dismiss();
                         if (response.isSuccessful() && response.body() != null) {
                             preferences.create_update_userdata(EditProfileActivity.this, response.body());
+                            finish();
                         } else {
                             try {
-                                Log.e("errrrrr",response.code()+response.errorBody().string());
+                                Log.e("errrrrr", response.code() + response.errorBody().string());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
