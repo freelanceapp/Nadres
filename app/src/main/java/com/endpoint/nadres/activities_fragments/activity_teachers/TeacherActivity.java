@@ -25,6 +25,7 @@ import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
+import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
 
 import java.io.IOException;
@@ -139,7 +140,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
 
             Api.getService(Tags.base_url)
-                    .getTeacher("Bearer  " + userModel.getData().getToken(), skill)
+                    .getTeacher( skill)
                     .enqueue(new Callback<TeacherModel>() {
                         @Override
                         public void onResponse(Call<TeacherModel> call, Response<TeacherModel> response) {
@@ -246,11 +247,15 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 //    }
 
     public void setItemData(TeacherModel.Data model) {
-
-        Intent intent = new Intent(TeacherActivity.this, ChatTypeActivity.class);
+        if (userModel!=null){
+            Intent intent = new Intent(TeacherActivity.this, ChatTypeActivity.class);
         intent.putExtra("teacher_id", model.getId() + "");
-        startActivityForResult(intent, 100);
+        startActivityForResult(intent, 100);}
+        else {
+            Common.CreateDialogAlert(this,getResources().getString(R.string.please_sign_in_or_sign_up));
+        }
     }
+
     @Override
     public void back() {
         finish();

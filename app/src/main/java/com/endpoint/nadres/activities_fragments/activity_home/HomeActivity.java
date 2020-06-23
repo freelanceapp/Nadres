@@ -101,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // CheckPermission();
 
-            if (userModel.getData().getType().equals("student")) {
+            if (userModel == null || userModel.getData().getType().equals("student")) {
                 displayFragmentMain();
 
             } else {
@@ -194,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.ahBottomNav.setInactiveColor(ContextCompat.getColor(this, R.color.gray0));
 
 
-        if (userModel.getData().getType().equals("student")) {
+        if (userModel == null || userModel.getData().getType().equals("student")) {
             binding.ahBottomNav.addItem(item1);
 
         }
@@ -211,32 +211,45 @@ public class HomeActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    if (userModel.getData().getType().equals("student")) {
+                    if (userModel == null || userModel.getData().getType().equals("student")) {
                         displayFragmentMain();
 
                     } else {
-                        displayFragmentMessages();
+                        if (userModel != null) {
+                            displayFragmentMessages();
+
+                        } else {
+                            Common.CreateDialogAlert(this, getString(R.string.please_sign_in_or_sign_up));
+                        }
                     }
                     break;
                 case 1:
-                    if (userModel.getData().getType().equals("student")) {
-                        displayFragmentMessages();
+                    if (userModel != null) {
+                        if (userModel.getData().getType().equals("student")) {
+                            displayFragmentMessages();
 
 
+                        } else {
+                            displayFragmentProfile();
+                            binding.toolbar.setVisibility(View.GONE);
+                        }
                     } else {
-                        displayFragmentProfile();
-                        binding.toolbar.setVisibility(View.GONE);
+                        Common.CreateDialogAlert(this, getString(R.string.please_sign_in_or_sign_up));
                     }
 
                     break;
                 case 2:
-                    if (userModel.getData().getType().equals("student")) {
-                        displayFragmentProfile();
-                        binding.toolbar.setVisibility(View.GONE);
+                    if (userModel != null) {
+                        if (userModel.getData().getType().equals("student")) {
+                            displayFragmentProfile();
+                            binding.toolbar.setVisibility(View.GONE);
 
 
+                        } else {
+                            displayFragmentMore();
+                        }
                     } else {
-                        displayFragmentMore();
+                        Common.CreateDialogAlert(this, getResources().getString(R.string.please_sign_in_or_sign_up));
                     }
                     break;
                 case 3:
@@ -378,7 +391,9 @@ public class HomeActivity extends AppCompatActivity {
 
     public void logout() {
         if (userModel == null) {
-            NavigateToSignInActivity();
+
+            Common.CreateDialogAlert(this, getString(R.string.please_sign_in_or_sign_up));
+
         } else {
             Logout();
         }
@@ -389,8 +404,35 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        if (userModel != null) {
+            if (userModel.getData().getType().equals("student")) {
+                if (fragment_main != null && fragment_main.isAdded() && fragment_main.isVisible()) {
+                    if (userModel == null) {
+                        NavigateToSignInActivity();
+                    } else {
+                        finish();
+                    }
+                } else {
+                    displayFragmentMain();
 
-        if (userModel.getData().getType().equals("student")) {
+
+                }
+            } else {
+
+                if (fragment_messages != null && fragment_messages.isAdded() && fragment_messages.isVisible()) {
+                    if (userModel == null) {
+                        NavigateToSignInActivity();
+                    } else {
+                        finish();
+                    }
+                } else {
+                    displayFragmentMessages();
+
+
+                }
+            }
+
+        } else {
             if (fragment_main != null && fragment_main.isAdded() && fragment_main.isVisible()) {
                 if (userModel == null) {
                     NavigateToSignInActivity();
@@ -402,22 +444,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
             }
-        } else {
-
-            if (fragment_messages != null && fragment_messages.isAdded() && fragment_messages.isVisible()) {
-                if (userModel == null) {
-                    NavigateToSignInActivity();
-                } else {
-                    finish();
-                }
-            } else {
-                displayFragmentMessages();
-
-
-            }
         }
-
-
     }
 
 
@@ -426,7 +453,7 @@ public class HomeActivity extends AppCompatActivity {
 
         dialog.show();
         Api.getService(Tags.base_url)
-                .Logout("Bearer  "+userModel.getData().getToken() + "")
+                .Logout("Bearer  " + userModel.getData().getToken() + "")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

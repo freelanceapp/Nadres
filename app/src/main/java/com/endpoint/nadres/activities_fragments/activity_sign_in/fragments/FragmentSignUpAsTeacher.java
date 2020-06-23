@@ -367,17 +367,20 @@ public class FragmentSignUpAsTeacher extends Fragment implements Listeners.BackL
         skillList.add(getString(R.string.vocabulary));
         skillList.add(getString(R.string.grammer));
         skillList.add(getString(R.string.dictation));
-        skillList.add(getString(R.string.knowledge_bank));
+        //
+        //
+        //
+        // skillList.add(getString(R.string.knowledge_bank));
 
 
-        enSkillList.add("Listening");
-        enSkillList.add("Speaking");
-        enSkillList.add("Reading");
-        enSkillList.add("Writing");
-        enSkillList.add("Vocabulary");
-        enSkillList.add("Grammar");
-        enSkillList.add("Dictation");
-        enSkillList.add("Knowledge Bank");
+        enSkillList.add("listening");
+        enSkillList.add("speaking");
+        enSkillList.add("reading");
+        enSkillList.add("writing");
+        enSkillList.add("vocabulary");
+        enSkillList.add("grammer");
+        enSkillList.add("dictation");
+       // enSkillList.add("knowledge Bank");
 
 
     }

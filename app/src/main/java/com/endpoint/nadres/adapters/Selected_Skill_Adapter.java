@@ -2,6 +2,7 @@ package com.endpoint.nadres.adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.icu.text.Edits;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_editprofile.EditProfileActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.fragments.FragmentSignUpAsTeacher;
 import com.endpoint.nadres.databinding.LoadMoreBinding;
 import com.endpoint.nadres.databinding.SelectedSkillRowBinding;
@@ -53,7 +55,12 @@ public class Selected_Skill_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
             myHolder.binding.imageDelete.setOnClickListener(v -> {
-                fragment.setItemDelete(holder.getAdapterPosition());
+                if(fragment!=null){
+                fragment.setItemDelete(holder.getAdapterPosition());}
+                else {
+                    EditProfileActivity editProfileActivity=(EditProfileActivity)context;
+                    editProfileActivity.setItemDelete(holder.getAdapterPosition());
+                }
             });
         }
     }

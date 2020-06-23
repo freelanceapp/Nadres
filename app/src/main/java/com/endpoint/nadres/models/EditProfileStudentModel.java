@@ -31,10 +31,10 @@ public class EditProfileStudentModel extends BaseObservable {
     public boolean isDataValid(Context context) {
         if (!name.trim().isEmpty() &&
                 !email.trim().isEmpty() &&
-                !stage.trim().isEmpty() &&
-                !clsses.isEmpty()
+                !stage.trim().isEmpty()
                 && ((type.equals("teacher") && skills.size() > 0 &&
-                !details.isEmpty()) || type.equals("student")) &&
+                !details.isEmpty()) || (type.equals("student")&&
+                !clsses.isEmpty())) &&
                 Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()
         ) {
             error_name.set(null);
@@ -72,14 +72,17 @@ public class EditProfileStudentModel extends BaseObservable {
                 }
 
             }
+            else {
+                if (clsses.trim().isEmpty()) {
+                    Toast.makeText(context, R.string.choose_classe, Toast.LENGTH_SHORT).show();
+
+                }
+            }
             if (stage.trim().isEmpty()) {
                 Toast.makeText(context, R.string.choose_stage, Toast.LENGTH_SHORT).show();
 
             }
-            if (clsses.trim().isEmpty()) {
-                Toast.makeText(context, R.string.choose_classe, Toast.LENGTH_SHORT).show();
 
-            }
 
             return false;
         }

@@ -59,8 +59,11 @@
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="type_a_message">إكتب رسالتك هنا...</string>
     <string name="no_tearchers_found">لا يوجد معلمين</string>
-    <string name="no_articles_found">آNo Articles Found</string>
-    <string name="single_room">Single Room</string>
-    <string name="group">Group</string>
+    <string name="no_articles_found">لا يوجد مقالات</string>
+    <string name="single_room">فردى</string>
+    <string name="group">جماعلا</string>
+    <string name="please_sign_in_or_sign_up">قم بتسجيل الدخول او انشاء حساب جديد</string>
+    <string name="ok">أقبل</string>
+    <string name="skip">تخطى</string>
 
 </resources>

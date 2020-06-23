@@ -96,7 +96,7 @@ public interface Service {
 
 
     @GET("api/teachers-by-skill_type")
-    Call<TeacherModel> getTeacher(@Header("Authorization") String user_token,
+    Call<TeacherModel> getTeacher(
                                   @Query("skill_type") String skill_type);
 
     @GET("api/all-articles")

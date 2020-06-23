@@ -17,14 +17,14 @@
     <string name="confirm">Confirm</string>
     <string name="student">Student</string>
     <string name="teacher">Teacher</string>
-    <string name="listening">Listening</string>
-    <string name="speaking">Speaking</string>
-    <string name="reading">Reading</string>
-    <string name="writing">Writing</string>
-    <string name="vocabulary">Vocabulary</string>
-    <string name="grammer">Grammer</string>
-    <string name="dictation">Dictation</string>
-    <string name="knowledge_bank">Knowledge Bank</string>
+    <string name="listening">listening</string>
+    <string name="speaking">speaking</string>
+    <string name="reading">reading</string>
+    <string name="writing">writing</string>
+    <string name="vocabulary">vocabulary</string>
+    <string name="grammer">grammer</string>
+    <string name="dictation">dictation</string>
+    <string name="knowledge_bank">knowledge Bank</string>
     <string name="share_app">Share App</string>
     <string name="rate_app">Rate App</string>
     <string name="logout">Logout</string>
@@ -62,5 +62,8 @@
     <string name="no_articles_found">آNo Articles Found</string>
     <string name="single_room">Single Room</string>
     <string name="group">Group</string>
+    <string name="please_sign_in_or_sign_up">Please sign In or Sign Up</string>
+    <string name="ok">Ok</string>
+    <string name="skip">Skip</string>
 
 </resources>

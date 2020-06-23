@@ -52,7 +52,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         binding.setLang(current_language);
         binding.setLoginListener(this);
         //  binding.setNewAccountListener(this);
-        //  binding.setSkipListener(this);
+          binding.setSkiplistner(this);
         binding.setShowDialogListener(this);
         createCountryDialog();
 

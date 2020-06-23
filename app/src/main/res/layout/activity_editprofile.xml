@@ -223,7 +223,6 @@
                                     android:background="@color/white"
                                     android:gravity="start"
                                     android:hint="@string/detials_and_expereince"
-                                    android:inputType="phone"
                                     android:padding="8dp"
                                     android:singleLine="true"
                                     android:text="@={model.details}"
@@ -412,7 +411,6 @@
                                     android:layout_marginRight="5dp"
                                     android:background="@color/white"
                                     android:hint="@string/user_name"
-                                    android:inputType="textEmailAddress"
                                     android:singleLine="true"
                                     android:text="@={model.name}"
                                     android:textColor="@color/black"
@@ -485,6 +483,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:padding="10dp"
+                                android:visibility='@{usermodel.data.type.equals("teacher")?View.GONE:View.VISIBLE,default=visible}'
 
 
                                 >
@@ -520,6 +519,7 @@
                                 android:layout_margin="7dp"
                                 android:padding="5dp"
                                 app:cardElevation="3dp"
+                                android:visibility='@{usermodel.data.type.equals("teacher")?View.GONE:View.VISIBLE,default=visible}'
 
 
                                 >

@@ -1,6 +1,7 @@
 package com.endpoint.nadres.general_ui_method;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import androidx.databinding.BindingAdapter;
 
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.tags.Tags;
 import com.github.siyamed.shapeimageview.HexagonImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -70,6 +72,29 @@ public class GeneralMethod {
             }
         }
 
+    }
+
+    @BindingAdapter("usermodel")
+    public static void errorValidation(View view, UserModel userModel) {
+        if (view instanceof TextView) {
+            TextView tv = (TextView) view;
+            if (userModel.getData().getType().equals("student")) {
+                tv.setText(userModel.getData().getClass_fk().get(0).getStage_class_name().getTitle());
+
+            } else {
+                String data = "";
+                for (int i = 0; i < userModel.getData().getSkills_fk().size(); i++) {
+                    if (i % 2 == 0 && i > 0) {
+                        data += "\n";
+                    }
+                    data += userModel.getData().getSkills_fk().get(i).getSkill_type() + "  ";
+
+                }
+                tv.setText(data);
+            }
+
+
+        }
     }
 }
 

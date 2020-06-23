@@ -170,8 +170,8 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    if (!isSkillAdded(skillList.get(position))) {
-                        selectedSkills.add(skillList.get(position));
+                    if (!isSkillAdded(enSkillList.get(position))) {
+                        selectedSkills.add(enSkillList.get(position));
                         selected_skill_adapter.notifyItemInserted(selectedSkills.size() - 1);
                         editProfileStudentModel.setSkills(selectedSkills);
                     }
@@ -351,17 +351,17 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
         skillList.add(getString(R.string.vocabulary));
         skillList.add(getString(R.string.grammer));
         skillList.add(getString(R.string.dictation));
-        skillList.add(getString(R.string.knowledge_bank));
+        // skillList.add(getString(R.string.knowledge_bank));
 
 
-        enSkillList.add("Listening");
-        enSkillList.add("Speaking");
-        enSkillList.add("Reading");
-        enSkillList.add("Writing");
-        enSkillList.add("Vocabulary");
-        enSkillList.add("Grammar");
-        enSkillList.add("Dictation");
-        enSkillList.add("Knowledge Bank");
+        enSkillList.add("listening");
+        enSkillList.add("speaking");
+        enSkillList.add("reading");
+        enSkillList.add("writing");
+        enSkillList.add("vocabulary");
+        enSkillList.add("grammer");
+        enSkillList.add("dictation");
+        //enSkillList.add("knowledge Bank");
         if (userModel.getData().getSkills_fk() != null) {
             for (int i = 0; i < userModel.getData().getSkills_fk().size(); i++) {
                 selectedSkills.add(userModel.getData().getSkills_fk().get(i).getSkill_type());
@@ -385,6 +385,7 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
 
     private boolean isSkillAdded(String skill) {
         for (String skill2 : selectedSkills) {
+            Log.e("kfkkfk",skill+"   "+skill2);
             if (skill.equals(skill2)) {
                 return true;
             }
@@ -558,12 +559,11 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                 break;
             }
         }
+        editProfileStudentModel.setEmail(userModel.getData().getEmail());
+        editProfileStudentModel.setName(userModel.getData().getName());
+        editProfileStudentModel.setStage(userModel.getData().getStage_fk().get(0).getStage_class_name().getId() + "");
         if (userModel.getData().getType().equals("student")) {
-            editProfileStudentModel.setEmail(userModel.getData().getEmail());
-            editProfileStudentModel.setName(userModel.getData().getName());
             editProfileStudentModel.setClsses(userModel.getData().getClass_fk().get(0).getStage_class_name().getId() + "");
-            editProfileStudentModel.setStage(userModel.getData().getStage_fk().get(0).getStage_class_name().getId() + "");
-
             for (int i = 0; i < classesFkList.size(); i++) {
                 Log.e("lllll", classesFkList.get(i).getId() + "" + userModel.getData().getClass_fk().get(0).getStage_class_name().getId());
 
@@ -573,7 +573,11 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                     break;
                 }
             }
+
+        } else {
+            editProfileStudentModel.setDetails(userModel.getData().getDetails());
         }
+        binding.setModel(editProfileStudentModel);
     }
 
     private void getStages() {
@@ -591,10 +595,9 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                             stageList.add(new StageDataModel.Stage(getResources().getString(R.string.choose_stage)));
                             stageList.addAll(response.body().getData());
                             stageAdapter.notifyDataSetChanged();
-                            if (userModel.getData().getType().equals("student")) {
-                                UpdateUI();
+                            UpdateUI();
 
-                            }
+
                         } else {
                             try {
 
@@ -800,6 +803,15 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                         }
                     }
                 });
+    }
+
+    public void setItemDelete(int pos) {
+        selectedSkills.remove(pos);
+        selected_skill_adapter.notifyItemRemoved(pos);
+
+        if (selectedSkills.size() == 0) {
+            binding.spinnerSkill.setSelection(0);
+        }
     }
 
     @Override
