@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
 import com.endpoint.nadres.activities_fragments.activity_chat_type.ChatTypeActivity;
 import com.endpoint.nadres.activities_fragments.activity_knowdetilas.KnowledegeDetialsActivity;
 import com.endpoint.nadres.activities_fragments.knowledge_activity.KnowledegeActivity;
@@ -140,7 +141,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
 
             Api.getService(Tags.base_url)
-                    .getTeacher( skill)
+                    .getTeacher(skill)
                     .enqueue(new Callback<TeacherModel>() {
                         @Override
                         public void onResponse(Call<TeacherModel> call, Response<TeacherModel> response) {
@@ -247,12 +248,12 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 //    }
 
     public void setItemData(TeacherModel.Data model) {
-        if (userModel!=null){
-            Intent intent = new Intent(TeacherActivity.this, ChatTypeActivity.class);
-        intent.putExtra("teacher_id", model.getId() + "");
-        startActivityForResult(intent, 100);}
-        else {
-            Common.CreateDialogAlert(this,getResources().getString(R.string.please_sign_in_or_sign_up));
+        if (userModel != null) {
+            Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
+            intent.putExtra("teacher_id", model.getId() + "");
+            startActivityForResult(intent, 100);
+        } else {
+            Common.CreateDialogAlert(this, getResources().getString(R.string.please_sign_in_or_sign_up));
         }
     }
 
