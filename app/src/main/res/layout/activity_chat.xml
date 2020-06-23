@@ -106,17 +106,100 @@
             android:paddingEnd="10dp"
             android:paddingBottom="15dp"
             >
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandedLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/msgContent"
+                app:layout_constraintEnd_toEndOf="@id/msgContent"
+                app:el_duration="500"
+                app:el_parallax=".5"
+                app:el_expanded="false"
+                android:background="@drawable/rounded_top"
+
+                >
+              <FrameLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  >
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      >
+
+                      <LinearLayout
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center"
+                          android:orientation="horizontal"
+                          android:padding="10dp"
+                          >
+
+                          <ImageView
+                              android:id="@+id/imgVideo"
+                              android:layout_width="50dp"
+                              android:layout_height="50dp"
+                              android:background="@drawable/camera_bg"
+                              android:src="@drawable/ic_video"
+                              android:padding="10dp"
+                              android:layout_marginStart="10dp"
+                              android:layout_marginEnd="10dp"
+                              android:tint="@color/white"
+
+                              />
+                          <ImageView
+                              android:id="@+id/imgGallery"
+
+                              android:layout_width="50dp"
+                              android:layout_height="50dp"
+                              android:background="@drawable/img_bg"
+                              android:src="@drawable/ic_img_chooser"
+                              android:padding="12dp"
+                              android:layout_marginStart="10dp"
+                              android:layout_marginEnd="10dp"
+                              android:tint="@color/white"
+
+                              />
+
+                      </LinearLayout>
+                      <FrameLayout
+                          android:id="@+id/btnHide"
+                          android:layout_width="match_parent"
+                          android:layout_height="30dp"
+                          >
+                          <ImageView
+                              android:layout_width="20dp"
+                              android:layout_height="20dp"
+                              android:layout_gravity="center"
+                              android:src="@drawable/ic_down_arrow"
+                              android:padding="5dp"
+                              android:clickable="false"
+                              android:longClickable="false"
+                              />
+                      </FrameLayout>
+
+                  </LinearLayout>
+
+
+              </FrameLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
             <ImageView
                 android:id="@+id/imageRecord"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/circle_bg"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandedLayout"
                 android:src="@drawable/ic_mic"
                 android:tint="@color/white"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:clickable="false"
+                android:longClickable="false"
 
                 />
 
@@ -126,7 +209,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/circle_bg"
                 app:layout_constraintStart_toEndOf="@id/imageRecord"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandedLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/ic_camera"
                 android:tint="@color/white"
@@ -137,10 +220,9 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/msgContent"
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandedLayout"
                 app:layout_constraintStart_toEndOf="@id/imageCamera"
                 app:layout_constraintEnd_toStartOf="@id/imageSend"
                 app:cardElevation="2dp"
@@ -149,39 +231,60 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="5dp"
 
                 >
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     >
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_upload"
-                        android:padding="8dp"
-                        android:tint="@color/colorPrimary"
-                        android:layout_gravity="center_vertical"
-
-                        />
-                    <EditText
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:textColor="@color/black"
-                        android:minHeight="40dp"
-                        android:hint="@string/type_a_message"
-                        android:textSize="14sp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:inputType="textMultiLine"
-                        android:maxLines="3"
+                        android:orientation="horizontal"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:layout_gravity="center"
 
+                        >
+                        <ImageView
+                            android:id="@+id/imageChooser"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_img_chooser"
+                            android:padding="8dp"
+                            android:tint="@color/colorPrimary"
+                            android:layout_gravity="center_vertical"
+
+                            />
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:textColor="@color/black"
+                            android:minHeight="40dp"
+                            android:hint="@string/type_a_message"
+                            android:textSize="14sp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/recordTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="13sp"
+                        android:visibility="gone"
                         />
-                </LinearLayout>
+
+                </FrameLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -192,7 +295,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/circle_bg"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandedLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/ic_send"
                 android:tint="@color/white"

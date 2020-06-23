@@ -99,7 +99,7 @@ public class FragmentSignUpAsTeacher extends Fragment implements Listeners.BackL
 
 
     private void initView() {
-binding.setBackListener(this);
+        binding.setBackListener(this);
         teacherSignUpModel = new TeacherSignUpModel();
         stageList = new ArrayList<>();
         stageList.add(new StageDataModel.Stage(0, getString(R.string.choose_stage)));
@@ -232,7 +232,7 @@ binding.setBackListener(this);
         stageList.add(stage_part);
 
         Api.getService(Tags.base_url)
-                .signUpWithImageTeacher(name_part, email_part, phone_code_part, phone_part, user_type_part, software_part,detials_part, stageList, getSkillRequestBody(), image)
+                .signUpWithImageTeacher(name_part, email_part, phone_code_part, phone_part, user_type_part, software_part, detials_part, stageList, getSkillRequestBody(), image)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -292,14 +292,14 @@ binding.setBackListener(this);
     private void signUpWithoutImage() {
         List<String> selectedStage = new ArrayList<>();
         selectedStage.add(teacherSignUpModel.getStage_id());
-for(int i=0;i<selectedSkills.size();i++){
-    Log.e("kdkkdkd",selectedSkills.get(i));
-}
+        for (int i = 0; i < selectedSkills.size(); i++) {
+            Log.e("kdkkdkd", selectedSkills.get(i));
+        }
         ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
         Api.getService(Tags.base_url)
-                .signUpWithoutImageTeacher(teacherSignUpModel.getName(), teacherSignUpModel.getEmail(), phone_code, phone, "teacher", "1",teacherSignUpModel.getDetails(), selectedStage, selectedSkills)
+                .signUpWithoutImageTeacher(teacherSignUpModel.getName(), teacherSignUpModel.getEmail(), phone_code, phone, "teacher", "1", teacherSignUpModel.getDetails(), selectedStage, selectedSkills)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
