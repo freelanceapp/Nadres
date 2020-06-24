@@ -1,11 +1,13 @@
 package com.endpoint.nadres.activities_fragments.activity_teachers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -21,7 +23,9 @@ import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivityTeachersBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
+import com.endpoint.nadres.models.CreateRoomModel;
 import com.endpoint.nadres.models.SingleArticleModel;
+import com.endpoint.nadres.models.SingleRoomModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -50,6 +54,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
     private int current_page2 = 1;
     private String lang;
     private String skill;
+    private CreateRoomModel createRoomModel;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -80,6 +85,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
     }
 
     private void initView() {
+        createRoomModel = new CreateRoomModel();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.input), PorterDuff.Mode.SRC_IN);
@@ -249,12 +255,74 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
     public void setItemData(TeacherModel.Data model) {
         if (userModel != null) {
-            Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
-            intent.putExtra("teacher_id", model.getId() + "");
-            startActivityForResult(intent, 100);
+            List<Integer> ids = new ArrayList<>();
+            ids.add(userModel.getData().getId());
+            createRoomModel.setSkill_type(skill);
+            createRoomModel.setTeacher_id(model.getUser_id());
+            createRoomModel.setStudent_ids(ids);
+            CreateChatRoom();
+
         } else {
             Common.CreateDialogAlert(this, getResources().getString(R.string.please_sign_in_or_sign_up));
         }
+    }
+
+    private void CreateChatRoom() {
+
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+            Api.getService(Tags.base_url)
+                    .CreateChatRoom(createRoomModel,"Bearer  " + userModel.getData().getToken() + "")
+                    .enqueue(new Callback<SingleRoomModel>() {
+                        @Override
+                        public void onResponse(Call<SingleRoomModel> call, Response<SingleRoomModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful() && response.body() != null) {
+                                Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
+                                intent.putExtra("chat_user_data", response.body());
+                                startActivity(intent);
+                            } else {
+                                if (response.code() == 500) {
+                                    Toast.makeText(TeacherActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                } else {
+                                    Toast.makeText(TeacherActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error", response.code() + "_" + response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SingleRoomModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage() != null) {
+                                    Log.e("error", t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                        // Toast.makeText(TeacherActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(TeacherActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            dialog.dismiss();
+
+        }
+
     }
 
     @Override

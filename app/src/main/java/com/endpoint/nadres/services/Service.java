@@ -2,9 +2,11 @@ package com.endpoint.nadres.services;
 
 
 import com.endpoint.nadres.models.ArticleModel;
+import com.endpoint.nadres.models.CreateRoomModel;
 import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.SettingModel;
 import com.endpoint.nadres.models.SingleArticleModel;
+import com.endpoint.nadres.models.SingleRoomModel;
 import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
@@ -97,7 +99,7 @@ public interface Service {
 
     @GET("api/teachers-by-skill_type")
     Call<TeacherModel> getTeacher(
-                                  @Query("skill_type") String skill_type);
+            @Query("skill_type") String skill_type);
 
     @GET("api/all-articles")
     Call<ArticleModel> getArticles(@Query("pagination_status") String pagination_status,
@@ -153,6 +155,7 @@ public interface Service {
                                                 @Part("class[]") List<RequestBody> classs,
                                                 @Part MultipartBody.Part image
     );
+
     @FormUrlEncoded
     @POST("api/update-profile")
     Call<UserModel> EditteacherprofileWithoutImage(@Field("name") String name,
@@ -179,4 +182,8 @@ public interface Service {
                                                 @Part("skills[]") List<RequestBody> skills,
                                                 @Part MultipartBody.Part image
     );
+
+    @POST("api/create-room-chat")
+    Call<SingleRoomModel> CreateChatRoom(@Body CreateRoomModel createRoomModel,
+                                         @Header("Authorization") String user_token);
 }
