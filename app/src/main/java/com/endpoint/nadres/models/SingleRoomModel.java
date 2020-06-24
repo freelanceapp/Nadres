@@ -1,5 +1,7 @@
 package com.endpoint.nadres.models;
 
+import org.stringtemplate.v4.ST;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class SingleRoomModel implements Serializable {
         private String skill_type;
         private String room_type;
         private String names;
-        private String last_msg;
+        private LastMsg last_msg;
         private List<RoomUsers> room_users;
 
         public int getId() {
@@ -39,7 +41,7 @@ public class SingleRoomModel implements Serializable {
             return names;
         }
 
-        public String getLast_msg() {
+        public LastMsg getLast_msg() {
             return last_msg;
         }
 
@@ -158,5 +160,42 @@ public class SingleRoomModel implements Serializable {
                 }
             }
         }
+         public class LastMsg implements Serializable {
+            private int id;
+             private int room_id;
+             private int from_id;
+                  private String message_type;
+             private String message;
+             private String attachment;
+             private long date;
+
+             public int getId() {
+                 return id;
+             }
+
+             public int getRoom_id() {
+                 return room_id;
+             }
+
+             public int getFrom_id() {
+                 return from_id;
+             }
+
+             public String getMessage_type() {
+                 return message_type;
+             }
+
+             public String getMessage() {
+                 return message;
+             }
+
+             public String getAttachment() {
+                 return attachment;
+             }
+
+             public long getDate() {
+                 return date;
+             }
+         }
     }
 }
