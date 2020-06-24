@@ -2,7 +2,10 @@ package com.endpoint.nadres.activities_fragments.activity_sign_in.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -91,6 +94,7 @@ public class SignInActivity extends AppCompatActivity  {
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_sign_in, "fragment_sign_in").addToBackStack("fragment_sign_in").commit();
         }
+
     }
 
     public void DisplayFragmentSignUpTeacher(String phone,String phone_code) {

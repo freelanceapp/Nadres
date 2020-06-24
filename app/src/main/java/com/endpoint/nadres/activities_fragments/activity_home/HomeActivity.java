@@ -1,22 +1,15 @@
 package com.endpoint.nadres.activities_fragments.activity_home;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -24,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment_Main;
 import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment_Messages;
@@ -39,25 +31,11 @@ import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -485,6 +463,26 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        for (Fragment fragment : fragmentList) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        for (Fragment fragment : fragmentList) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+    }
+
 //    private void CheckPermission() {
 //        if (ActivityCompat.checkSelfPermission(this, gps_perm) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this, new String[]{gps_perm}, gps_req);
@@ -503,31 +501,9 @@ public class HomeActivity extends AppCompatActivity {
 //        googleApiClient.connect();
 //    }
 //
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        List<Fragment> fragmentList = fragmentManager.getFragments();
-//        for (Fragment fragment : fragmentList) {
-//            fragment.onActivityResult(requestCode, resultCode, data);
-//        }
-//        if (requestCode == 1255) {
-//            if (requestCode == Activity.RESULT_OK) {
-//                startLocationUpdate();
-//            }
-//        }
-//    }
 //
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        List<Fragment> fragmentList = fragmentManager.getFragments();
-//        for (Fragment fragment : fragmentList) {
-//            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
-//        if (requestCode == gps_req && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            initGoogleApiClient();
-//        }
-//    }
+//
+//
 //
 //    @Override
 //    public void onLocationChanged(Location location) {

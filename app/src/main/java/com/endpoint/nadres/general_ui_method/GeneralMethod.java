@@ -1,7 +1,6 @@
 package com.endpoint.nadres.general_ui_method;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -9,17 +8,12 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
-
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.models.RoomModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.tags.Tags;
-import com.github.siyamed.shapeimageview.HexagonImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,6 +30,66 @@ public class GeneralMethod {
 
 
         }
+    }
+
+    @BindingAdapter("chat_user_image")
+    public static void chat_user_image(View view, RoomModel roomModel) {
+        if (view instanceof CircleImageView) {
+            CircleImageView imageView = (CircleImageView) view;
+
+
+            if (roomModel.getRoom_type().equals("single")){
+                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getRoom_users().get(0).getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+
+                }
+
+            }else {
+
+                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(R.drawable.ic_group).into(imageView);
+
+                }
+
+            }
+
+
+        } else if (view instanceof RoundedImageView) {
+            RoundedImageView imageView = (RoundedImageView) view;
+
+            if (roomModel.getRoom_type().equals("single")){
+                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getRoom_users().get(0).getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+
+                }
+
+            }else {
+
+                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(R.drawable.ic_group).into(imageView);
+
+                }
+
+            }
+        } else if (view instanceof ImageView) {
+            ImageView imageView = (ImageView) view;
+
+            if (roomModel.getRoom_type().equals("single")){
+                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getRoom_users().get(0).getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+
+                }
+
+            }else {
+
+                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(R.drawable.ic_group).into(imageView);
+
+                }
+
+            }
+        }
+
     }
 
     @BindingAdapter("image")

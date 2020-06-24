@@ -5,8 +5,9 @@
     >
 
     <data>
-
-
+        <variable
+            name="model"
+            type="com.endpoint.nadres.models.MessageDataModel.MessageModel" />
     </data>
 
     <RelativeLayout
