@@ -186,16 +186,7 @@
                                     android:layout_gravity="center_vertical"
 
                                     android:gravity="center_vertical"
-                                    android:text="jjjjjjjjjjjjjjj
-jjjjjj
-jjjjj
-jjjjjj
-jjjjjj
-jjjjjj
-jjjjjj
-jjjjjj
-jjjjj
-jjjjjjjjjjj"
+                                    android:text="@{usermodel.data.details}"
                                     android:textColor="@color/black"
                                     android:textSize="15sp"
 
