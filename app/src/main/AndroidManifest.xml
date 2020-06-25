@@ -15,20 +15,22 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name=".share.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
+        tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity android:name=".activities_fragments.activity_video.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             />
         <activity
-            android:name=".activities_fragments.activity_splash.Splash_Activity"
+            android:name=".activities_fragments.activity_chat.ChatActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
@@ -73,7 +75,7 @@
             android:required="false" />
 
         <activity
-            android:name=".activities_fragments.activity_chat.ChatActivity"
+            android:name=".activities_fragments.activity_splash.Splash_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
