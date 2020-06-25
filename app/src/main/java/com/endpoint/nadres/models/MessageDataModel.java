@@ -6,9 +6,8 @@ import java.util.List;
 public class MessageDataModel implements Serializable {
     private int current_page;
     private int last_page;
-    private SingleRoomModel room;
+    private RoomModel room;
     private List<MessageModel> data;
-    private List<UserModel.User> room_users;
 
 
     public int getCurrent_page() {
@@ -19,7 +18,7 @@ public class MessageDataModel implements Serializable {
         return last_page;
     }
 
-    public SingleRoomModel getRoom() {
+    public RoomModel getRoom() {
         return room;
     }
 
@@ -27,9 +26,7 @@ public class MessageDataModel implements Serializable {
         return data;
     }
 
-    public List<UserModel.User> getRoom_users() {
-        return room_users;
-    }
+
 
     public static class MessageModel implements Serializable{
         private int id;
@@ -40,6 +37,9 @@ public class MessageDataModel implements Serializable {
         private String attachment;
         private long date;
         private UserModel.User user_data;
+        private int audio_pos=0;
+        private boolean isLoaded = false;
+
 
         public int getId() {
             return id;
@@ -71,6 +71,26 @@ public class MessageDataModel implements Serializable {
 
         public UserModel.User getUser_data() {
             return user_data;
+        }
+
+        public void setUser_data(UserModel.User user_data) {
+            this.user_data = user_data;
+        }
+
+        public int getAudio_pos() {
+            return audio_pos;
+        }
+
+        public boolean isLoaded() {
+            return isLoaded;
+        }
+
+        public void setLoaded(boolean loaded) {
+            isLoaded = loaded;
+        }
+
+        public void setAudio_pos(int audio_pos) {
+            this.audio_pos = audio_pos;
         }
     }
 }

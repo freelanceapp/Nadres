@@ -39,14 +39,20 @@ public class GeneralMethod {
 
 
             if (roomModel.getRoom_type().equals("single")){
-                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
-                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getRoom_users().get(0).getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+                if (roomModel.getLast_msg().getUser_data().getLogo()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getLast_msg().getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+
+                }else {
+                    Picasso.get().load(R.drawable.ic_avatar).into(imageView);
 
                 }
 
             }else {
 
                 if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                    Picasso.get().load(R.drawable.ic_group).into(imageView);
+
+                }else {
                     Picasso.get().load(R.drawable.ic_group).into(imageView);
 
                 }
@@ -58,8 +64,11 @@ public class GeneralMethod {
             RoundedImageView imageView = (RoundedImageView) view;
 
             if (roomModel.getRoom_type().equals("single")){
-                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
-                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getRoom_users().get(0).getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+                if (roomModel.getLast_msg().getUser_data().getLogo()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getLast_msg().getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+
+                }else {
+                    Picasso.get().load(R.drawable.ic_avatar).into(imageView);
 
                 }
 
@@ -68,15 +77,22 @@ public class GeneralMethod {
                 if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
                     Picasso.get().load(R.drawable.ic_group).into(imageView);
 
+                }else {
+                    Picasso.get().load(R.drawable.ic_group).into(imageView);
+
                 }
+
 
             }
         } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
 
             if (roomModel.getRoom_type().equals("single")){
-                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
-                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getRoom_users().get(0).getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+                if (roomModel.getLast_msg().getUser_data().getLogo()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getLast_msg().getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+
+                }else {
+                    Picasso.get().load(R.drawable.ic_avatar).into(imageView);
 
                 }
 
@@ -85,7 +101,11 @@ public class GeneralMethod {
                 if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
                     Picasso.get().load(R.drawable.ic_group).into(imageView);
 
+                }else {
+                    Picasso.get().load(R.drawable.ic_group).into(imageView);
+
                 }
+
 
             }
         }

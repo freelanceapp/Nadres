@@ -25,7 +25,7 @@ public class MyRoomDataModel implements Serializable {
         private int room_id;
         private int user_id;
         private int teacher_id;
-        private SingleRoomModel room;
+        private RoomModel room;
 
         public int getId() {
             return id;
@@ -43,7 +43,7 @@ public class MyRoomDataModel implements Serializable {
             return teacher_id;
         }
 
-        public SingleRoomModel getRoom() {
+        public RoomModel getRoom() {
             return room;
         }
     }

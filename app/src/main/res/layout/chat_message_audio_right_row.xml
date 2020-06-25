@@ -22,20 +22,24 @@
             android:layoutDirection="ltr"
             tools:ignore="RtlCompat">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/msg_right_bg"
+                android:layout_height="50dp"
+                android:background="@drawable/chat_audio_right"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="40dp"
-
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
 
                 >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+
+                    >
 
                     <FrameLayout
                         android:id="@+id/flPlay"
@@ -55,6 +59,7 @@
                             android:tint="@color/colorPrimary"
                             android:layout_gravity="center"
                             android:background="@drawable/circle_white"
+                            android:visibility="invisible"
 
                             />
                         <ProgressBar
@@ -63,7 +68,6 @@
                             android:layout_height="25dp"
                             android:layout_gravity="center"
                             android:indeterminateTint="@color/white"
-                            android:visibility="gone"
                             />
 
                     </FrameLayout>
@@ -82,60 +86,24 @@
                         android:layout_marginEnd="5dp"
 
                         />
-                    <!-- <SeekBar
-                         android:id="@+id/seekBar"
-                         android:layout_width="0dp"
-                         android:layout_height="wrap_content"
-                         android:layout_marginStart="10dp"
-                         android:layout_marginEnd="10dp"
-                         app:layout_constraintEnd_toStartOf="@id/tvDuration"
-                         app:layout_constraintStart_toEndOf="@id/flPlay"
-                         app:layout_constraintTop_toTopOf="@id/flPlay"
-                         app:layout_constraintBottom_toBottomOf="@id/flPlay"
-                         android:thumbTint="@color/white"
-                         android:progressBackgroundTint="@color/white"
 
-                         />-->
 
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         />
 
 
-                    <TextView
-                        android:id="@+id/tvName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        app:layout_constraintTop_toBottomOf="@id/flPlay"
-                        app:layout_constraintEnd_toStartOf="@id/image"
-                        app:layout_constraintStart_toStartOf="@id/flPlay"
-                        android:layout_marginTop="5dp"
 
-
-                        />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    />
-            </LinearLayout>
+
+            </FrameLayout>
         </LinearLayout>
     </RelativeLayout>
 </layout>

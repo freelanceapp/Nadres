@@ -92,6 +92,8 @@ public class Fragment_Messages extends Fragment {
                 }
             }
         });
+
+        getRooms();
     }
 
     public void getRooms() {
@@ -105,17 +107,37 @@ public class Fragment_Messages extends Fragment {
                     public void onResponse(Call<MyRoomDataModel> call, Response<MyRoomDataModel> response) {
                         binding.swipeRefresh.setRefreshing(false);
                         binding.progBar.setVisibility(View.GONE);
-                        if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
-                            if (response.body().getData().size() > 0) {
-                                list.clear();
-                                list.addAll(response.body().getData());
-                                binding.llConversation.setVisibility(View.GONE);
-                                adapter.notifyDataSetChanged();
+                        if (response.isSuccessful()) {
 
-                            } else {
-                                binding.llConversation.setVisibility(View.VISIBLE);
+                            if (response.body() != null && response.body().getData() != null){
+                                if (response.body().getData().size() > 0) {
+                                    Log.e("gg","gg");
+                                    Log.e("room",response.body().getData().size()+"__");
+
+                                    list.clear();
+                                    list.addAll(response.body().getData());
+                                    binding.llConversation.setVisibility(View.GONE);
+                                    adapter.notifyDataSetChanged();
+
+                                } else {
+                                    binding.llConversation.setVisibility(View.VISIBLE);
+                                }
                             }
 
+
+
+                        }else {
+                            if (response.code() == 500) {
+                                Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+
+                            try {
+                                Log.e("error code", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                     }
@@ -223,7 +245,23 @@ public class Fragment_Messages extends Fragment {
 
     public void setItemRoomData(RoomModel model, int adapterPosition) {
 
-        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getRoom_users().get(0).getUser_data().getImage(),model.getRoom_type());
+        String image ="";
+
+        if (model.getRoom_type().equals("single")){
+            if (model.getLast_msg().getUser_data().getLogo()!=null){
+                image = model.getLast_msg().getUser_data().getLogo();
+            }
+        }else {
+            image = null;
+        }
+
+        String name = "";
+        if (model.getRoom_type().equals("single")){
+            name = model.getLast_msg().getUser_data().getName();
+        }else {
+            name = model.getNames();
+        }
+        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),name,image,model.getRoom_type());
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("data",chatUserModel);
         startActivityForResult(intent,100);

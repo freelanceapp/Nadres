@@ -39,6 +39,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="top"
+                app:civ_circle_background_color="@color/gray2"
                 />
 
             <LinearLayout

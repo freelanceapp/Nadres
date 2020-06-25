@@ -11,6 +11,10 @@ public class UserModel implements Serializable {
         return data;
     }
 
+    public void setData(User data) {
+        this.data = data;
+    }
+
     public static class User implements Serializable {
         private int id;
         private String name;
@@ -29,6 +33,19 @@ public class UserModel implements Serializable {
         private List<Stage> stage_fk;
         private List<Stage_CLASS> class_fk;
         private List<SkillModel> skills_fk;
+
+
+        public User() {
+        }
+
+        public User(int id, String name, String phone_code, String phone, String logo, String token) {
+            this.id = id;
+            this.name = name;
+            this.phone_code = phone_code;
+            this.phone = phone;
+            this.logo = logo;
+            this.token = token;
+        }
 
         public int getId() {
             return id;

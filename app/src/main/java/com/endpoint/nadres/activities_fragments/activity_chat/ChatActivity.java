@@ -26,21 +26,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.adapters.ChatAdapter;
 import com.endpoint.nadres.databinding.ActivityChatBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.MessageDataModel;
+import com.endpoint.nadres.models.SingleMessageDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.tags.Tags;
+import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -67,6 +78,14 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private ChatUserModel chatUserModel;
     private UserModel userModel;
     private Preferences preferences;
+    private ChatAdapter adapter;
+    private List<MessageDataModel.MessageModel> messageModelList;
+    private int current_page = 1;
+    private boolean isLoading = false;
+    private LinearLayoutManager manager;
+    private Call<MessageDataModel> loadMoreCall;
+    private boolean isNewMessage = false;
+
 
 
     @Override
@@ -93,6 +112,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
+        messageModelList = new ArrayList<>();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
         Paper.init(this);
@@ -100,6 +120,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         binding.setLang(lang);
         binding.setBackListener(this);
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        manager = new LinearLayoutManager(this);
+
+        adapter = new ChatAdapter(messageModelList,this,userModel.getData().getId());
+        binding.recView.setLayoutManager(manager);
+        binding.recView.setAdapter(adapter);
+
+        Log.e("room_id",chatUserModel.getRoom_id()+"_"+userModel.getData().getId());
 
         binding.imageChooser.setOnClickListener(v -> {
             if (binding.expandedLayout.isExpanded()) {
@@ -145,7 +172,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                     try {
                         recorder.stop();
                         stopTimer();
-                        sendAudio();
+                        sendAttachment(audio_path,"sound");
                     }catch (Exception e){
                         Log.e("error1",e.getMessage()+"___");
                     }
@@ -160,18 +187,188 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         binding.imageSend.setOnClickListener(v -> {
             String message = binding.edtMessage.getText().toString().trim();
             if (!message.isEmpty()){
+                binding.edtMessage.setText("");
                 sendChatText(message);
             }
         });
+
+
+        if (chatUserModel.getImage()==null){
+            binding.imageSend.setImageResource(R.drawable.ic_group);
+        }else {
+            Picasso.get().load(Uri.parse(Tags.IMAGE_URL+chatUserModel.getImage())).placeholder(R.drawable.ic_avatar).into(binding.image);
+        }
+        binding.tvName.setText(chatUserModel.getName());
+
+
+
+        binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    int current_item_pos = manager.findLastCompletelyVisibleItemPosition();
+                    int total_items = adapter.getItemCount();
+                    if (total_items >= 39 && current_item_pos >= total_items - 2 && !isLoading) {
+                        messageModelList.add(0,null);
+                        adapter.notifyItemInserted(0);
+                        isLoading = true;
+                        int page = current_page + 1;
+                        loadMore(page);
+                    }
+                }
+            }
+        });
+        EventBus.getDefault().register(this);
         getAllMessages();
     }
 
-    private void getAllMessages() {
+    public void getAllMessages()
+    {
+        if (loadMoreCall!=null){
+            loadMoreCall.cancel();
+        }
+        Api.getService(Tags.base_url)
+                .getChatMessages("Bearer " + userModel.getData().getToken(), chatUserModel.getRoom_id(), "on", 40, 1)
+                .enqueue(new Callback<MessageDataModel>() {
+                    @Override
+                    public void onResponse(Call<MessageDataModel> call, Response<MessageDataModel> response) {
+                        binding.progBar.setVisibility(View.GONE);
+                        if (response.isSuccessful()) {
+
+                            if (response.body() != null && response.body().getData() != null){
+                                if (response.body().getData().size() > 0) {
+                                    messageModelList.clear();
+                                    messageModelList.addAll(response.body().getData());
+                                    adapter.notifyDataSetChanged();
+                                    binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),300);
+
+                                }
+                            }
 
 
+
+                        }else {
+                            if (response.code() == 500) {
+                                Toast.makeText(ChatActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+
+                            try {
+                                Log.e("error code", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageDataModel> call, Throwable t) {
+                        try {
+                            binding.progBar.setVisibility(View.GONE);
+                            if (t.getMessage() != null) {
+                                Log.e("Error", t.getMessage());
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(ChatActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                }else if (t.getMessage().contains("socket")){
+
+                                }else {
+                                    Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                });
     }
 
-    private void sendAudio() {
+
+    private void loadMore(int page) {
+
+        loadMoreCall = Api.getService(Tags.base_url).getChatMessages("Bearer " + userModel.getData().getToken(), chatUserModel.getRoom_id(), "on", 40, page);
+
+        loadMoreCall.enqueue(new Callback<MessageDataModel>() {
+            @Override
+            public void onResponse(Call<MessageDataModel> call, Response<MessageDataModel> response) {
+
+
+                messageModelList.remove(messageModelList.size() - 1);
+                adapter.notifyItemRemoved(messageModelList.size() - 1);
+                isLoading = false;
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getData() != null) {
+
+                        if (response.body().getData().size() > 0) {
+                            messageModelList.addAll(0,response.body().getData());
+                            adapter.notifyItemRangeChanged(0, response.body().getData().size());
+                            current_page = response.body().getCurrent_page();
+                        }
+                    }
+
+                } else {
+                    if (messageModelList.get(0) == null) {
+                        messageModelList.remove(0);
+                        adapter.notifyItemRemoved(0);
+                        isLoading = false;
+                    }
+
+
+                    if (response.code() == 500) {
+                        Toast.makeText(ChatActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                    }
+
+                    try {
+                        Log.e("error code", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MessageDataModel> call, Throwable t) {
+                try {
+
+                    if (messageModelList.get(0) == null) {
+                        messageModelList.remove(0);
+                        adapter.notifyItemRemoved(0);
+                        isLoading = false;
+                    }
+
+
+                    if (t.getMessage() != null) {
+                        Log.e("Error", t.getMessage());
+
+                        if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                            Toast.makeText(ChatActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
+
+
+    private void sendAttachment(String file_uri,String attachment_type) {
+        Intent intent = new Intent(this,ServiceUploadAttachment.class);
+        intent.putExtra("file_uri",file_uri);
+        intent.putExtra("user_token",userModel.getData().getToken());
+        intent.putExtra("user_id",userModel.getData().getId());
+        intent.putExtra("room_id",chatUserModel.getRoom_id());
+        intent.putExtra("attachment_type",attachment_type);
+        startService(intent);
 
 
     }
@@ -180,27 +377,28 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
         Api.getService(Tags.base_url)
                 .sendChatMessage("Bearer " + userModel.getData().getToken(),chatUserModel.getRoom_id(),userModel.getData().getId(),"text",message)
-                .enqueue(new Callback<MessageDataModel.MessageModel>() {
+                .enqueue(new Callback<SingleMessageDataModel>() {
                     @Override
-                    public void onResponse(Call<MessageDataModel.MessageModel> call, Response<MessageDataModel.MessageModel> response) {
+                    public void onResponse(Call<SingleMessageDataModel> call, Response<SingleMessageDataModel> response) {
                         binding.progBar.setVisibility(View.GONE);
-                        /*if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
-                            *//*if (response.body().getData().size() > 0) {
-                                list.clear();
-                                list.addAll(response.body().getData());
-                                binding.llConversation.setVisibility(View.GONE);
-                                adapter.notifyDataSetChanged();
+                        if (response.isSuccessful()) {
 
-                            } else {
-                                binding.llConversation.setVisibility(View.VISIBLE);
-                            }*//*
+                            if (response.body() != null && response.body().getData() != null){
+                                isNewMessage = true;
+                                MessageDataModel.MessageModel model = response.body().getData();
+                                model.setUser_data(userModel.getData());
+                                messageModelList.add(model);
+                                adapter.notifyItemInserted(messageModelList.size());
+                                binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),300);
+                            }
 
-                        }*/
+
+                        }
 
                     }
 
                     @Override
-                    public void onFailure(Call<MessageDataModel.MessageModel> call, Throwable t) {
+                    public void onFailure(Call<SingleMessageDataModel> call, Throwable t) {
                         try {
                             binding.progBar.setVisibility(View.GONE);
                             if (t.getMessage() != null) {
@@ -376,12 +574,18 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
         if (requestCode == IMG_REQ && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
+            sendAttachment(uri.toString(),"img");
 
         } else if (requestCode == CAMERA_REQ && resultCode == RESULT_OK && data != null) {
 
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
             Uri uri = getUriFromBitmap(bitmap);
+            sendAttachment(uri.toString(),"img");
+
+        }else if (requestCode ==VID_REQ&&resultCode==RESULT_OK&&data!=null){
+            Uri uri = data.getData();
+            sendAttachment(uri.toString(),"video");
         }
 
     }
@@ -401,7 +605,6 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
             audio_total_seconds +=1;
             binding.recordTime.setText(getRecordTimeFormat(audio_total_seconds));
             startTimer();
-            Log.e("total",audio_total_seconds+"__");
         };
 
         handler.postDelayed(runnable,1000);
@@ -431,6 +634,15 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAttachmentSuccess(MessageDataModel.MessageModel messageModel){
+        messageModelList.add(messageModel);
+        adapter.notifyItemInserted(messageModelList.size());
+        binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),300);
+        isNewMessage = true;
+        deleteFile();
+
+    }
 
     private void deleteFile(){
         if (!audio_path.isEmpty()){
@@ -441,8 +653,23 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        back();
+    }
+
     @Override
     public void back() {
+
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+
+        if (isNewMessage){
+            setResult(RESULT_OK);
+
+        }
         finish();
     }
 

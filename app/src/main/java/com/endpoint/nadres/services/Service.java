@@ -7,6 +7,7 @@ import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.models.MyRoomDataModel;
 import com.endpoint.nadres.models.SettingModel;
 import com.endpoint.nadres.models.SingleArticleModel;
+import com.endpoint.nadres.models.SingleMessageDataModel;
 import com.endpoint.nadres.models.SingleRoomModel;
 import com.endpoint.nadres.models.StageDataModel;
 import com.endpoint.nadres.models.TeacherModel;
@@ -197,7 +198,7 @@ public interface Service {
     );
 
     @GET("api/get-message-by_room_id")
-    Call<MyRoomDataModel> getChatMessages(@Header("Authorization") String user_token,
+    Call<MessageDataModel> getChatMessages(@Header("Authorization") String user_token,
                                           @Query("room_id") int room_id,
                                           @Query("pagination_status") String pagination_status,
                                           @Query("per_link_") int per_link_,
@@ -209,21 +210,21 @@ public interface Service {
 
     @FormUrlEncoded
     @POST("api/send-message")
-    Call<MessageDataModel.MessageModel> sendChatMessage(@Header("Authorization") String user_token,
-                                                        @Field("room_id") int room_id,
-                                                        @Field("from_id") int from_id,
-                                                        @Field("message_type") String message_type,
-                                                        @Field("message") String message
+    Call<SingleMessageDataModel> sendChatMessage(@Header("Authorization") String user_token,
+                                                 @Field("room_id") int room_id,
+                                                 @Field("from_id") int from_id,
+                                                 @Field("message_type") String message_type,
+                                                 @Field("message") String message
 
 
     );
 
     @Multipart
     @POST("api/send-message")
-    Call<UserModel> sendChatAttachment(@Header("Authorization") String user_token,
+    Call<SingleMessageDataModel> sendChatAttachment(@Header("Authorization") String user_token,
                                        @Part("room_id") RequestBody room_id,
                                        @Part("from_id") RequestBody from_id,
                                        @Part("message_type") RequestBody message_type,
-                                       @Part("attachment") RequestBody attachment
+                                       @Part MultipartBody.Part attachment
     );
 }

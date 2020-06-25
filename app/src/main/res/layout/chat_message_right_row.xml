@@ -46,6 +46,7 @@
                     android:maxWidth="230dp"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:text="@{model.message}"
 
                     />
 

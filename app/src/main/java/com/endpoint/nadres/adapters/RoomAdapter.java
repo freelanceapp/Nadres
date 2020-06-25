@@ -64,15 +64,18 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof MyHolder){
-            RoomModel model = list.get(position).getRoom().getRoomModel();
+            RoomModel model = list.get(position).getRoom();
             MyHolder myHolder = (MyHolder) holder;
             myHolder.binding.setModel(model);
-            myHolder.binding.setTime(Time_Ago.getTimeAgo(model.getLast_msg().getDate()*1000,context));
+            if (model.getLast_msg()!=null){
+                myHolder.binding.setTime(Time_Ago.getTimeAgo(model.getLast_msg().getDate()*1000,context));
+
+            }
 
 
             myHolder.itemView.setOnClickListener(view -> {
 
-                RoomModel model2 = list.get(myHolder.getAdapterPosition()).getRoom().getRoomModel();
+                RoomModel model2 = list.get(myHolder.getAdapterPosition()).getRoom();
                  fragment.setItemRoomData(model2,myHolder.getAdapterPosition());
             });
         }else if (holder instanceof LoadHolder){
@@ -113,7 +116,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        RoomModel model = list.get(position).getRoom().getRoomModel();
+        RoomModel model = list.get(position).getRoom();
         if (model!=null){
             return DATA;
         }else {

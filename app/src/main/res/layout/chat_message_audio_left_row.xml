@@ -25,24 +25,30 @@
             tools:ignore="RtlCompat,UnusedAttribute">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="top"
+                app:civ_circle_background_color="@color/gray2"
+
                 />
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/msg_left_bg"
+                android:layout_height="50dp"
+                android:background="@drawable/chat_audio_left"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="80dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
 
 
                 >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    >
 
                     <FrameLayout
                         android:id="@+id/flPlay"
@@ -62,7 +68,14 @@
                             android:tint="@color/white"
                             android:layout_gravity="center"
                             android:background="@drawable/circle_white"
+                            android:visibility="invisible"
 
+                            />
+                        <ProgressBar
+                            android:id="@+id/progBar"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
                             />
 
 
@@ -102,19 +115,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    />
-            </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
     </RelativeLayout>
 </layout>

@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -20,10 +19,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.databinding.DialogAlertBinding;
@@ -286,6 +283,33 @@ public class Common {
 
     }
 
+    public static MultipartBody.Part getMultiPartImage(Context context, Uri uri, String partName) {
+        File file = getFileFromImagePath(getImagePath(context, uri));
+        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        RequestBody requestBody = getRequestBodyImage(file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
+        return part;
+
+    }
+
+    public static MultipartBody.Part getMultiPartAudio(Context context, String audio_path, String partName) {
+        File file = new File(audio_path);
+        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        RequestBody requestBody = getRequestBodyAudio(file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
+        return part;
+
+    }
+
+    public static MultipartBody.Part getMultiPartVideo(Context context, Uri uri, String partName) {
+        File file = getFileFromImagePath(getImagePath(context, uri));
+        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        RequestBody requestBody = getRequestBodyVideo(file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
+        return part;
+
+    }
+
     private static RequestBody getRequestBodyImage(File file) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         return requestBody;
@@ -293,6 +317,16 @@ public class Common {
 
     public static RequestBody getRequestBodyText(String data) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), data);
+        return requestBody;
+    }
+
+    private static RequestBody getRequestBodyAudio(File file) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("audio/*"), file);
+        return requestBody;
+    }
+
+    private static RequestBody getRequestBodyVideo(File file) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("video/*"), file);
         return requestBody;
     }
 

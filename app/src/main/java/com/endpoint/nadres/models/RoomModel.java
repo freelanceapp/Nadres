@@ -82,6 +82,7 @@ public class RoomModel implements Serializable {
         private String message_type;
         private String message;
         private String attachment;
+        private UserModel.User user_data;
         private long date;
 
         public int getId() {
@@ -110,6 +111,10 @@ public class RoomModel implements Serializable {
 
         public long getDate() {
             return date;
+        }
+
+        public UserModel.User getUser_data() {
+            return user_data;
         }
     }
 }
