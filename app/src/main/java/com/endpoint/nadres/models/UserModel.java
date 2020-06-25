@@ -19,7 +19,7 @@ public class UserModel implements Serializable {
         private String phone_code;
         private String phone;
         private String image;
-        private String banner_image;
+        private String logo;
         private String token;
         private String latitude;
         private String longitude;
@@ -58,8 +58,8 @@ public class UserModel implements Serializable {
             return image;
         }
 
-        public String getBanner_image() {
-            return banner_image;
+        public String getLogo() {
+            return logo;
         }
 
         public String getToken() {

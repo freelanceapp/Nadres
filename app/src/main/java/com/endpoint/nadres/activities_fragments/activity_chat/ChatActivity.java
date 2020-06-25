@@ -1,12 +1,5 @@
 package com.endpoint.nadres.activities_fragments.activity_chat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -28,12 +20,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+
 import com.endpoint.nadres.R;
-import com.endpoint.nadres.databinding.ActivityAboutBinding;
 import com.endpoint.nadres.databinding.ActivityChatBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
-import com.endpoint.nadres.share.Common;
+import com.endpoint.nadres.models.ChatUserModel;
+import com.endpoint.nadres.models.MessageDataModel;
+import com.endpoint.nadres.models.UserModel;
+import com.endpoint.nadres.preferences.Preferences;
+import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.tags.Tags;
 
 import java.io.ByteArrayOutputStream;
@@ -42,6 +44,9 @@ import java.io.IOException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity implements Listeners.BackListener {
     private ActivityChatBinding binding;
@@ -59,6 +64,9 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private Handler handler;
     private Runnable runnable;
     private long audio_total_seconds =0;
+    private ChatUserModel chatUserModel;
+    private UserModel userModel;
+    private Preferences preferences;
 
 
     @Override
@@ -71,14 +79,22 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
+        getDataFromIntent();
         initView();
+
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        chatUserModel = (ChatUserModel) intent.getSerializableExtra("data");
 
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
-
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(this);
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
@@ -141,11 +157,67 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
             return true;
         });
 
+        binding.imageSend.setOnClickListener(v -> {
+            String message = binding.edtMessage.getText().toString().trim();
+            if (!message.isEmpty()){
+                sendChatText(message);
+            }
+        });
+        getAllMessages();
+    }
+
+    private void getAllMessages() {
+
+
     }
 
     private void sendAudio() {
 
 
+    }
+
+    private void sendChatText(String message){
+
+        Api.getService(Tags.base_url)
+                .sendChatMessage("Bearer " + userModel.getData().getToken(),chatUserModel.getRoom_id(),userModel.getData().getId(),"text",message)
+                .enqueue(new Callback<MessageDataModel.MessageModel>() {
+                    @Override
+                    public void onResponse(Call<MessageDataModel.MessageModel> call, Response<MessageDataModel.MessageModel> response) {
+                        binding.progBar.setVisibility(View.GONE);
+                        /*if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+                            *//*if (response.body().getData().size() > 0) {
+                                list.clear();
+                                list.addAll(response.body().getData());
+                                binding.llConversation.setVisibility(View.GONE);
+                                adapter.notifyDataSetChanged();
+
+                            } else {
+                                binding.llConversation.setVisibility(View.VISIBLE);
+                            }*//*
+
+                        }*/
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageDataModel.MessageModel> call, Throwable t) {
+                        try {
+                            binding.progBar.setVisibility(View.GONE);
+                            if (t.getMessage() != null) {
+                                Log.e("Error", t.getMessage());
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(ChatActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                }else if (t.getMessage().contains("socket")){
+
+                                }else {
+                                    Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                });
     }
 
 

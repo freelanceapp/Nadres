@@ -6,7 +6,9 @@
     >
 
     <data>
-
+        <variable
+            name="model"
+            type="com.endpoint.nadres.models.MessageDataModel.MessageModel" />
 
         <import type="android.view.View" />
 

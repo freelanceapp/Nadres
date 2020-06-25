@@ -26,9 +26,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-
 import com.endpoint.nadres.R;
-import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.activities_fragments.activity_terms.TermsActivity;
 import com.endpoint.nadres.adapters.Selected_Skill_Adapter;
@@ -274,12 +272,11 @@ public class FragmentSignUpAsTeacher extends Fragment implements Listeners.BackL
                         try {
                             dialog.dismiss();
                             if (t.getMessage() != null) {
-                                Log.e("msg_category_error", t.getMessage() + "__");
 
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
-                                    //    Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                       Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    //  Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                      Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } catch (Exception e) {

@@ -65,5 +65,15 @@
     <string name="please_sign_in_or_sign_up">قم بتسجيل الدخول او انشاء حساب جديد</string>
     <string name="ok">أقبل</string>
     <string name="skip">تخطى</string>
+    <string name="just_now">الان</string>
+    <string name="a_minute_ago">منذ د</string>
+    <string name="min">min</string>
+    <string name="an_hour_ago">منذ س</string>
+    <string name="hs">س</string>
+    <string name="yesterday">امس</string>
+    <string name="video">تم إرسال فيديو</string>
+    <string name="voice">رسالة صوتية</string>
+    <string name="image">تم إرسال صورة</string>
+    <string name="something">تحقق من الاتصال بالانترنت</string>
 
 </resources>

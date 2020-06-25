@@ -4,13 +4,13 @@
     >
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="wrap_content">
         <ProgressBar
             android:id="@+id/progBar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
-
+            android:layout_margin="5dp"
             />
     </FrameLayout>
 </layout>

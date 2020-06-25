@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="time"
+            type="String" />
+        <variable
+            name="model"
+            type="com.endpoint.nadres.models.RoomModel" />
+
+        <import type="android.view.View"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:civ_circle_background_color="@color/gray2"
+            chat_user_image="@{model}"
+            />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/image"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:lines="1"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toTopOf="@id/tvMessage"
+            android:text="@{model.names}"
+
+            />
+
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="14sp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/gray4"
+            app:layout_goneMarginStart="0dp"
+            app:layout_goneMarginEnd="0dp"
+            android:maxEms="8"
+            android:text='@{model.last_msg.message_type.equals("text")?model.last_msg.message:(model.last_msg.message_type.equals("video")?@string/video:(model.last_msg.message_type.equals("sound")?@string/voice:@string/image))}'
+
+            />
+
+
+
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/tvMessage"
+            app:layout_constraintBottom_toBottomOf="@id/tvMessage"
+            app:layout_constraintEnd_toStartOf="@id/imageUnread"
+            android:textColor="@color/gray4"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintWidth_default="wrap"
+            android:text='@{time}'
+            />
+
+        <ImageView
+            android:id="@+id/imageUnread"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toTopOf="@id/tvMessage"
+            app:layout_constraintBottom_toBottomOf="@id/tvMessage"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            android:background="@drawable/circle_primary"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
