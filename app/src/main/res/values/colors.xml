@@ -29,4 +29,7 @@
     <color name="grammer">#1c8ae9</color>
     <color name="dire">#c88dad</color>
     <color name="know">#ff805d</color>
+    <color name="color_primary_trans">#5528507D</color>
+    <color name="color_gray_trans">#55e0e0e0</color>
+
 </resources>

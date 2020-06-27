@@ -94,6 +94,8 @@ public class Fragment_Messages extends Fragment {
         });
 
         getRooms();
+
+
     }
 
     public void getRooms() {

@@ -37,8 +37,9 @@ public class MessageDataModel implements Serializable {
         private String attachment;
         private long date;
         private UserModel.User user_data;
-        private int audio_pos=0;
         private boolean isLoaded = false;
+        private int progress = 0;
+        private int max_duration =0;
 
 
         public int getId() {
@@ -77,9 +78,6 @@ public class MessageDataModel implements Serializable {
             this.user_data = user_data;
         }
 
-        public int getAudio_pos() {
-            return audio_pos;
-        }
 
         public boolean isLoaded() {
             return isLoaded;
@@ -89,8 +87,22 @@ public class MessageDataModel implements Serializable {
             isLoaded = loaded;
         }
 
-        public void setAudio_pos(int audio_pos) {
-            this.audio_pos = audio_pos;
+
+
+        public int getProgress() {
+            return progress;
+        }
+
+        public void setProgress(int progress) {
+            this.progress = progress;
+        }
+
+        public int getMax_duration() {
+            return max_duration;
+        }
+
+        public void setMax_duration(int max_duration) {
+            this.max_duration = max_duration;
         }
     }
 }

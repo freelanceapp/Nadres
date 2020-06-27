@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_video.VideoActivity;
 import com.endpoint.nadres.adapters.ChatAdapter;
 import com.endpoint.nadres.databinding.ActivityChatBinding;
 import com.endpoint.nadres.interfaces.Listeners;
@@ -241,7 +242,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                                     messageModelList.clear();
                                     messageModelList.addAll(response.body().getData());
                                     adapter.notifyDataSetChanged();
-                                    binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),300);
+                                    binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),200);
 
                                 }
                             }
@@ -389,7 +390,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                                 model.setUser_data(userModel.getData());
                                 messageModelList.add(model);
                                 adapter.notifyItemInserted(messageModelList.size());
-                                binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),300);
+                                binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),200);
                             }
 
 
@@ -637,8 +638,9 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAttachmentSuccess(MessageDataModel.MessageModel messageModel){
         messageModelList.add(messageModel);
-        adapter.notifyItemInserted(messageModelList.size());
-        binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),300);
+
+        adapter.notifyItemChanged(messageModelList.size());
+        binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),200);
         isNewMessage = true;
         deleteFile();
 
@@ -674,5 +676,10 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
 
+    public void setVideoUrl(String attachment) {
+        Intent intent = new Intent(this, VideoActivity.class);
+        intent.putExtra("url",Tags.IMAGE_URL+attachment);
+        startActivity(intent);
+    }
 }
 

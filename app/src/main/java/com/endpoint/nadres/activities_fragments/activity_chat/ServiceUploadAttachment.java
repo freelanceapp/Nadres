@@ -72,7 +72,6 @@ public class ServiceUploadAttachment extends Service {
 
         }else{
             file_part = Common.getMultiPartVideo(this, Uri.parse(file_uri), "attachment");
-
         }
         Api.getService(Tags.base_url).sendChatAttachment("Bearer "+user_token, room_id_part, user_id_part,type_part,file_part)
                 .enqueue(new Callback<SingleMessageDataModel>() {

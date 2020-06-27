@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.models.RoomModel;
 import com.endpoint.nadres.models.UserModel;
@@ -111,6 +113,71 @@ public class GeneralMethod {
         }
 
     }
+
+
+    @BindingAdapter("chat_image")
+    public static void chat_image(View view, String endPoint) {
+        if (view instanceof CircleImageView) {
+            CircleImageView imageView = (CircleImageView) view;
+            if (endPoint!=null){
+                Glide.with(imageView.getContext()).load(Tags.IMAGE_URL+endPoint).into(imageView);
+
+            }
+
+
+        } else if (view instanceof RoundedImageView) {
+            RoundedImageView imageView = (RoundedImageView) view;
+            if (endPoint!=null){
+                Glide.with(imageView.getContext()).load(Tags.IMAGE_URL+endPoint).into(imageView);
+
+            }
+        } else if (view instanceof ImageView) {
+            ImageView imageView = (ImageView) view;
+            if (endPoint!=null){
+                Glide.with(imageView.getContext()).load(Tags.IMAGE_URL+endPoint).into(imageView);
+
+            }
+
+        }
+
+    }
+
+
+    @BindingAdapter("chat_video_frame")
+    public static void chat_video_frame(View view, String endPoint) {
+        if (view instanceof CircleImageView) {
+            CircleImageView imageView = (CircleImageView) view;
+            if (endPoint!=null){
+                RequestOptions requestOptions = new RequestOptions().frame(5000000);
+                Glide.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL+endPoint))
+                        .apply(requestOptions)
+                        .into(imageView);
+            }
+
+
+        } else if (view instanceof RoundedImageView) {
+            RoundedImageView imageView = (RoundedImageView) view;
+            if (endPoint!=null){
+                RequestOptions requestOptions = new RequestOptions().frame(5000000);
+                Glide.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL+endPoint))
+                        .apply(requestOptions)
+                        .into(imageView);
+            }
+        } else if (view instanceof ImageView) {
+            ImageView imageView = (ImageView) view;
+            if (endPoint!=null){
+                RequestOptions requestOptions = new RequestOptions().frame(5000000);
+                Glide.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL+endPoint))
+                        .apply(requestOptions)
+                        .into(imageView);
+            }
+
+        }
+
+    }
+
+
+
 
     @BindingAdapter("image")
     public static void image(View view, String endPoint) {
