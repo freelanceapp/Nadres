@@ -10,16 +10,21 @@ import com.endpoint.nadres.preferences.Preferences;
 
 
 public class App extends MultiDexApplication {
+
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(Language.updateResources(newBase, Preferences.getInstance().getLanguage(newBase)));    }
+        super.attachBaseContext(Language.updateResources(newBase,"ar"));
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        TypefaceUtil.overrideFont(this, "SERIF", "fonts/GE-SS-Two-Bold.otf"); // font from assets: "assets/fonts/Roboto-Regular.ttf
-        TypefaceUtil.overrideFont(this, "DEFAULT", "fonts/GE-SS-Two-Bold.otf");
-        TypefaceUtil.overrideFont(this, "MONOSPACE", "fonts/GE-SS-Two-Bold.otf");
-        TypefaceUtil.overrideFont(this, "SANS_SERIF", "fonts/GE-SS-Two-Bold.otf");
+        TypefaceUtil.setDefaultFont(this, "DEFAULT", "fonts/ar_font.ttf");
+        TypefaceUtil.setDefaultFont(this, "MONOSPACE", "fonts/ar_font.ttf");
+        TypefaceUtil.setDefaultFont(this, "SERIF", "fonts/ar_font.ttf");
+        TypefaceUtil.setDefaultFont(this, "SANS_SERIF", "fonts/ar_font.ttf");
+
     }
 }
 
