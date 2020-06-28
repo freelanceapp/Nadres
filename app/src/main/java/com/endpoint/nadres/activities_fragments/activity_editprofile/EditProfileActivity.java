@@ -130,78 +130,92 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
                     classesFkList.add(new StageDataModel.Stage.ClassesFk(getResources().getString(R.string.choose_classe)));
                     classesFkList.addAll(stageList.get(position).getClasses_fk());
                     //binding.spinnerClass.setSelection(0);
+                    if (userModel.getData().getStage_fk()!=null&&userModel.getData().getStage_fk().size() > 0){
                     if (stageList.get(position).getId() != userModel.getData().getStage_fk().get(0).getStage_class_name().getId()) {
                         binding.spinnerClass.setSelection(0);
                     }
-                    classAdapter.notifyDataSetChanged();
                 }
+                classAdapter.notifyDataSetChanged();
+            }
 
                 binding.setModel(editProfileStudentModel);
-            }
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        @Override
+        public void onNothingSelected (AdapterView < ? > parent){
 
-            }
-        });
-        binding.spinnerClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    editProfileStudentModel.setClsses("");
-                } else {
-                    editProfileStudentModel.setClsses(classesFkList.get(position).getId() + "");
+        }
+    });
+        binding.spinnerClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+
+    {
+        @Override
+        public void onItemSelected (AdapterView < ? > parent, View view,int position, long id){
+        if (position == 0) {
+            editProfileStudentModel.setClsses("");
+        } else {
+            editProfileStudentModel.setClsses(classesFkList.get(position).getId() + "");
 
 
-                }
+        }
 
-                binding.setModel(editProfileStudentModel);
-            }
+        binding.setModel(editProfileStudentModel);
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        @Override
+        public void onNothingSelected (AdapterView < ? > parent){
 
-            }
-        });
-        skillAdapter = new SkillAdapter(skillList, this);
+    }
+    });
+    skillAdapter =new
+
+    SkillAdapter(skillList, this);
         binding.spinnerSkill.setAdapter(skillAdapter);
 
-        binding.spinnerSkill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    if (!isSkillAdded(enSkillList.get(position))) {
-                        selectedSkills.add(enSkillList.get(position));
-                        selected_skill_adapter.notifyItemInserted(selectedSkills.size() - 1);
-                        editProfileStudentModel.setSkills(selectedSkills);
-                    }
-                }
-                binding.setModel(editProfileStudentModel);
+        binding.spinnerSkill.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+
+    {
+        @Override
+        public void onItemSelected (AdapterView < ? > parent, View view,int position, long id){
+        if (position != 0) {
+            if (!isSkillAdded(enSkillList.get(position))) {
+                selectedSkills.add(enSkillList.get(position));
+                selected_skill_adapter.notifyItemInserted(selectedSkills.size() - 1);
+                editProfileStudentModel.setSkills(selectedSkills);
+            }
+        }
+        binding.setModel(editProfileStudentModel);
 
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        binding.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateImageAlertDialog();
-            }
-        });
-        binding.btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editProfileStudentModel.isDataValid(EditProfileActivity.this)) {
-                    editprofile();
-                }
-            }
-        });
-        getStages();
     }
+
+        @Override
+        public void onNothingSelected (AdapterView < ? > parent){
+
+    }
+    });
+        binding.image.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+        CreateImageAlertDialog();
+    }
+    });
+        binding.btnSend.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+        if (editProfileStudentModel.isDataValid(EditProfileActivity.this)) {
+            editprofile();
+        }
+    }
+    });
+
+    getStages();
+
+}
 
     private void EditprofileTeacherwithimage() {
         List<RequestBody> stageList = new ArrayList<>();
@@ -385,7 +399,7 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
 
     private boolean isSkillAdded(String skill) {
         for (String skill2 : selectedSkills) {
-            Log.e("kfkkfk",skill+"   "+skill2);
+            Log.e("kfkkfk", skill + "   " + skill2);
             if (skill.equals(skill2)) {
                 return true;
             }
@@ -547,33 +561,38 @@ public class EditProfileActivity extends AppCompatActivity implements Listeners.
 
 
     private void UpdateUI() {
-        for (int i = 0; i < stageList.size(); i++) {
-            if (userModel.getData().getStage_fk().get(0).getStage_class_name().getId() == stageList.get(i).getId()) {
-                if (userModel.getData().getType().equals("student")) {
-                    classesFkList.clear();
-                    classesFkList.add(new StageDataModel.Stage.ClassesFk(getResources().getString(R.string.choose_classe)));
-                    classesFkList.addAll(stageList.get(i).getClasses_fk());
-                    classAdapter.notifyDataSetChanged();
-                }
-                binding.spinnerStage.setSelection(i);
-                break;
-            }
-        }
-        editProfileStudentModel.setEmail(userModel.getData().getEmail());
-        editProfileStudentModel.setName(userModel.getData().getName());
-        editProfileStudentModel.setStage(userModel.getData().getStage_fk().get(0).getStage_class_name().getId() + "");
-        if (userModel.getData().getType().equals("student")) {
-            editProfileStudentModel.setClsses(userModel.getData().getClass_fk().get(0).getStage_class_name().getId() + "");
-            for (int i = 0; i < classesFkList.size(); i++) {
-                Log.e("lllll", classesFkList.get(i).getId() + "" + userModel.getData().getClass_fk().get(0).getStage_class_name().getId());
+        if (userModel.getData().getStage_fk() != null && userModel.getData().getStage_fk().size() > 0) {
+            for (int i = 0; i < stageList.size(); i++) {
 
-                if (userModel.getData().getClass_fk().get(0).getStage_class_name().getId() == classesFkList.get(i)
-                        .getId()) {
-                    binding.spinnerClass.setSelection(i);
+                if (userModel.getData().getStage_fk().get(0).getStage_class_name().getId() == stageList.get(i).getId()) {
+                    if (userModel.getData().getType().equals("student")) {
+                        classesFkList.clear();
+                        classesFkList.add(new StageDataModel.Stage.ClassesFk(getResources().getString(R.string.choose_classe)));
+                        classesFkList.addAll(stageList.get(i).getClasses_fk());
+                        classAdapter.notifyDataSetChanged();
+                    }
+                    binding.spinnerStage.setSelection(i);
                     break;
                 }
             }
+            editProfileStudentModel.setStage(userModel.getData().getStage_fk().get(0).getStage_class_name().getId() + "");
 
+        }
+        editProfileStudentModel.setEmail(userModel.getData().getEmail());
+        editProfileStudentModel.setName(userModel.getData().getName());
+        if (userModel.getData().getType().equals("student")) {
+            if (userModel.getData().getClass_fk() != null && userModel.getData().getClass_fk().size() > 0) {
+                editProfileStudentModel.setClsses(userModel.getData().getClass_fk().get(0).getStage_class_name().getId() + "");
+                for (int i = 0; i < classesFkList.size(); i++) {
+                    Log.e("lllll", classesFkList.get(i).getId() + "" + userModel.getData().getClass_fk().get(0).getStage_class_name().getId());
+
+                    if (userModel.getData().getClass_fk().get(0).getStage_class_name().getId() == classesFkList.get(i)
+                            .getId()) {
+                        binding.spinnerClass.setSelection(i);
+                        break;
+                    }
+                }
+            }
         } else {
             editProfileStudentModel.setDetails(userModel.getData().getDetails());
         }
