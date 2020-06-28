@@ -124,7 +124,9 @@ public interface Service {
 
 
     @POST("api/logout")
-    Call<ResponseBody> Logout(@Header("Authorization") String user_token);
+    Call<ResponseBody> Logout(@Header("Authorization") String user_token,
+                              String token
+                              );
 
 
     @GET("api/show-setting")
@@ -226,5 +228,15 @@ public interface Service {
                                        @Part("from_id") RequestBody from_id,
                                        @Part("message_type") RequestBody message_type,
                                        @Part MultipartBody.Part attachment
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/firebase-tokens")
+    Call<ResponseBody> updateFireBaseToken(@Field("phone_token") String phone_token,
+                                                 @Field("user_id") int user_id,
+                                                 @Field("software_type") int software_type
+
+
     );
 }

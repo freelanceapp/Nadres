@@ -1,10 +1,12 @@
 package com.endpoint.nadres.activities_fragments.activity_home;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -31,11 +33,9 @@ import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -96,45 +96,44 @@ public class HomeActivity extends AppCompatActivity {
     private void updateToken() {
         FirebaseInstanceId.getInstance()
                 .getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (task.isSuccessful()) {
-                            token = task.getResult().getToken();
-                            task.getResult().getId();
-                            Log.e("sssssss", token);
-//                            Api.getService(Tags.base_url)
-//                                    .updateToken(userModel.getUser().getId(), token, "android")
-//                                    .enqueue(new Callback<ResponseBody>() {
-//                                        @Override
-//                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//
-//                                            if (response.isSuccessful()) {
-//                                                try {
-//                                                    Log.e("Success", "token updated");
-//                                                } catch (Exception e) {
-//                                                    //  e.printStackTrace();
-//                                                }
-//                                            } else {
-//                                                try {
-//                                                    Log.e("error", response.code() + "_" + response.errorBody().string());
-//                                                } catch (IOException e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                            }
-//
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                                            try {
-//                                                Log.e("Error", t.getMessage());
-//                                            } catch (Exception e) {
-//                                            }
-//                                        }
-//                                    });
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        token = task.getResult().getToken();
+                        task.getResult().getId();
+                        Log.e("sssssss", token);
+                        Api.getService(Tags.base_url)
+                                .updateFireBaseToken(userModel.getData().getToken(),userModel.getData().getId(), 1)
+                                .enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                                        if (response.isSuccessful()) {
+                                            try {
+                                                userModel.getData().setFireBaseToken(token);
+                                                preferences.create_update_userdata(HomeActivity.this,userModel);
+                                                Log.e("Success", "token updated");
+                                            } catch (Exception e) {
+                                                //  e.printStackTrace();
+                                            }
+                                        } else {
+                                            try {
+                                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        try {
+                                            Log.e("Error", t.getMessage());
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                });
                     }
                 });
     }
@@ -428,26 +427,26 @@ public class HomeActivity extends AppCompatActivity {
 
     public void Logout() {
         final ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
-
+        userModel = preferences.getUserData(this);
         dialog.show();
         Api.getService(Tags.base_url)
-                .Logout("Bearer  " + userModel.getData().getToken() + "")
+                .Logout("Bearer  " + userModel.getData().getToken(),userModel.getData().getFireBaseToken())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         dialog.dismiss();
                         if (response.isSuccessful()) {
-                            /*new Handler()
-                                    .postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                            manager.cancelAll();
+                            new Handler()
+                                    .postDelayed(() -> {
+                                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                        if (manager!=null){
+                                            manager.cancel(Tags.not_tag,Tags.not_id);
+
                                         }
                                     },1);
-                            userSingleTone.clear(ClientHomeActivity.this);*/
                             preferences.create_update_userdata(HomeActivity.this, null);
                             preferences.create_update_session(HomeActivity.this, Tags.session_logout);
+                            preferences.clear(HomeActivity.this);
                             Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
                             startActivity(intent);
                             finish();

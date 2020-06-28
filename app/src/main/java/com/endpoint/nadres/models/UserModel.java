@@ -33,7 +33,7 @@ public class UserModel implements Serializable {
         private List<Stage> stage_fk;
         private List<Stage_CLASS> class_fk;
         private List<SkillModel> skills_fk;
-
+        private String fireBaseToken;
 
         public User() {
         }
@@ -97,6 +97,14 @@ public class UserModel implements Serializable {
 
         public String getType() {
             return user_type;
+        }
+
+        public String getFireBaseToken() {
+            return fireBaseToken;
+        }
+
+        public void setFireBaseToken(String fireBaseToken) {
+            this.fireBaseToken = fireBaseToken;
         }
 
         public List<SkillModel> getSkills_fk() {

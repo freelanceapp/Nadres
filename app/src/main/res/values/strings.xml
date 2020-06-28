@@ -71,9 +71,9 @@
     <string name="an_hour_ago">an hour ago</string>
     <string name="hs">h</string>
     <string name="yesterday">yesterday</string>
-    <string name="video">video message</string>
-    <string name="voice">voice message</string>
-    <string name="image">image</string>
+    <string name="video">Sent video message</string>
+    <string name="voice">Sent voice message</string>
+    <string name="image">Sent image</string>
     <string name="something">Check internet connection</string>
 
 

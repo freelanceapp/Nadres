@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.tags.Tags;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.Locale;
 
 public class Preferences {
@@ -80,6 +78,23 @@ public class Preferences {
 
     }
 
+
+    public void create_room_id(Context context, String room_id) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("room", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("room_id", room_id);
+        editor.apply();
+
+
+    }
+
+    public String getRoomId(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("room", Context.MODE_PRIVATE);
+        String room_id = preferences.getString("room_id", Tags.session_logout);
+        return room_id;
+    }
+
     public String getSession(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("session", Context.MODE_PRIVATE);
         String session = preferences.getString("state", Tags.session_logout);
@@ -104,6 +119,10 @@ public class Preferences {
         SharedPreferences.Editor edit = preferences.edit();
         edit.clear();
         edit.apply();
+        SharedPreferences preferences2 = context.getSharedPreferences("room", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit2 = preferences2.edit();
+        edit2.clear();
+        edit2.apply();
         create_update_session(context, Tags.session_logout);
     }
 

@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_video.VideoActivity;
 import com.endpoint.nadres.adapters.ChatAdapter;
 import com.endpoint.nadres.databinding.ActivityChatBinding;
@@ -87,6 +88,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private LinearLayoutManager manager;
     private Call<MessageDataModel> loadMoreCall;
     private boolean isNewMessage = false;
+    private boolean isFromFireBase = false;
 
 
     @Override
@@ -106,6 +108,9 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
+        if (intent.hasExtra("from_fire")){
+            isFromFireBase = true;
+        }
         chatUserModel = (ChatUserModel) intent.getSerializableExtra("data");
 
     }
@@ -233,6 +238,11 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         });
         EventBus.getDefault().register(this);
         getAllMessages();
+        createRoomId();
+    }
+
+    private void createRoomId() {
+        preferences.create_room_id(this,chatUserModel.getRoom_id()+"");
     }
 
     public void getAllMessages() {
@@ -687,6 +697,16 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     @Override
     public void back() {
 
+        preferences.create_room_id(this,"");
+        if (isFromFireBase){
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }else {
+            if (isNewMessage) {
+                setResult(RESULT_OK);
+
+            }
+        }
         if (adapter != null) {
             adapter.stopPlay();
         }
@@ -695,10 +715,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
             EventBus.getDefault().unregister(this);
         }
 
-        if (isNewMessage) {
-            setResult(RESULT_OK);
 
-        }
         finish();
     }
 
@@ -708,6 +725,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         intent.putExtra("url", Tags.IMAGE_URL + attachment);
         startActivity(intent);
     }
+
 
 
 }

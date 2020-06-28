@@ -1,22 +1,17 @@
 package com.endpoint.nadres.activities_fragments.activity_notification;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.adapters.Notification_Adapter;
 import com.endpoint.nadres.databinding.ActivityNotificationsBinding;
 import com.endpoint.nadres.interfaces.Listeners;
@@ -24,18 +19,12 @@ import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
-import com.endpoint.nadres.remote.Api;
-import com.endpoint.nadres.tags.Tags;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NotificationsActivity extends AppCompatActivity implements Listeners.BackListener {
     private ActivityNotificationsBinding binding;
@@ -47,6 +36,7 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
     private boolean isLoading = false;
     private int current_page2 = 1;
     private String lang;
+    private boolean isFromFireBase = false;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -60,9 +50,17 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_notifications);
+        getDataFromIntent();
         initView();
 //        if(userModel!=null){
 //        getnotification();}
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("not")){
+            isFromFireBase = true;
+        }
     }
 
     private void initView() {
@@ -230,8 +228,18 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
 //        }
 //    }
 
+
+    @Override
+    public void onBackPressed() {
+        back();
+    }
+
     @Override
     public void back() {
+        if (isFromFireBase){
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }
         finish();
     }
 
