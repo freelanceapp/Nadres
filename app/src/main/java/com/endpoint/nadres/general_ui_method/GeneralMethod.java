@@ -1,6 +1,7 @@
 package com.endpoint.nadres.general_ui_method;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,10 +40,10 @@ public class GeneralMethod {
         if (view instanceof CircleImageView) {
             CircleImageView imageView = (CircleImageView) view;
 
-
+            Log.e("image",Tags.IMAGE_URL +roomModel.getChat_room_image());
             if (roomModel.getRoom_type().equals("single")){
-                if (roomModel.getLast_msg().getUser_data().getLogo()!=null){
-                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getLast_msg().getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+                if (roomModel.getChat_room_image()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL +roomModel.getChat_room_image())).placeholder(R.drawable.ic_avatar).into(imageView);
 
                 }else {
                     Picasso.get().load(R.drawable.ic_avatar).into(imageView);
@@ -51,7 +52,7 @@ public class GeneralMethod {
 
             }else {
 
-                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                if (roomModel.getChat_room_image()!=null){
                     Picasso.get().load(R.drawable.ic_group).into(imageView);
 
                 }else {
@@ -66,8 +67,8 @@ public class GeneralMethod {
             RoundedImageView imageView = (RoundedImageView) view;
 
             if (roomModel.getRoom_type().equals("single")){
-                if (roomModel.getLast_msg().getUser_data().getLogo()!=null){
-                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getLast_msg().getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+                if (roomModel.getChat_room_image()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getChat_room_image())).placeholder(R.drawable.ic_avatar).into(imageView);
 
                 }else {
                     Picasso.get().load(R.drawable.ic_avatar).into(imageView);
@@ -76,7 +77,7 @@ public class GeneralMethod {
 
             }else {
 
-                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                if (roomModel.getChat_room_image()!=null){
                     Picasso.get().load(R.drawable.ic_group).into(imageView);
 
                 }else {
@@ -90,8 +91,8 @@ public class GeneralMethod {
             ImageView imageView = (ImageView) view;
 
             if (roomModel.getRoom_type().equals("single")){
-                if (roomModel.getLast_msg().getUser_data().getLogo()!=null){
-                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getLast_msg().getUser_data().getLogo())).placeholder(R.drawable.ic_avatar).into(imageView);
+                if (roomModel.getChat_room_image()!=null){
+                    Picasso.get().load(Uri.parse(Tags.IMAGE_URL + roomModel.getChat_room_image())).placeholder(R.drawable.ic_avatar).into(imageView);
 
                 }else {
                     Picasso.get().load(R.drawable.ic_avatar).into(imageView);
@@ -100,7 +101,7 @@ public class GeneralMethod {
 
             }else {
 
-                if (roomModel.getRoom_users().get(0).getUser_data().getLogo()!=null){
+                if (roomModel.getChat_room_image()!=null){
                     Picasso.get().load(R.drawable.ic_group).into(imageView);
 
                 }else {
@@ -183,7 +184,7 @@ public class GeneralMethod {
     public static void image(View view, String endPoint) {
         if (view instanceof CircleImageView) {
             CircleImageView imageView = (CircleImageView) view;
-
+            Log.e("image",Tags.IMAGE_URL + endPoint);
             if (endPoint != null) {
 
                 Picasso.get().load(Uri.parse(Tags.IMAGE_URL + endPoint)).placeholder(R.drawable.logo).into(imageView);

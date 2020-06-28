@@ -37,6 +37,7 @@ import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.MessageDataModel;
+import com.endpoint.nadres.models.RoomModel;
 import com.endpoint.nadres.models.SingleMessageDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
@@ -75,7 +76,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private String audio_path = "";
     private Handler handler;
     private Runnable runnable;
-    private long audio_total_seconds =0;
+    private long audio_total_seconds = 0;
     private ChatUserModel chatUserModel;
     private UserModel userModel;
     private Preferences preferences;
@@ -86,7 +87,6 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private LinearLayoutManager manager;
     private Call<MessageDataModel> loadMoreCall;
     private boolean isNewMessage = false;
-
 
 
     @Override
@@ -123,11 +123,10 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
 
-        adapter = new ChatAdapter(messageModelList,this,userModel.getData().getId());
+        adapter = new ChatAdapter(messageModelList, this, userModel.getData().getId());
         binding.recView.setLayoutManager(manager);
         binding.recView.setAdapter(adapter);
 
-        Log.e("room_id",chatUserModel.getRoom_id()+"_"+userModel.getData().getId());
 
         binding.imageChooser.setOnClickListener(v -> {
             if (binding.expandedLayout.isExpanded()) {
@@ -160,22 +159,22 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         });
 
         binding.imageRecord.setOnTouchListener((v, event) -> {
-            if (event.getAction()==MotionEvent.ACTION_DOWN){
-                if (isMicReady()){
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (isMicReady()) {
                     createMediaRecorder();
 
-                }else {
+                } else {
                     checkMicPermission();
                 }
-            }else if (event.getAction()==MotionEvent.ACTION_UP){
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                if (isMicReady()){
+                if (isMicReady()) {
                     try {
                         recorder.stop();
                         stopTimer();
-                        sendAttachment(audio_path,"sound");
-                    }catch (Exception e){
-                        Log.e("error1",e.getMessage()+"___");
+                        sendAttachment(audio_path, "sound");
+                    } catch (Exception e) {
+                        Log.e("error1", e.getMessage() + "___");
                     }
 
                 }
@@ -187,20 +186,32 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
         binding.imageSend.setOnClickListener(v -> {
             String message = binding.edtMessage.getText().toString().trim();
-            if (!message.isEmpty()){
+            if (!message.isEmpty()) {
                 binding.edtMessage.setText("");
                 sendChatText(message);
             }
         });
 
 
-        if (chatUserModel.getImage()==null){
-            binding.imageSend.setImageResource(R.drawable.ic_group);
-        }else {
-            Picasso.get().load(Uri.parse(Tags.IMAGE_URL+chatUserModel.getImage())).placeholder(R.drawable.ic_avatar).into(binding.image);
-        }
-        binding.tvName.setText(chatUserModel.getName());
+        if (chatUserModel.getChat_type().equals("single")) {
+            if (chatUserModel.getImage() != null) {
+                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + chatUserModel.getImage())).placeholder(R.drawable.ic_avatar).into(binding.image);
 
+            } else {
+                Picasso.get().load(R.drawable.ic_avatar).into(binding.image);
+
+            }
+        } else {
+            if (chatUserModel.getImage() != null) {
+                Picasso.get().load(Uri.parse(Tags.IMAGE_URL + chatUserModel.getImage())).placeholder(R.drawable.ic_group).into(binding.image);
+
+            } else {
+                Picasso.get().load(R.drawable.ic_group).into(binding.image);
+
+            }
+        }
+
+        binding.tvName.setText(chatUserModel.getName());
 
 
         binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -211,7 +222,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                     int current_item_pos = manager.findLastCompletelyVisibleItemPosition();
                     int total_items = adapter.getItemCount();
                     if (total_items >= 39 && current_item_pos >= total_items - 2 && !isLoading) {
-                        messageModelList.add(0,null);
+                        messageModelList.add(0, null);
                         adapter.notifyItemInserted(0);
                         isLoading = true;
                         int page = current_page + 1;
@@ -224,9 +235,8 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         getAllMessages();
     }
 
-    public void getAllMessages()
-    {
-        if (loadMoreCall!=null){
+    public void getAllMessages() {
+        if (loadMoreCall != null) {
             loadMoreCall.cancel();
         }
         Api.getService(Tags.base_url)
@@ -237,19 +247,22 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                         binding.progBar.setVisibility(View.GONE);
                         if (response.isSuccessful()) {
 
-                            if (response.body() != null && response.body().getData() != null){
+                            if (response.body() != null && response.body().getData() != null) {
+
+                                if (response.body().getRoom().getRoom_type().equals("group")) {
+                                    updateUi(response.body().getRoom());
+                                }
                                 if (response.body().getData().size() > 0) {
                                     messageModelList.clear();
                                     messageModelList.addAll(response.body().getData());
                                     adapter.notifyDataSetChanged();
-                                    binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),200);
+                                    binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size() - 1), 200);
 
                                 }
                             }
 
 
-
-                        }else {
+                        } else {
                             if (response.code() == 500) {
                                 Toast.makeText(ChatActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
                             } else {
@@ -274,9 +287,9 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
                                     Toast.makeText(ChatActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
-                                }else if (t.getMessage().contains("socket")){
+                                } else if (t.getMessage().contains("socket")) {
 
-                                }else {
+                                } else {
                                     Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -304,7 +317,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                     if (response.body() != null && response.body().getData() != null) {
 
                         if (response.body().getData().size() > 0) {
-                            messageModelList.addAll(0,response.body().getData());
+                            messageModelList.addAll(0, response.body().getData());
                             adapter.notifyItemRangeChanged(0, response.body().getData().size());
                             current_page = response.body().getCurrent_page();
                         }
@@ -361,36 +374,46 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         });
     }
 
+    private void updateUi(RoomModel room) {
+        binding.tvName.setText(room.getNames());
+        if (room.getChat_room_image() != null) {
+            Picasso.get().load(Uri.parse(Tags.IMAGE_URL + room.getChat_room_image())).placeholder(R.drawable.ic_group).into(binding.image);
 
-    private void sendAttachment(String file_uri,String attachment_type) {
-        Intent intent = new Intent(this,ServiceUploadAttachment.class);
-        intent.putExtra("file_uri",file_uri);
-        intent.putExtra("user_token",userModel.getData().getToken());
-        intent.putExtra("user_id",userModel.getData().getId());
-        intent.putExtra("room_id",chatUserModel.getRoom_id());
-        intent.putExtra("attachment_type",attachment_type);
+        } else {
+            Picasso.get().load(R.drawable.ic_group).into(binding.image);
+
+        }
+    }
+
+    private void sendAttachment(String file_uri, String attachment_type) {
+        Intent intent = new Intent(this, ServiceUploadAttachment.class);
+        intent.putExtra("file_uri", file_uri);
+        intent.putExtra("user_token", userModel.getData().getToken());
+        intent.putExtra("user_id", userModel.getData().getId());
+        intent.putExtra("room_id", chatUserModel.getRoom_id());
+        intent.putExtra("attachment_type", attachment_type);
         startService(intent);
 
 
     }
 
-    private void sendChatText(String message){
+    private void sendChatText(String message) {
 
         Api.getService(Tags.base_url)
-                .sendChatMessage("Bearer " + userModel.getData().getToken(),chatUserModel.getRoom_id(),userModel.getData().getId(),"text",message)
+                .sendChatMessage("Bearer " + userModel.getData().getToken(), chatUserModel.getRoom_id(), userModel.getData().getId(), "text", message)
                 .enqueue(new Callback<SingleMessageDataModel>() {
                     @Override
                     public void onResponse(Call<SingleMessageDataModel> call, Response<SingleMessageDataModel> response) {
                         binding.progBar.setVisibility(View.GONE);
                         if (response.isSuccessful()) {
 
-                            if (response.body() != null && response.body().getData() != null){
+                            if (response.body() != null && response.body().getData() != null) {
                                 isNewMessage = true;
                                 MessageDataModel.MessageModel model = response.body().getData();
                                 model.setUser_data(userModel.getData());
                                 messageModelList.add(model);
                                 adapter.notifyItemInserted(messageModelList.size());
-                                binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),200);
+                                binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size() - 1), 200);
                             }
 
 
@@ -407,9 +430,9 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
                                     Toast.makeText(ChatActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
-                                }else if (t.getMessage().contains("socket")){
+                                } else if (t.getMessage().contains("socket")) {
 
-                                }else {
+                                } else {
                                     Toast.makeText(ChatActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -420,25 +443,25 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
 
-    private void createMediaRecorder(){
+    private void createMediaRecorder() {
 
-        String audio_name = "AUD"+System.currentTimeMillis()+".mp3";
+        String audio_name = "AUD" + System.currentTimeMillis() + ".mp3";
 
         File file = new File(Tags.audio_path);
         boolean isFolderCreate;
 
-        if (!file.exists()){
+        if (!file.exists()) {
             isFolderCreate = file.mkdir();
-        }else {
+        } else {
             isFolderCreate = true;
         }
 
 
-        if (isFolderCreate){
+        if (isFolderCreate) {
             startTimer();
             binding.recordTime.setVisibility(View.VISIBLE);
             createVibration();
-            audio_path = file.getAbsolutePath()+"/"+audio_name;
+            audio_path = file.getAbsolutePath() + "/" + audio_name;
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -451,7 +474,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                 e.printStackTrace();
             }
             recorder.start();
-        }else {
+        } else {
             Toast.makeText(this, "Unable to create sound file on your device", Toast.LENGTH_SHORT).show();
         }
 
@@ -461,13 +484,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private void createVibration() {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (vibrator!=null){
-                vibrator.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+            if (vibrator != null) {
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
 
             }
-        }else {
-            if (vibrator!=null){
-                vibrator.vibrate(new long[]{200,200},0);
+        } else {
+            if (vibrator != null) {
+                vibrator.vibrate(new long[]{200, 200}, 0);
             }
         }
     }
@@ -507,7 +530,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     }
 
-    private boolean isMicReady(){
+    private boolean isMicReady() {
 
         if (ActivityCompat.checkSelfPermission(this, MIC_PERM) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, WRITE_PERM) == PackageManager.PERMISSION_GRANTED) {
@@ -575,18 +598,18 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
         if (requestCode == IMG_REQ && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-            sendAttachment(uri.toString(),"img");
+            sendAttachment(uri.toString(), "img");
 
         } else if (requestCode == CAMERA_REQ && resultCode == RESULT_OK && data != null) {
 
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
             Uri uri = getUriFromBitmap(bitmap);
-            sendAttachment(uri.toString(),"img");
+            sendAttachment(uri.toString(), "img");
 
-        }else if (requestCode ==VID_REQ&&resultCode==RESULT_OK&&data!=null){
+        } else if (requestCode == VID_REQ && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-            sendAttachment(uri.toString(),"video");
+            sendAttachment(uri.toString(), "video");
         }
 
     }
@@ -600,24 +623,24 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
 
-    private void startTimer(){
+    private void startTimer() {
         handler = new Handler();
         runnable = () -> {
-            audio_total_seconds +=1;
+            audio_total_seconds += 1;
             binding.recordTime.setText(getRecordTimeFormat(audio_total_seconds));
             startTimer();
         };
 
-        handler.postDelayed(runnable,1000);
+        handler.postDelayed(runnable, 1000);
     }
 
-    private void stopTimer(){
-        if (recorder!=null){
+    private void stopTimer() {
+        if (recorder != null) {
             recorder.release();
-            recorder=null;
+            recorder = null;
         }
         audio_total_seconds = 0;
-        if (runnable!=null){
+        if (runnable != null) {
             handler.removeCallbacks(runnable);
 
         }
@@ -626,30 +649,30 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         binding.recordTime.setVisibility(View.GONE);
     }
 
-    private String getRecordTimeFormat(long seconds){
-        int hours = (int) (seconds/3600);
-        int minutes = (int) ((seconds%3600)/60);
-        int second = (int) (seconds%60);
+    private String getRecordTimeFormat(long seconds) {
+        int hours = (int) (seconds / 3600);
+        int minutes = (int) ((seconds % 3600) / 60);
+        int second = (int) (seconds % 60);
 
-        return String.format(Locale.ENGLISH,"%02d:%02d:%02d",hours,minutes,second);
+        return String.format(Locale.ENGLISH, "%02d:%02d:%02d", hours, minutes, second);
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAttachmentSuccess(MessageDataModel.MessageModel messageModel){
+    public void onAttachmentSuccess(MessageDataModel.MessageModel messageModel) {
         messageModelList.add(messageModel);
 
         adapter.notifyItemChanged(messageModelList.size());
-        binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size()-1),200);
+        binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size() - 1), 200);
         isNewMessage = true;
         deleteFile();
 
     }
 
-    private void deleteFile(){
-        if (!audio_path.isEmpty()){
+    private void deleteFile() {
+        if (!audio_path.isEmpty()) {
             File file = new File(audio_path);
-            if (file.exists()){
+            if (file.exists()) {
                 file.delete();
             }
         }
@@ -664,11 +687,15 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     @Override
     public void back() {
 
-        if (EventBus.getDefault().isRegistered(this)){
+        if (adapter != null) {
+            adapter.stopPlay();
+        }
+
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
 
-        if (isNewMessage){
+        if (isNewMessage) {
             setResult(RESULT_OK);
 
         }
@@ -678,8 +705,10 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     public void setVideoUrl(String attachment) {
         Intent intent = new Intent(this, VideoActivity.class);
-        intent.putExtra("url",Tags.IMAGE_URL+attachment);
+        intent.putExtra("url", Tags.IMAGE_URL + attachment);
         startActivity(intent);
     }
+
+
 }
 

@@ -247,23 +247,7 @@ public class Fragment_Messages extends Fragment {
 
     public void setItemRoomData(RoomModel model, int adapterPosition) {
 
-        String image ="";
-
-        if (model.getRoom_type().equals("single")){
-            if (model.getLast_msg().getUser_data().getLogo()!=null){
-                image = model.getLast_msg().getUser_data().getLogo();
-            }
-        }else {
-            image = null;
-        }
-
-        String name = "";
-        if (model.getRoom_type().equals("single")){
-            name = model.getLast_msg().getUser_data().getName();
-        }else {
-            name = model.getNames();
-        }
-        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),name,image,model.getRoom_type());
+        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getChat_room_image(),model.getRoom_type());
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("data",chatUserModel);
         startActivityForResult(intent,100);

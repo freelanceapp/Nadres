@@ -47,7 +47,7 @@
             android:lines="1"
             android:ellipsize="end"
             app:layout_constraintBottom_toTopOf="@id/tvMessage"
-            android:text='@{model.room_type.equals("single")?model.last_msg.user_data.name:model.names}'
+            android:text='@{model.names}'
 
             />
 
