@@ -46,6 +46,7 @@ public class GeneralMethod {
                     Picasso.get().load(Uri.parse(Tags.IMAGE_URL +roomModel.getChat_room_image())).placeholder(R.drawable.ic_avatar).into(imageView);
 
                 }else {
+                    Log.e("t","tt");
                     Picasso.get().load(R.drawable.ic_avatar).into(imageView);
 
                 }
