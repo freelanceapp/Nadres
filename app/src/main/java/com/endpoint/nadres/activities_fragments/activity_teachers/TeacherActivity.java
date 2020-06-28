@@ -23,6 +23,7 @@ import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivityTeachersBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
+import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.CreateRoomModel;
 import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.SingleRoomModel;
@@ -274,15 +275,13 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         dialog.show();
         try {
             Api.getService(Tags.base_url)
-                    .CreateChatRoom(createRoomModel,"Bearer  " + userModel.getData().getToken() + "")
+                    .CreateChatRoom(createRoomModel, "Bearer  " + userModel.getData().getToken() + "")
                     .enqueue(new Callback<SingleRoomModel>() {
                         @Override
                         public void onResponse(Call<SingleRoomModel> call, Response<SingleRoomModel> response) {
                             dialog.dismiss();
                             if (response.isSuccessful() && response.body() != null) {
-                                Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
-                                intent.putExtra("chat_user_data", response.body());
-                                startActivity(intent);
+                                chat(response.body());
                             } else {
                                 if (response.code() == 500) {
                                     Toast.makeText(TeacherActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
@@ -323,6 +322,14 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
 
         }
 
+    }
+
+    private void chat(SingleRoomModel model) {
+        ChatUserModel chatUserModel = new ChatUserModel(model.getRoomModel().getId(), model.getRoomModel().getNames(), model.getRoomModel().getChat_room_image(), model.getRoomModel().getRoom_type());
+
+        Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
+        intent.putExtra("data", chatUserModel);
+        startActivity(intent);
     }
 
     @Override
