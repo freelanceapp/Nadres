@@ -25,6 +25,7 @@ import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
 import com.endpoint.nadres.activities_fragments.activity_notification.NotificationsActivity;
 import com.endpoint.nadres.models.ChatUserModel;
+import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
@@ -115,9 +116,9 @@ public class FireBaseMessaging extends FirebaseMessagingService {
         }
 
         if (getSession().equals(Tags.session_login)) {
-            int to_id = Integer.parseInt(map.get("to_user_id"));
+            int from_id = Integer.parseInt(map.get("from_id"));
 
-            if (getCurrentUser_id() == to_id) {
+            if (getCurrentUser_id() != from_id) {
                 manageNotification(map);
             }
         }
@@ -142,26 +143,33 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
         String sound_Path = "android.resource://" + getPackageName() + "/" + R.raw.not;
 
-        String not_type = map.get("notification_type");
-        if (not_type != null && not_type.equals("chat")) {
+        String not_type = map.get("note_type");
+        if (not_type != null && not_type.equals("chating")) {
             ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
             String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
 
-            String room_id = "";
-            String name = "";
-            String image = "";
-            String chat_type = "";
-            String message_type = "";
-            String message = "";
-            ChatUserModel chatUserModel = new ChatUserModel(Integer.parseInt(room_id), name, image, chat_type);
+            int room_id = Integer.parseInt(map.get("room_id"));
+            String name = map.get("from_name");
+            String image = map.get("from_image");
+            String chat_type = map.get("chat_type");;
+            String message_type = map.get("msg_type");
+            String message = map.get("msg");
+            int from_id = Integer.parseInt(map.get("from_id"));
+            long message_date = Long.parseLong(map.get("msg_date"));
+            int message_id = Integer.parseInt(map.get("msg_id"));
+            String attachment = map.get("msg_attachment");
+
+            ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type);
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
 
             if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity")) {
 
                 String current_room_id = getRoom_id();
-                if (current_room_id.equals(room_id)) {
-                    EventBus.getDefault().post(chatUserModel);
+                if (current_room_id.equals(String.valueOf(room_id))) {
+
+                    MessageDataModel.MessageModel model = new MessageDataModel.MessageModel(message_id,room_id,from_id,message_type,message,attachment,message_date,getUserData().getData(),false,0,0);
+                    EventBus.getDefault().post(model);
                 } else {
                     LoadChatImage(chatUserModel, sound_Path, 1);
                 }
@@ -188,19 +196,24 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
         String sound_Path = "android.resource://" + getPackageName() + "/" + R.raw.not;
 
-        String not_type = map.get("notification_type");
+        String not_type = map.get("note_type");
 
-        if (not_type != null && not_type.equals("chat")) {
+        if (not_type != null && not_type.equals("chating")) {
 
 
-            String room_id = "";
-            String name = "";
-            String image = "";
-            String chat_type = "";
-            String message_type = "";
-            String message = "";
+            int room_id = Integer.parseInt(map.get("room_id"));
+            String name = map.get("from_name");
+            String image = map.get("from_image");
+            String chat_type = map.get("chat_type");;
+            String message_type = map.get("msg_type");
+            String message = map.get("msg");
+            int from_id = Integer.parseInt(map.get("from_id"));
+            long message_date = Long.parseLong(map.get("msg_date"));
+            int message_id = Integer.parseInt(map.get("msg_id"));
+            String attachment = map.get("msg_attachment");
 
-            ChatUserModel chatUserModel = new ChatUserModel(Integer.parseInt(room_id), name, image, chat_type);
+
+            ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type);
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
 
@@ -212,7 +225,10 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 String current_room_id = getRoom_id();
 
                 if (current_room_id.equals(room_id)) {
-                    EventBus.getDefault().post(chatUserModel);
+
+                    MessageDataModel.MessageModel model = new MessageDataModel.MessageModel(message_id,room_id,from_id,message_type,message,attachment,message_date,getUserData().getData(),false,0,0);
+
+                    EventBus.getDefault().post(model);
                 } else {
                     LoadChatImage(chatUserModel, sound_Path, 2);
                 }

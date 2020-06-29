@@ -41,6 +41,22 @@ public class MessageDataModel implements Serializable {
         private int progress = 0;
         private int max_duration =0;
 
+        public MessageModel() {
+        }
+
+        public MessageModel(int id, int room_id, int from_id, String message_type, String message, String attachment, long date, UserModel.User user_data, boolean isLoaded, int progress, int max_duration) {
+            this.id = id;
+            this.room_id = room_id;
+            this.from_id = from_id;
+            this.message_type = message_type;
+            this.message = message;
+            this.attachment = attachment;
+            this.date = date;
+            this.user_data = user_data;
+            this.isLoaded = isLoaded;
+            this.progress = progress;
+            this.max_duration = max_duration;
+        }
 
         public int getId() {
             return id;

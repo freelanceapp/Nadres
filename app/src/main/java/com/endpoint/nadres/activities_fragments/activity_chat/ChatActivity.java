@@ -671,11 +671,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAttachmentSuccess(MessageDataModel.MessageModel messageModel) {
         messageModelList.add(messageModel);
-
         adapter.notifyItemChanged(messageModelList.size());
         binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size() - 1), 200);
         isNewMessage = true;
-        deleteFile();
+        if (messageModel.getFrom_id()==userModel.getData().getId()){
+            deleteFile();
+
+        }
 
     }
 
