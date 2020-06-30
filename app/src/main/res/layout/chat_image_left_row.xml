@@ -10,6 +10,9 @@
         <variable
             name="model"
             type="com.endpoint.nadres.models.MessageDataModel.MessageModel" />
+        <variable
+            name="roomType"
+            type="String" />
 
         <import type="android.view.View" />
 
@@ -40,60 +43,85 @@
                 android:layout_height="40dp"
                 android:layout_gravity="top"
                 app:civ_circle_background_color="@color/gray2"
+                android:visibility="invisible"
                 />
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="234dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/msg_left_image_bg"
-
-
-
+                android:orientation="vertical"
                 >
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageChat"
-                    android:layout_width="220dp"
-                    android:layout_height="250dp"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="2dp"
-                    app:riv_border_color="@color/transparent"
-                    app:riv_border_width="0dp"
-                    app:riv_corner_radius="5dp"
-                    chat_image="@{model.attachment}"
-                    android:scaleType="fitXY"
-
-
+                    android:text="@{model.user_data.name}"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@color/gray2"
+                    android:visibility='@{roomType.equals("single")?View.GONE:View.VISIBLE,default=gone}'
                     />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
 
-                <TextView
-                    android:id="@+id/tv_msg_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="2dp"
-                    android:maxWidth="220dp"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="@color/gray2"
-                    android:textSize="12sp" />
+
+                    >
 
 
-            </FrameLayout>
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/imageChat"
+                        android:layout_width="220dp"
+                        android:layout_height="250dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="2dp"
+                        app:riv_border_color="@color/transparent"
+                        app:riv_border_width="0dp"
+                        app:riv_corner_radius="5dp"
+                        chat_image="@{model.attachment}"
+                        android:scaleType="fitXY"
+
+
+                        />
+
+
+                    <TextView
+                        android:id="@+id/tv_msg_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="2dp"
+                        android:maxWidth="220dp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/gray2"
+                        android:textSize="12sp" />
+
+
+                </FrameLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </layout>

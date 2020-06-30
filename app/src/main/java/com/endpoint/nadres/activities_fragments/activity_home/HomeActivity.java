@@ -87,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
         if (userModel != null) {
+            Log.e("token",userModel.getData().getToken());
             updateToken();
 
         }
@@ -102,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                         task.getResult().getId();
                         Log.e("sssssss", token);
                         Api.getService(Tags.base_url)
-                                .updateFireBaseToken(userModel.getData().getToken(),userModel.getData().getId(), 1)
+                                .updateFireBaseToken(token,userModel.getData().getId(), 1)
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -451,6 +452,12 @@ public class HomeActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
 
+                        }else {
+                            try {
+                                Log.e("error",response.code()+"__"+response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 

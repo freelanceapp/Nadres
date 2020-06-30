@@ -126,7 +126,7 @@ public interface Service {
     @POST("api/logout")
     Call<ResponseBody> Logout(@Header("Authorization") String user_token,
                               @Field("token") String token
-                              );
+    );
 
 
     @GET("api/show-setting")
@@ -184,9 +184,12 @@ public interface Service {
                                                 @Part MultipartBody.Part image
     );
 
+    @FormUrlEncoded
     @POST("api/create-room-chat")
     Call<SingleRoomModel> CreateChatRoom(@Body CreateRoomModel createRoomModel,
-                                         @Header("Authorization") String user_token);
+                                         @Header("Authorization") String user_token,
+                                         @Field("user_id") int user_id
+    );
 
 
     @GET("api/get-room-by-user")
@@ -201,10 +204,10 @@ public interface Service {
 
     @GET("api/get-message-by_room_id")
     Call<MessageDataModel> getChatMessages(@Header("Authorization") String user_token,
-                                          @Query("room_id") int room_id,
-                                          @Query("pagination_status") String pagination_status,
-                                          @Query("per_link_") int per_link_,
-                                          @Query("page") int page
+                                           @Query("room_id") int room_id,
+                                           @Query("pagination_status") String pagination_status,
+                                           @Query("per_link_") int per_link_,
+                                           @Query("page") int page
 
 
     );
@@ -224,18 +227,18 @@ public interface Service {
     @Multipart
     @POST("api/send-message")
     Call<SingleMessageDataModel> sendChatAttachment(@Header("Authorization") String user_token,
-                                       @Part("room_id") RequestBody room_id,
-                                       @Part("from_id") RequestBody from_id,
-                                       @Part("message_type") RequestBody message_type,
-                                       @Part MultipartBody.Part attachment
+                                                    @Part("room_id") RequestBody room_id,
+                                                    @Part("from_id") RequestBody from_id,
+                                                    @Part("message_type") RequestBody message_type,
+                                                    @Part MultipartBody.Part attachment
     );
 
 
     @FormUrlEncoded
     @POST("api/firebase-tokens")
     Call<ResponseBody> updateFireBaseToken(@Field("phone_token") String phone_token,
-                                                 @Field("user_id") int user_id,
-                                                 @Field("software_type") int software_type
+                                           @Field("user_id") int user_id,
+                                           @Field("software_type") int software_type
 
 
     );

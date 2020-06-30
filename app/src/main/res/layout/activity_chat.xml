@@ -74,6 +74,8 @@
                     android:clickable="false"
                     android:longClickable="false"
                     android:textSize="16sp"
+                    android:maxEms="6"
+                    android:singleLine="true"
                     />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>

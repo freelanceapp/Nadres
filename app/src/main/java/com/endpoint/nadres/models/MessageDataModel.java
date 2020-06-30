@@ -40,6 +40,7 @@ public class MessageDataModel implements Serializable {
         private boolean isLoaded = false;
         private int progress = 0;
         private int max_duration =0;
+        private boolean isImageLoaded = false;
 
         public MessageModel() {
         }
@@ -119,6 +120,14 @@ public class MessageDataModel implements Serializable {
 
         public void setMax_duration(int max_duration) {
             this.max_duration = max_duration;
+        }
+
+        public boolean isImageLoaded() {
+            return isImageLoaded;
+        }
+
+        public void setImageLoaded(boolean imageLoaded) {
+            isImageLoaded = imageLoaded;
         }
     }
 }

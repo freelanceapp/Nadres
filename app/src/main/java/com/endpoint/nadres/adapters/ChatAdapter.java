@@ -29,6 +29,8 @@ import com.endpoint.nadres.databinding.ChatVideoLeftRowBinding;
 import com.endpoint.nadres.databinding.ChatVideoRightRowBinding;
 import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.tags.Tags;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -56,12 +58,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private int selected_pos = -1;
     private Handler handler;
     private Runnable runnable;
+    private String chat_type;
 
 
 
 
 
-    public ChatAdapter(List<MessageDataModel.MessageModel> list, Context context, int current_user_id) {
+    public ChatAdapter(List<MessageDataModel.MessageModel> list, Context context, int current_user_id, String chat_type) {
         this.list = list;
         this.context = context;
         this.current_user_id = current_user_id;
@@ -70,6 +73,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         array = new SparseBooleanArray();
         mediaPlayerList = new SparseArray<>();
         handler = new Handler();
+        this.chat_type = chat_type;
 
 
 
@@ -143,6 +147,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SoundLeftHolder soundLeftHolder = (SoundLeftHolder) holder;
                 soundLeftHolder.binding.imagePlay.setVisibility(View.VISIBLE);
                 soundLeftHolder.binding.progBar.setVisibility(View.GONE);
+
                 MediaPlayer mediaPlayer = mediaPlayerList.get(soundLeftHolder.getAdapterPosition());
 
                 if (selected_pos==soundLeftHolder.getAdapterPosition()){
@@ -206,14 +211,26 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             HolderMsgLeft holderMsgLeft = (HolderMsgLeft) holder;
             holderMsgLeft.binding.setModel(model);
             holderMsgLeft.binding.tvTime.setText(getTime(model.getDate()));
+            holderMsgLeft.binding.setRoomType(chat_type);
             if (model.getUser_data().getLogo()!=null){
-                Glide.with(context).load(Tags.IMAGE_URL + model.getUser_data().getLogo())
-                        .error(R.drawable.ic_avatar)
+
+                Picasso.get().load(Tags.IMAGE_URL + model.getUser_data().getLogo())
                         .placeholder(R.drawable.ic_avatar)
-                        .into(holderMsgLeft.binding.image);
+                        .into(holderMsgLeft.binding.image, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                model.setImageLoaded(true);
+                                notifyItemChanged(holder.getAdapterPosition());
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
 
             }else {
-                Glide.with(context).load(R.drawable.ic_avatar)
+                Picasso.get().load(R.drawable.ic_avatar)
                         .into(holderMsgLeft.binding.image);
 
             }
@@ -227,14 +244,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             HolderImageLeft holderImageLeft = (HolderImageLeft) holder;
             holderImageLeft.binding.setModel(model);
             holderImageLeft.binding.tvTime.setText(getTime(model.getDate()));
+            holderImageLeft.binding.setRoomType(chat_type);
+
             if (model.getUser_data().getLogo()!=null){
-                Glide.with(context).load(Tags.IMAGE_URL + model.getUser_data().getLogo())
-                        .error(R.drawable.ic_avatar)
+
+                Picasso.get().load(Tags.IMAGE_URL + model.getUser_data().getLogo())
                         .placeholder(R.drawable.ic_avatar)
                         .into(holderImageLeft.binding.image);
 
             }else {
-                Glide.with(context).load(R.drawable.ic_avatar)
+                Picasso.get().load(R.drawable.ic_avatar)
                         .into(holderImageLeft.binding.image);
 
             }
@@ -251,6 +270,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             HolderVideoLeft holderVideoLeft = (HolderVideoLeft) holder;
             holderVideoLeft.binding.setModel(model);
             holderVideoLeft.binding.tvTime.setText(getTime(model.getDate()));
+            holderVideoLeft.binding.setRoomType(chat_type);
+
             if (model.getUser_data().getLogo()!=null){
                 Glide.with(context).load(Tags.IMAGE_URL + model.getUser_data().getLogo())
                         .error(R.drawable.ic_avatar)

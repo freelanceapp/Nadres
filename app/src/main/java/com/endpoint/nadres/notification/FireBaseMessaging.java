@@ -59,47 +59,50 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
     private void updateToken(String token) {
         UserModel userModel = getUserData();
-        FirebaseInstanceId.getInstance()
-                .getInstanceId()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        task.getResult().getId();
-                        Api.getService(Tags.base_url)
-                                .updateFireBaseToken(userModel.getData().getToken(),userModel.getData().getId(), 1)
-                                .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        if (userModel!=null){
+            FirebaseInstanceId.getInstance()
+                    .getInstanceId()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            task.getResult().getId();
+                            Api.getService(Tags.base_url)
+                                    .updateFireBaseToken(token,userModel.getData().getId(), 1)
+                                    .enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                                        if (response.isSuccessful()) {
+                                            if (response.isSuccessful()) {
+                                                try {
+                                                    userModel.getData().setFireBaseToken(token);
+                                                    preferences.create_update_userdata(FireBaseMessaging.this,userModel);
+
+                                                    Log.e("Success", "token updated");
+                                                } catch (Exception e) {
+                                                    //  e.printStackTrace();
+                                                }
+                                            } else {
+                                                try {
+                                                    Log.e("error", response.code() + "_" + response.errorBody().string());
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
                                             try {
-                                                userModel.getData().setFireBaseToken(token);
-                                                preferences.create_update_userdata(FireBaseMessaging.this,userModel);
-
-                                                Log.e("Success", "token updated");
+                                                Log.e("Error", t.getMessage());
                                             } catch (Exception e) {
-                                                //  e.printStackTrace();
-                                            }
-                                        } else {
-                                            try {
-                                                Log.e("error", response.code() + "_" + response.errorBody().string());
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
                                             }
                                         }
+                                    });
+                        }
+                    });
+        }
 
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        try {
-                                            Log.e("Error", t.getMessage());
-                                        } catch (Exception e) {
-                                        }
-                                    }
-                                });
-                    }
-                });
 
     }
 
@@ -293,7 +296,23 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             }
         };
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> Picasso.get().load(Uri.parse(Tags.IMAGE_URL + chatUserModel.getImage())).into(target), 100);
+        if (chatUserModel.getImage()!=null){
+            new Handler(Looper.getMainLooper()).postDelayed(() -> Picasso.get().load(Uri.parse(Tags.IMAGE_URL + chatUserModel.getImage())).into(target), 100);
+
+        }else {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> Picasso.get().load(Uri.parse(Tags.IMAGE_URL + chatUserModel.getImage())).into(target), 100);
+
+            if (chatUserModel.getChat_type().equals("single")){
+                new Handler(Looper.getMainLooper()).postDelayed(() -> Picasso.get().load(R.drawable.ic_avatar).into(target), 100);
+
+            }else {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> Picasso.get().load(R.drawable.ic_group).into(target), 100);
+
+            }
+
+
+        }
+
 
     }
 

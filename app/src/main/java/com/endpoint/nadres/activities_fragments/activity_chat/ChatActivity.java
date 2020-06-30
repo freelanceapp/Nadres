@@ -2,6 +2,7 @@ package com.endpoint.nadres.activities_fragments.activity_chat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -110,6 +111,14 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         Intent intent = getIntent();
         if (intent.hasExtra("from_fire")){
             isFromFireBase = true;
+            new Handler()
+                    .postDelayed(() -> {
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        if (manager!=null){
+                            manager.cancel(Tags.not_tag,Tags.not_id);
+
+                        }
+                    },1);
         }
         chatUserModel = (ChatUserModel) intent.getSerializableExtra("data");
 
@@ -128,7 +137,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
 
-        adapter = new ChatAdapter(messageModelList, this, userModel.getData().getId());
+        adapter = new ChatAdapter(messageModelList, this, userModel.getData().getId(),chatUserModel.getChat_type());
         binding.recView.setLayoutManager(manager);
         binding.recView.setAdapter(adapter);
 

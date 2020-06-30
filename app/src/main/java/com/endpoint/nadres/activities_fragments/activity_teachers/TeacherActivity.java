@@ -16,16 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
-import com.endpoint.nadres.activities_fragments.activity_chat_type.ChatTypeActivity;
-import com.endpoint.nadres.activities_fragments.activity_knowdetilas.KnowledegeDetialsActivity;
-import com.endpoint.nadres.activities_fragments.knowledge_activity.KnowledegeActivity;
 import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivityTeachersBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.CreateRoomModel;
-import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.SingleRoomModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
@@ -275,7 +271,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         dialog.show();
         try {
             Api.getService(Tags.base_url)
-                    .CreateChatRoom(createRoomModel, "Bearer  " + userModel.getData().getToken() + "")
+                    .CreateChatRoom(createRoomModel, "Bearer  " + userModel.getData().getToken() + "",userModel.getData().getId())
                     .enqueue(new Callback<SingleRoomModel>() {
                         @Override
                         public void onResponse(Call<SingleRoomModel> call, Response<SingleRoomModel> response) {

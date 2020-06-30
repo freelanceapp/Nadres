@@ -1,9 +1,11 @@
 package com.endpoint.nadres.activities_fragments.activity_notification;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -19,6 +21,7 @@ import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.NotificationDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
+import com.endpoint.nadres.tags.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +61,16 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
-        if (intent.hasExtra("not")){
+        if (intent.hasExtra("not")) {
             isFromFireBase = true;
+            new Handler()
+                    .postDelayed(() -> {
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        if (manager != null) {
+                            manager.cancel(Tags.not_tag, Tags.not_id);
+
+                        }
+                    }, 1);
         }
     }
 
@@ -74,7 +85,8 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
         binding.recView.setAdapter(notification_adapter);
         binding.setBackListener(this);
         Paper.init(this);
-        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());binding.setLang(lang);
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        binding.setLang(lang);
         adddata();
 //        binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
@@ -236,14 +248,12 @@ public class NotificationsActivity extends AppCompatActivity implements Listener
 
     @Override
     public void back() {
-        if (isFromFireBase){
+        if (isFromFireBase) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         }
         finish();
     }
-
-
 
 
 }
