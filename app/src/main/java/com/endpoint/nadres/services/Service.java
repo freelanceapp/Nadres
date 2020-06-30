@@ -122,10 +122,10 @@ public interface Service {
     @GET("api/stages-classess")
     Call<StageDataModel> getStages();
 
-
+    @FormUrlEncoded
     @POST("api/logout")
     Call<ResponseBody> Logout(@Header("Authorization") String user_token,
-                              String token
+                              @Field("token") String token
                               );
 
 
