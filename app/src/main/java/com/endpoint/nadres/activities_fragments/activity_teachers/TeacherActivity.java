@@ -85,6 +85,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         createRoomModel = new CreateRoomModel();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
+        createRoomModel.setUser_id(userModel.getData().getId());
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.input), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
         binding.recView.setLayoutManager(manager);
@@ -271,7 +272,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         dialog.show();
         try {
             Api.getService(Tags.base_url)
-                    .CreateChatRoom(createRoomModel, "Bearer  " + userModel.getData().getToken() + "",userModel.getData().getId())
+                    .CreateChatRoom(createRoomModel, "Bearer  " + userModel.getData().getToken() + "")
                     .enqueue(new Callback<SingleRoomModel>() {
                         @Override
                         public void onResponse(Call<SingleRoomModel> call, Response<SingleRoomModel> response) {
@@ -301,7 +302,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
                             try {
                                 dialog.dismiss();
                                 if (t.getMessage() != null) {
-                                    Log.e("error", t.getMessage());
+                                    Log.e("errorssss", t.getMessage());
                                     if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
                                         // Toast.makeText(TeacherActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
                                     } else {
@@ -315,6 +316,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
                     });
         } catch (Exception e) {
             dialog.dismiss();
+            Log.e("errorssss1", e.getMessage());
 
         }
 

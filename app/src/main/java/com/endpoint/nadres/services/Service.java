@@ -184,11 +184,9 @@ public interface Service {
                                                 @Part MultipartBody.Part image
     );
 
-    @FormUrlEncoded
     @POST("api/create-room-chat")
     Call<SingleRoomModel> CreateChatRoom(@Body CreateRoomModel createRoomModel,
-                                         @Header("Authorization") String user_token,
-                                         @Field("user_id") int user_id
+                                         @Header("Authorization") String user_token
     );
 
 

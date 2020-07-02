@@ -47,7 +47,7 @@
 
                 <ImageView
                     android:id="@+id/image"
-                    image="@{model.teachers_fk.image}"
+                    image="@{model.teachers_fk.logo}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
