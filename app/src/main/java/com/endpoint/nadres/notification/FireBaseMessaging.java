@@ -338,6 +338,21 @@ public class FireBaseMessaging extends FirebaseMessagingService {
         builder.setSound(Uri.parse(sound_path), AudioManager.STREAM_NOTIFICATION);
         builder.setSmallIcon(R.mipmap.ic_launcher_round);
         builder.setContentTitle(chatUserModel.getName());
+        if (chatUserModel.getMessage_type().equals("img")) {
+            builder.setContentText(getString(R.string.image));
+
+        } else if (chatUserModel.getMessage_type().equals("sound")) {
+            builder.setContentText(getString(R.string.voice));
+
+        } else if (chatUserModel.getMessage_type().equals("video")) {
+            builder.setContentText(getString(R.string.video));
+
+        } else {
+            builder.setContentText(chatUserModel.getMessage());
+
+        }
+
+
         builder.setLargeIcon(bitmap);
         Intent intent = new Intent(this, ChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
