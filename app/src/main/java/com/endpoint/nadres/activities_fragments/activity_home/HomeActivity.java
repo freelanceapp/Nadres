@@ -28,12 +28,16 @@ import com.endpoint.nadres.activities_fragments.activity_notification.Notificati
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.ActivityHomeBinding;
 import com.endpoint.nadres.language.Language;
+import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.List;
@@ -351,6 +355,13 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessagesSent(MessageDataModel.MessageModel messageModel) {
+        if (fragment_messages!=null&&fragment_messages.isAdded()){
+            fragment_messages.getRooms();
+        }
+    }
 
     private void NavigateToSignInActivity() {
         Intent intent = new Intent(HomeActivity.this, SignInActivity.class);

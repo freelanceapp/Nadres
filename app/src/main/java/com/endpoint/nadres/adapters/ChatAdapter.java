@@ -29,7 +29,6 @@ import com.endpoint.nadres.databinding.ChatVideoLeftRowBinding;
 import com.endpoint.nadres.databinding.ChatVideoRightRowBinding;
 import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.tags.Tags;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -216,18 +215,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 Picasso.get().load(Tags.IMAGE_URL + model.getUser_data().getLogo())
                         .placeholder(R.drawable.ic_avatar)
-                        .into(holderMsgLeft.binding.image, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                model.setImageLoaded(true);
-                                notifyItemChanged(holder.getAdapterPosition());
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-                        });
+                        .into(holderMsgLeft.binding.image);
 
             }else {
                 Picasso.get().load(R.drawable.ic_avatar)
