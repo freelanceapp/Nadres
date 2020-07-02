@@ -8,7 +8,7 @@ public class CreateRoomModel implements Serializable {
     private int teacher_id;
     private String skill_type;
     private List<Integer> student_ids;
-
+private int user_id;
     public int getTeacher_id() {
         return teacher_id;
     }
@@ -31,5 +31,13 @@ public class CreateRoomModel implements Serializable {
 
     public void setStudent_ids(List<Integer> student_ids) {
         this.student_ids = student_ids;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }
