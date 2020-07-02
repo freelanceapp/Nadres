@@ -39,7 +39,7 @@ public class TeacherModel implements Serializable {
             private String city;
             private String phone_code;
             private String phone;
-            private String image;
+            private String logo;
 
             private String banner_image;
             private String token;
@@ -71,8 +71,8 @@ public class TeacherModel implements Serializable {
                 return phone;
             }
 
-            public String getImage() {
-                return image;
+            public String getLogo() {
+                return logo;
             }
 
             public String getBanner_image() {
