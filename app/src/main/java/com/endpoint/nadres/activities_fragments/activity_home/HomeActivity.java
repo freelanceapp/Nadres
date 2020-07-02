@@ -28,7 +28,7 @@ import com.endpoint.nadres.activities_fragments.activity_notification.Notificati
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.ActivityHomeBinding;
 import com.endpoint.nadres.language.Language;
-import com.endpoint.nadres.models.MessageDataModel;
+import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
@@ -36,6 +36,7 @@ import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
         if (userModel != null) {
-            Log.e("token",userModel.getData().getToken());
+            EventBus.getDefault().register(this);
             updateToken();
 
         }
@@ -357,7 +358,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessagesSent(MessageDataModel.MessageModel messageModel) {
+    public void onMessagesSent(ChatUserModel chatUserModel) {
         if (fragment_messages!=null&&fragment_messages.isAdded()){
             fragment_messages.getRooms();
         }
@@ -394,6 +395,10 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         if (userModel != null) {
+            if (EventBus.getDefault().isRegistered(this)){
+                EventBus.getDefault().unregister(this);
+            }
+
             if (userModel.getData().getType().equals("student")) {
                 if (fragment_main != null && fragment_main.isAdded() && fragment_main.isVisible()) {
                     if (userModel == null) {

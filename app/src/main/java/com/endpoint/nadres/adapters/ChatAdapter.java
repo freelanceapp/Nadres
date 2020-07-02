@@ -309,6 +309,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (holder instanceof SoundLeftHolder) {
             SoundLeftHolder soundLeftHolder = (SoundLeftHolder) holder;
             MessageDataModel.MessageModel messageModel = list.get(holder.getAdapterPosition());
+            soundLeftHolder.BindData(messageModel);
 
             soundLeftHolder.binding.imagePlay.setOnClickListener(v -> {
                 MediaPlayer mediaPlayer = mediaPlayerList.get(soundLeftHolder.getAdapterPosition());
@@ -440,6 +441,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public SoundLeftHolder(ChatMessageAudioLeftRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
+        }
+
+        public void BindData(final MessageDataModel.MessageModel messageModel) {
+
+            binding.progBar2.setMax(messageModel.getMax_duration());
+            binding.progBar2.setProgress(messageModel.getProgress());
+
+
 
         }
 
