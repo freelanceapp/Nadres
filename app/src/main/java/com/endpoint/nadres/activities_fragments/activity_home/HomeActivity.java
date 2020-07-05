@@ -106,7 +106,6 @@ public class HomeActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         token = task.getResult().getToken();
                         task.getResult().getId();
-                        Log.e("sssssss", token);
                         Api.getService(Tags.base_url)
                                 .updateFireBaseToken(token,userModel.getData().getId(), 1)
                                 .enqueue(new Callback<ResponseBody>() {

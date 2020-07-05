@@ -76,6 +76,10 @@
     <string name="image">Sent image</string>
     <string name="something">Check internet connection</string>
     <string name="invite">Invite</string>
+    <string name="back">Back</string>
+    <string name="please_wait_the_meeting_host_will_let_you_in_soon">Please wait,the meeting host will let you in soon</string>
+    <string name="meeting">Meeting</string>
+    <string name="meeting_ended">Meeting is ended</string>
 
 
 </resources>

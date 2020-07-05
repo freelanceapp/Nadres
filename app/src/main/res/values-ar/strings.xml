@@ -76,5 +76,9 @@
     <string name="image">تم إرسال صورة</string>
     <string name="something">تحقق من الاتصال بالانترنت</string>
     <string name="invite">دعوة</string>
+    <string name="back">رجوع</string>
+    <string name="please_wait_the_meeting_host_will_let_you_in_soon">يرجى الانتظار ، سيسمح لك بالدخول قريبًا</string>
+    <string name="meeting">إجتماع</string>
+    <string name="meeting_ended">تم الانتهاء من الاجتماع</string>
 
 </resources>

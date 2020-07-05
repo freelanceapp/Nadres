@@ -240,4 +240,14 @@ public interface Service {
 
 
     );
+
+    @FormUrlEncoded
+    @POST("api/request-enter-room")
+    Call<SingleRoomModel> joinRoom(@Field("room_code") String room_code,
+                                @Field("from_id") int from_id
+
+
+    );
+
+
 }
