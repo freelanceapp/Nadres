@@ -31,7 +31,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             >
             <intent-filter>
-                <action android:name="android.intent.category.VIEW"/>
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
