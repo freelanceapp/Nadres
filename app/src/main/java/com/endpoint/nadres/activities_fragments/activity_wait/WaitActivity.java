@@ -98,6 +98,7 @@ public class WaitActivity extends AppCompatActivity implements Listeners.BackLis
                             try {
                                 if (response.body()!=null&&response.body().getRoomModel()!=null){
 
+                                    Log.e("status",response.body().getUser_status()+"__");
                                     if (response.body().getUser_status().equals("in_chat")){
                                         RoomModel model = response.body().getRoomModel();
                                         ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getChat_room_image(),model.getRoom_type(),model.getRoom_code_link());
