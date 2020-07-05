@@ -25,6 +25,7 @@ import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment
 import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment_More;
 import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment_Profile;
 import com.endpoint.nadres.activities_fragments.activity_notification.NotificationsActivity;
+import com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.ActivityHomeBinding;
 import com.endpoint.nadres.language.Language;
@@ -107,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
                         token = task.getResult().getToken();
                         task.getResult().getId();
                         Api.getService(Tags.base_url)
-                                .updateFireBaseToken(token,userModel.getData().getId(), 1)
+                                .updateFireBaseToken(token, userModel.getData().getId(), 1)
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -115,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
                                         if (response.isSuccessful()) {
                                             try {
                                                 userModel.getData().setFireBaseToken(token);
-                                                preferences.create_update_userdata(HomeActivity.this,userModel);
+                                                preferences.create_update_userdata(HomeActivity.this, userModel);
                                                 Log.e("Success", "token updated");
                                             } catch (Exception e) {
                                                 //  e.printStackTrace();
@@ -151,9 +152,20 @@ public class HomeActivity extends AppCompatActivity {
         binding.toolbar.setTitle("");
 
 
+        if (userModel!=null&&userModel.getData().getType().equals("teacher")){
+            binding.flRequest.setVisibility(View.VISIBLE);
+        }else {
+            binding.flRequest.setVisibility(View.GONE);
+
+        }
         binding.imagenotifi.setOnClickListener(view -> {
             Intent intent = new Intent(this, NotificationsActivity.class);
             startActivityForResult(intent, 1);
+        });
+
+        binding.flRequest.setOnClickListener(view -> {
+            Intent intent = new Intent(this, RequestActivity.class);
+            startActivityForResult(intent, 2);
         });
 
 
@@ -358,7 +370,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessagesSent(ChatUserModel chatUserModel) {
-        if (fragment_messages!=null&&fragment_messages.isAdded()){
+        if (fragment_messages != null && fragment_messages.isAdded()) {
             fragment_messages.getRooms();
         }
     }
@@ -394,7 +406,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         if (userModel != null) {
-            if (EventBus.getDefault().isRegistered(this)){
+            if (EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().unregister(this);
             }
 
@@ -446,7 +458,7 @@ public class HomeActivity extends AppCompatActivity {
         userModel = preferences.getUserData(this);
         dialog.show();
         Api.getService(Tags.base_url)
-                .Logout("Bearer  " + userModel.getData().getToken(),userModel.getData().getFireBaseToken())
+                .Logout("Bearer  " + userModel.getData().getToken(), userModel.getData().getFireBaseToken())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -455,11 +467,11 @@ public class HomeActivity extends AppCompatActivity {
                             new Handler()
                                     .postDelayed(() -> {
                                         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                        if (manager!=null){
-                                            manager.cancel(Tags.not_tag,Tags.not_id);
+                                        if (manager != null) {
+                                            manager.cancel(Tags.not_tag, Tags.not_id);
 
                                         }
-                                    },1);
+                                    }, 1);
                             preferences.create_update_userdata(HomeActivity.this, null);
                             preferences.create_update_session(HomeActivity.this, Tags.session_logout);
                             preferences.clear(HomeActivity.this);
@@ -467,9 +479,9 @@ public class HomeActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
 
-                        }else {
+                        } else {
                             try {
-                                Log.e("error",response.code()+"__"+response.errorBody().string());
+                                Log.e("error", response.code() + "__" + response.errorBody().string());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -490,6 +502,11 @@ public class HomeActivity extends AppCompatActivity {
         List<Fragment> fragmentList = fragmentManager.getFragments();
         for (Fragment fragment : fragmentList) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+        if (requestCode==2&&resultCode==RESULT_OK){
+            if (fragment_messages!=null&&fragment_messages.isAdded()){
+                fragment_messages.getRooms();
+            }
         }
 
     }

@@ -5,6 +5,7 @@ import com.endpoint.nadres.models.ArticleModel;
 import com.endpoint.nadres.models.CreateRoomModel;
 import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.models.MyRoomDataModel;
+import com.endpoint.nadres.models.RequestDataModel;
 import com.endpoint.nadres.models.SettingModel;
 import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.SingleMessageDataModel;
@@ -244,10 +245,32 @@ public interface Service {
     @FormUrlEncoded
     @POST("api/request-enter-room")
     Call<SingleRoomModel> joinRoom(@Field("room_code") String room_code,
-                                @Field("from_id") int from_id
+                                   @Field("from_id") int from_id
+
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/end-room")
+    Call<ResponseBody> endConversation(@Field("room_id") int room_id,
+                                       @Field("from_id") int from_id
 
 
     );
 
 
+    @GET("api/my-requests")
+    Call<RequestDataModel> getTeacherRequests(@Query("user_id") int user_id);
+
+    @FormUrlEncoded
+    @POST("api/action-enter-room")
+    Call<ResponseBody> requestAction(@Header("Authorization") String user_token,
+                                     @Field("notification_id") int notification_id,
+                                     @Field("room_id") int room_id,
+                                     @Field("from_id") int from_id,
+                                     @Field("to_id") int to_id,
+                                     @Field("action") String action
+
+
+    );
 }

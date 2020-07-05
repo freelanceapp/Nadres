@@ -26,19 +26,24 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".activities_fragments.activity_wait.WaitActivity"
+        <activity android:name=".activities_fragments.activity_requests.RequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            >
+            />
+        <activity
+            android:name=".activities_fragments.activity_wait.WaitActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <data android:host="nadros.online"
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="nadros.online"
                     android:pathPrefix="/meeting-room/"
-                    android:scheme="http"
-                    />
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
@@ -51,7 +56,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity=""
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activities_fragments.activity_chat_type.ChatTypeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

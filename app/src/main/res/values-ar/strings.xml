@@ -80,5 +80,11 @@
     <string name="please_wait_the_meeting_host_will_let_you_in_soon">يرجى الانتظار ، سيسمح لك بالدخول قريبًا</string>
     <string name="meeting">إجتماع</string>
     <string name="meeting_ended">تم الانتهاء من الاجتماع</string>
+    <string name="join_group">الاشتراك فى المجموعة</string>
+    <string name="leave">إنهاء المحادثة</string>
+    <string name="refuse">رفض</string>
+    <string name="no_requests">لا توجد طلبات</string>
+    <string name="req_refused">تم رفض طلبك</string>
+    <string name="req_accepted">تم قبول طلبك</string>
 
 </resources>

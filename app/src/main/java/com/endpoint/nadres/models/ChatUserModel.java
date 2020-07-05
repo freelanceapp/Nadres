@@ -10,6 +10,7 @@ public class ChatUserModel implements Serializable {
     private String message_type;
     private String message;
     private String shareLink;
+    private String notification_type;
 
     public ChatUserModel() {
     }
@@ -60,5 +61,21 @@ public class ChatUserModel implements Serializable {
 
     public void setShareLink(String shareLink) {
         this.shareLink = shareLink;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setNotification_type(String notification_type) {
+        this.notification_type = notification_type;
+    }
+
+    public String getNotification_type() {
+        return notification_type;
     }
 }

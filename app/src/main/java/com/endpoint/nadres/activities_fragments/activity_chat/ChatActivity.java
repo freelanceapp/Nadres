@@ -17,12 +17,14 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -35,6 +37,7 @@ import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_video.VideoActivity;
 import com.endpoint.nadres.adapters.ChatAdapter;
 import com.endpoint.nadres.databinding.ActivityChatBinding;
+import com.endpoint.nadres.databinding.DialogChatInfoBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
@@ -59,6 +62,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -245,17 +249,91 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                 }
             }
         });
-        if (chatUserModel.getShareLink().isEmpty()) {
-            binding.btnInvite.setVisibility(View.GONE);
-        } else {
-            binding.btnInvite.setVisibility(View.VISIBLE);
+
+        if (userModel.getData().getType().equals("student")&&chatUserModel.getShareLink().isEmpty()){
+            binding.imageInfo.setVisibility(View.GONE);
+        }else{
+            binding.imageInfo.setVisibility(View.VISIBLE);
 
         }
-        binding.btnInvite.setOnClickListener(v -> share());
+        binding.imageInfo.setOnClickListener(v -> createInfoAlertDialog());
         EventBus.getDefault().register(this);
         getAllMessages();
         createRoomId();
 
+    }
+
+    private void createInfoAlertDialog() {
+
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .create();
+
+        DialogChatInfoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_select_image, null, false);
+
+
+        if (chatUserModel.getShareLink().isEmpty()){
+            binding.btnInvite.setVisibility(View.GONE);
+        }else {
+            binding.btnInvite.setVisibility(View.VISIBLE);
+
+        }
+
+        if (userModel.getData().getType().equals("teacher")){
+            binding.btnDelete.setVisibility(View.VISIBLE);
+        }else {
+            binding.btnDelete.setVisibility(View.GONE);
+
+        }
+
+        binding.btnInvite.setOnClickListener(v -> {
+            dialog.dismiss();
+            share();
+
+        });
+
+        binding.btnDelete.setOnClickListener(v -> {
+            dialog.dismiss();
+            deleteRoom();
+
+
+        });
+
+        binding.btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
+    }
+
+    private void deleteRoom(){
+        Api.getService(Tags.base_url)
+                .endConversation(chatUserModel.getRoom_id(),userModel.getData().getId())
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            isNewMessage = true;
+                            back();
+                        } else {
+                            try {
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        try {
+                            Log.e("Error", t.getMessage());
+                        } catch (Exception e) {
+                        }
+                    }
+                });
     }
 
     private void createRoomId() {
@@ -403,10 +481,11 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     private void updateUi(RoomModel room) {
         chatUserModel.setShareLink(room.getRoom_code_link());
-        if (chatUserModel.getShareLink().isEmpty()) {
-            binding.btnInvite.setVisibility(View.GONE);
-        } else {
-            binding.btnInvite.setVisibility(View.VISIBLE);
+
+        if (userModel.getData().getType().equals("student")&&chatUserModel.getShareLink().isEmpty()){
+            binding.imageInfo.setVisibility(View.GONE);
+        }else{
+            binding.imageInfo.setVisibility(View.VISIBLE);
 
         }
         binding.tvName.setText(room.getNames());

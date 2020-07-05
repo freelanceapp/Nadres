@@ -78,17 +78,17 @@
                     android:singleLine="true"
                     />
             </LinearLayout>
-            <Button
-                android:id="@+id/btnInvite"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
+            <ImageView
+                android:id="@+id/imageInfo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="end"
                 android:background="@drawable/small_rounded_white"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:text="@string/invite"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_info"
+                android:tint="@color/white"
+                android:padding="5dp"
                 />
         </androidx.appcompat.widget.Toolbar>
 

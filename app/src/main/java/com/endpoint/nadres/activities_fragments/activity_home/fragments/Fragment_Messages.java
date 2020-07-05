@@ -113,9 +113,6 @@ public class Fragment_Messages extends Fragment {
 
                             if (response.body() != null && response.body().getData() != null){
                                 if (response.body().getData().size() > 0) {
-                                    Log.e("gg","gg");
-                                    Log.e("room",response.body().getData().size()+"__");
-
                                     list.clear();
                                     list.addAll(response.body().getData());
                                     binding.llConversation.setVisibility(View.GONE);

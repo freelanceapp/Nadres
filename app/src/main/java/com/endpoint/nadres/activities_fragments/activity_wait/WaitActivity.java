@@ -17,12 +17,17 @@ import com.endpoint.nadres.databinding.ActivityWaitBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
+import com.endpoint.nadres.models.RequestActionModel;
 import com.endpoint.nadres.models.RoomModel;
 import com.endpoint.nadres.models.SingleRoomModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.tags.Tags;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.List;
@@ -80,6 +85,10 @@ public class WaitActivity extends AppCompatActivity implements Listeners.BackLis
             Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
             finish();
+        }
+
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
         }
 
 
@@ -141,11 +150,30 @@ public class WaitActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void listenToAction(RequestActionModel model){
+        if (model.getAction().equals("nothing")){
+            Toast.makeText(this, R.string.req_refused, Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, R.string.req_accepted, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
     @Override
     public void back() {
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
         finish();
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        back();
+    }
 }

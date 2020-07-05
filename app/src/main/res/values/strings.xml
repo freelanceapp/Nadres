@@ -80,6 +80,12 @@
     <string name="please_wait_the_meeting_host_will_let_you_in_soon">Please wait,the meeting host will let you in soon</string>
     <string name="meeting">Meeting</string>
     <string name="meeting_ended">Meeting is ended</string>
+    <string name="join_group">Join to group</string>
+    <string name="leave">End conversation</string>
+    <string name="refuse">Refuse</string>
+    <string name="no_requests">No requests</string>
+    <string name="req_refused">Your request refused</string>
+    <string name="req_accepted">Your request accepted</string>
 
 
 </resources>
