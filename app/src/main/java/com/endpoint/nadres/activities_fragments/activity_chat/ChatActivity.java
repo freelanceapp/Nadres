@@ -755,8 +755,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private void share() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TITLE, "مشاركة لينك المحادثة تطبيق جهزلي:");
-        intent.putExtra(Intent.EXTRA_TEXT, chatUserModel.getShareLink());
+        intent.putExtra(Intent.EXTRA_TEXT,"مشاركة لينك المحادثة تطبيق جهزلي:+"+"\n"+chatUserModel.getShareLink());
         startActivity(intent);
     }
 
