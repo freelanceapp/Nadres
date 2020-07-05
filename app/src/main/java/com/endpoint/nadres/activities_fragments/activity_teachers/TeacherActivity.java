@@ -323,7 +323,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
     }
 
     private void chat(SingleRoomModel model) {
-        ChatUserModel chatUserModel = new ChatUserModel(model.getRoomModel().getId(), model.getRoomModel().getNames(), model.getRoomModel().getChat_room_image(), model.getRoomModel().getRoom_type());
+        ChatUserModel chatUserModel = new ChatUserModel(model.getRoomModel().getId(), model.getRoomModel().getNames(), model.getRoomModel().getChat_room_image(), model.getRoomModel().getRoom_type(),model.getRoomModel().getRoom_code_link());
 
         Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
         intent.putExtra("data", chatUserModel);

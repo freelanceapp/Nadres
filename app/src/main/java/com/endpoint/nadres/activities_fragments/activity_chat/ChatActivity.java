@@ -109,16 +109,16 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
-        if (intent.hasExtra("from_fire")){
+        if (intent.hasExtra("from_fire")) {
             isFromFireBase = true;
             new Handler()
                     .postDelayed(() -> {
                         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                        if (manager!=null){
-                            manager.cancel(Tags.not_tag,Tags.not_id);
+                        if (manager != null) {
+                            manager.cancel(Tags.not_tag, Tags.not_id);
 
                         }
-                    },1);
+                    }, 1);
         }
         chatUserModel = (ChatUserModel) intent.getSerializableExtra("data");
 
@@ -137,7 +137,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
 
-        adapter = new ChatAdapter(messageModelList, this, userModel.getData().getId(),chatUserModel.getChat_type());
+        adapter = new ChatAdapter(messageModelList, this, userModel.getData().getId(), chatUserModel.getChat_type());
         binding.recView.setLayoutManager(manager);
         binding.recView.setAdapter(adapter);
 
@@ -245,13 +245,21 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                 }
             }
         });
+        if (chatUserModel.getShareLink().isEmpty()) {
+            binding.btnInvite.setVisibility(View.GONE);
+        } else {
+            binding.btnInvite.setVisibility(View.VISIBLE);
+
+        }
+        binding.btnInvite.setOnClickListener(v -> share());
         EventBus.getDefault().register(this);
         getAllMessages();
         createRoomId();
+
     }
 
     private void createRoomId() {
-        preferences.create_room_id(this,chatUserModel.getRoom_id()+"");
+        preferences.create_room_id(this, chatUserModel.getRoom_id() + "");
     }
 
     public void getAllMessages() {
@@ -394,6 +402,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
     private void updateUi(RoomModel room) {
+        chatUserModel.setShareLink(room.getRoom_code_link());
+        if (chatUserModel.getShareLink().isEmpty()) {
+            binding.btnInvite.setVisibility(View.GONE);
+        } else {
+            binding.btnInvite.setVisibility(View.VISIBLE);
+
+        }
         binding.tvName.setText(room.getNames());
         if (room.getChat_room_image() != null) {
             Picasso.get().load(Uri.parse(Tags.IMAGE_URL + room.getChat_room_image())).placeholder(R.drawable.ic_group).into(binding.image);
@@ -683,7 +698,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         adapter.notifyItemChanged(messageModelList.size());
         binding.recView.postDelayed(() -> binding.recView.smoothScrollToPosition(messageModelList.size() - 1), 200);
         isNewMessage = true;
-        if (messageModel.getFrom_id()==userModel.getData().getId()){
+        if (messageModel.getFrom_id() == userModel.getData().getId()) {
             deleteFile();
 
         }
@@ -708,11 +723,11 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     @Override
     public void back() {
 
-        preferences.create_room_id(this,"");
-        if (isFromFireBase){
+        preferences.create_room_id(this, "");
+        if (isFromFireBase) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
-        }else {
+        } else {
             if (isNewMessage) {
                 setResult(RESULT_OK);
 
@@ -737,6 +752,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         startActivity(intent);
     }
 
+    private void share() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, "مشاركة لينك المحادثة تطبيق جهزلي:");
+        intent.putExtra(Intent.EXTRA_TEXT, chatUserModel.getShareLink());
+        startActivity(intent);
+    }
 
 
 }

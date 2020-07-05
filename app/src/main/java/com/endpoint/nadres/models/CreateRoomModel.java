@@ -8,7 +8,8 @@ public class CreateRoomModel implements Serializable {
     private int teacher_id;
     private String skill_type;
     private List<Integer> student_ids;
-private int user_id;
+    private int user_id;
+
     public int getTeacher_id() {
         return teacher_id;
     }

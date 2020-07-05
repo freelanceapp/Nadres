@@ -247,7 +247,7 @@ public class Fragment_Messages extends Fragment {
 
     public void setItemRoomData(RoomModel model, int adapterPosition) {
 
-        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getChat_room_image(),model.getRoom_type());
+        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getChat_room_image(),model.getRoom_type(),model.getRoom_code_link());
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("data",chatUserModel);
         startActivityForResult(intent,100);

@@ -75,5 +75,6 @@
     <string name="voice">رسالة صوتية</string>
     <string name="image">تم إرسال صورة</string>
     <string name="something">تحقق من الاتصال بالانترنت</string>
+    <string name="invite">دعوة</string>
 
 </resources>

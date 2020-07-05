@@ -78,6 +78,18 @@
                     android:singleLine="true"
                     />
             </LinearLayout>
+            <Button
+                android:id="@+id/btnInvite"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:background="@drawable/small_rounded_white"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:text="@string/invite"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                />
         </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout

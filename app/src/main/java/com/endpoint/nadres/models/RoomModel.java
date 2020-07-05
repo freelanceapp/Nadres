@@ -12,6 +12,7 @@ public class RoomModel implements Serializable {
     private String names;
     private LastMsg last_msg;
     private String chat_room_image;
+    private String room_code_link;
     private List<RoomUsers> room_users;
 
     public int getId() {
@@ -46,6 +47,10 @@ public class RoomModel implements Serializable {
         return chat_room_image;
     }
 
+    public String getRoom_code_link() {
+        return room_code_link;
+    }
+
     public static class RoomUsers implements Serializable {
         private int id;
         private int room_id;
@@ -77,6 +82,8 @@ public class RoomModel implements Serializable {
         public UserModel.User getUser_data() {
             return user_data;
         }
+
+
 
     }
 

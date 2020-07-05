@@ -75,6 +75,7 @@
     <string name="voice">Sent voice message</string>
     <string name="image">Sent image</string>
     <string name="something">Check internet connection</string>
+    <string name="invite">Invite</string>
 
 
 </resources>

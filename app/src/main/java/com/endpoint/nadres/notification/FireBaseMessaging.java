@@ -162,7 +162,7 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             int message_id = Integer.parseInt(map.get("msg_id"));
             String attachment = map.get("msg_attachment");
 
-            ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type);
+            ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type,"");
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
 
@@ -216,7 +216,7 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             String attachment = map.get("msg_attachment");
 
 
-            ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type);
+            ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type,"");
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
 
