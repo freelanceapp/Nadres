@@ -105,6 +105,7 @@ public class WaitActivity extends AppCompatActivity implements Listeners.BackLis
                                         Intent intent = new Intent(WaitActivity.this, ChatActivity.class);
                                         intent.putExtra("data",chatUserModel);
                                         startActivity(intent);
+                                        finish();
                                     }else if (response.body().getUser_status().equals("close")){
                                         Toast.makeText(WaitActivity.this, R.string.meeting_ended, Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(WaitActivity.this, HomeActivity.class);
