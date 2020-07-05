@@ -214,8 +214,6 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             long message_date = Long.parseLong(map.get("msg_date"));
             int message_id = Integer.parseInt(map.get("msg_id"));
             String attachment = map.get("msg_attachment");
-
-
             ChatUserModel chatUserModel = new ChatUserModel(room_id, name, image, chat_type,"");
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
