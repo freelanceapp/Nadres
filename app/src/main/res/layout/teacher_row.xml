@@ -105,6 +105,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="8dp"
                             android:gravity="center"
+                            android:visibility="gone"
                             app:srb_drawBorderEnabled="true"
                             app:srb_isIndicator="false"
                             app:srb_numberOfStars="5"
@@ -113,9 +114,7 @@
                             app:srb_starSize="15dp"
                             app:srb_starsSeparation="10dp"
                             app:srb_stepSize=".5"
-                            tools:ignore="RtlCompat"
-                            android:visibility="gone"
-                            />
+                            tools:ignore="RtlCompat" />
 
 
                     </LinearLayout>
