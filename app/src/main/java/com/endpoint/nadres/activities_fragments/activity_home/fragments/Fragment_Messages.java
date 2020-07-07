@@ -102,7 +102,7 @@ public class Fragment_Messages extends Fragment {
         if (loadMoreCall!=null){
             loadMoreCall.cancel();
         }
-        binding.llConversation.setVisibility(View.VISIBLE);
+        binding.llConversation.setVisibility(View.GONE);
         Api.getService(Tags.base_url)
                 .getMyRooms("Bearer " + userModel.getData().getToken(), userModel.getData().getId(), "on", 20, 1)
                 .enqueue(new Callback<MyRoomDataModel>() {
