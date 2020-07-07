@@ -255,7 +255,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         if (userModel.getData().getType().equals("student")&&chatUserModel.getShareLink().isEmpty()){
             binding.imageInfo.setVisibility(View.GONE);
         }else{
-            binding.imageInfo.setVisibility(View.VISIBLE);
+            if (chatUserModel.getRoomStatus().equals("close")){
+                binding.imageInfo.setVisibility(View.INVISIBLE);
+
+            }else {
+                binding.imageInfo.setVisibility(View.VISIBLE);
+
+            }
 
         }
         binding.imageInfo.setOnClickListener(v -> createInfoAlertDialog());
