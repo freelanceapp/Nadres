@@ -85,8 +85,9 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         createRoomModel = new CreateRoomModel();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
-        if(userModel!=null){
-        createRoomModel.setUser_id(userModel.getData().getId());}
+        if (userModel != null) {
+            createRoomModel.setUser_id(userModel.getData().getId());
+        }
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.input), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
         binding.recView.setLayoutManager(manager);
@@ -324,7 +325,7 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
     }
 
     private void chat(SingleRoomModel model) {
-        ChatUserModel chatUserModel = new ChatUserModel(model.getRoomModel().getId(), model.getRoomModel().getNames(), model.getRoomModel().getChat_room_image(), model.getRoomModel().getRoom_type(),model.getRoomModel().getRoom_code_link());
+        ChatUserModel chatUserModel = new ChatUserModel(model.getRoomModel().getId(), model.getRoomModel().getNames(), model.getRoomModel().getChat_room_image(), model.getRoomModel().getRoom_type(), model.getRoomModel().getRoom_code_link());
 
         Intent intent = new Intent(TeacherActivity.this, ChatActivity.class);
         intent.putExtra("data", chatUserModel);
