@@ -1,5 +1,6 @@
 package com.endpoint.nadres.activities_fragments.activity_requests;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -59,12 +60,18 @@ public class RequestActivity extends AppCompatActivity  implements Listeners.Bac
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_request);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (manager != null) {
+            manager.cancel(Tags.not_tag, Tags.not_id);
+
+        }
         initView();
     }
 
 
 
     private void initView() {
+
         requestModelList = new ArrayList<>();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);

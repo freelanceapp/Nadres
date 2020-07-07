@@ -232,8 +232,8 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             chatUserModel.setMessage(message);
 
             if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_wait.WaitActivity")){
+                Log.e("wait","1111");
                 RequestActionModel model = new RequestActionModel(action_type,room_id);
-
                 EventBus.getDefault().post(model);
             }else {
 
