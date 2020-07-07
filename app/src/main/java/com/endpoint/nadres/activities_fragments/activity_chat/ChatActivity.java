@@ -269,7 +269,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                 .setCancelable(true)
                 .create();
 
-        DialogChatInfoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_select_image, null, false);
+        DialogChatInfoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_chat_info, null, false);
 
 
         if (chatUserModel.getShareLink().isEmpty()){
