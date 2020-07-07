@@ -102,6 +102,7 @@ public class Fragment_Messages extends Fragment {
         if (loadMoreCall!=null){
             loadMoreCall.cancel();
         }
+        binding.llConversation.setVisibility(View.VISIBLE);
         Api.getService(Tags.base_url)
                 .getMyRooms("Bearer " + userModel.getData().getToken(), userModel.getData().getId(), "on", 20, 1)
                 .enqueue(new Callback<MyRoomDataModel>() {
@@ -126,6 +127,8 @@ public class Fragment_Messages extends Fragment {
 
 
                         }else {
+                            binding.llConversation.setVisibility(View.VISIBLE);
+
                             if (response.code() == 500) {
                                 Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
                             } else {
@@ -146,6 +149,7 @@ public class Fragment_Messages extends Fragment {
                         try {
                             binding.swipeRefresh.setRefreshing(false);
                             binding.progBar.setVisibility(View.GONE);
+                            binding.llConversation.setVisibility(View.VISIBLE);
                             if (t.getMessage() != null) {
                                 Log.e("Error", t.getMessage());
 
