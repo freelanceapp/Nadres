@@ -274,6 +274,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                 binding.imageRecord.setVisibility(View.INVISIBLE);
                 binding.imageSend.setVisibility(View.INVISIBLE);
                 binding.msgContent.setVisibility(View.INVISIBLE);
+                binding.imageInfo.setVisibility(View.INVISIBLE);
             }
         }
     }
