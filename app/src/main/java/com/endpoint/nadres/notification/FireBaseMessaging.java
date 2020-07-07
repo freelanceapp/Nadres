@@ -24,9 +24,9 @@ import androidx.core.app.NotificationCompat;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
 import com.endpoint.nadres.activities_fragments.activity_notification.NotificationsActivity;
+import com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.MessageDataModel;
-import com.endpoint.nadres.models.RequestActionModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
@@ -202,7 +202,7 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             chatUserModel.setNotification_type(not_type);
 
 
-            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_notification.NotificationsActivity")){
+            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity")){
                 EventBus.getDefault().post(chatUserModel);
 
             }else {
@@ -212,9 +212,6 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
 
         } else if (not_type != null && not_type.equals("action_request")){
-            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-            String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
-
             int room_id = Integer.parseInt(map.get("room_id"));
             String name = map.get("from_name");
             String image = map.get("from_image");
@@ -227,16 +224,10 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 message = getString(R.string.req_accepted);
 
             }
-            RequestActionModel model = new RequestActionModel(action_type,room_id);
-
-            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_wait.WaitActivity")){
-                EventBus.getDefault().post(model);
-
-            }else {
-                ChatUserModel chatUserModel = new ChatUserModel(room_id,name,image,"","");
-                chatUserModel.setMessage(message);
-                sendNotification_VersionNew(chatUserModel, sound_Path);
-            }
+            ChatUserModel chatUserModel = new ChatUserModel(room_id,name,image,"","");
+            chatUserModel.setNotification_type(not_type);
+            chatUserModel.setMessage(message);
+            sendNotification_VersionNew(chatUserModel, sound_Path);
         }
 
     }
@@ -293,6 +284,9 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             }
 
         } else if (not_type != null && not_type.equals("request")){
+
+
+
             ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
             String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
 
@@ -304,23 +298,21 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             chatUserModel.setNotification_type(not_type);
 
 
-            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_notification.NotificationsActivity")){
+            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity")){
                 EventBus.getDefault().post(chatUserModel);
 
             }else {
 
                 sendNotification_VersionOld(chatUserModel, sound_Path);
             }
-        }
 
-        else if (not_type != null && not_type.equals("action_request")){
-            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-            String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
 
+        } else if (not_type != null && not_type.equals("action_request")){
             int room_id = Integer.parseInt(map.get("room_id"));
             String name = map.get("from_name");
             String image = map.get("from_image");
-            String message="";
+            String message = "";
+
             String action_type= map.get("action_type");
             if (action_type.equals("nothing")){
                 message = getString(R.string.req_refused);
@@ -328,16 +320,10 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 message = getString(R.string.req_accepted);
 
             }
-            RequestActionModel model = new RequestActionModel(action_type,room_id);
-
-            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_wait.WaitActivity")){
-                EventBus.getDefault().post(model);
-
-            }else {
-                ChatUserModel chatUserModel = new ChatUserModel(room_id,name,image,"","");
-                chatUserModel.setMessage(message);
-                sendNotification_VersionOld(chatUserModel, sound_Path);
-            }
+            ChatUserModel chatUserModel = new ChatUserModel(room_id,name,image,"","");
+            chatUserModel.setNotification_type(not_type);
+            chatUserModel.setMessage(message);
+            sendNotification_VersionOld(chatUserModel, sound_Path);
         }
 
     }
@@ -566,15 +552,20 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         builder.setLargeIcon(bitmap);
-        Intent intent = new Intent(this, NotificationsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("not", true);
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
-        taskStackBuilder.addNextIntent(intent);
 
-        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (chatUserModel.getNotification_type().equals("request")){
+            Intent intent = new Intent(this, RequestActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("not", true);
+            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+            taskStackBuilder.addNextIntent(intent);
 
-        builder.setContentIntent(pendingIntent);
+            PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            builder.setContentIntent(pendingIntent);
+        }
+
+
 
         builder.setContentText(chatUserModel.getMessage());
 
@@ -595,17 +586,17 @@ public class FireBaseMessaging extends FirebaseMessagingService {
         builder.setSound(Uri.parse(sound_path), AudioManager.STREAM_NOTIFICATION);
         builder.setSmallIcon(R.mipmap.ic_launcher_round);
         builder.setContentTitle(chatUserModel.getName());
+        if (chatUserModel.getNotification_type().equals("request")){
+            Intent intent = new Intent(this, RequestActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("not", true);
+            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+            taskStackBuilder.addNextIntent(intent);
 
-        Intent intent = new Intent(this, NotificationsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("not", true);
+            PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
-        taskStackBuilder.addNextIntent(intent);
-
-        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        builder.setContentIntent(pendingIntent);
+            builder.setContentIntent(pendingIntent);
+        }
 
         builder.setContentText(chatUserModel.getMessage());
 

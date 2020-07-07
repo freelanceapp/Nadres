@@ -17,11 +17,16 @@ import com.endpoint.nadres.adapters.Request_Adapter;
 import com.endpoint.nadres.databinding.ActivityRequestBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
+import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.RequestDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.tags.Tags;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +77,9 @@ public class RequestActivity extends AppCompatActivity  implements Listeners.Bac
         adapter = new Request_Adapter(requestModelList,this);
         binding.recView.setAdapter(adapter);
 
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         getRequests();
 
 
@@ -185,8 +193,16 @@ public class RequestActivity extends AppCompatActivity  implements Listeners.Bac
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void listenToAction(ChatUserModel chatUserModel){
+        getRequests();
+    }
+
     @Override
     public void back() {
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
         if (isDataChange){
             setResult(RESULT_OK);
         }
