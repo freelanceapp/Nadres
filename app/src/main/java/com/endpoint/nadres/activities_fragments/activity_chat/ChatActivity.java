@@ -3,6 +3,7 @@ package com.endpoint.nadres.activities_fragments.activity_chat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,6 +48,7 @@ import com.endpoint.nadres.models.SingleMessageDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
+import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
 import com.squareup.picasso.Picasso;
 
@@ -320,15 +322,19 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
     private void deleteRoom(){
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.show();
         Api.getService(Tags.base_url)
                 .endConversation(chatUserModel.getRoom_id(),userModel.getData().getId())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
+                            dialog.dismiss();
                             isNewMessage = true;
                             back();
                         } else {
+                            dialog.dismiss();
                             try {
                                 Log.e("error", response.code() + "_" + response.errorBody().string());
                             } catch (IOException e) {
@@ -342,6 +348,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         try {
+                            dialog.dismiss();
                             Log.e("Error", t.getMessage());
                         } catch (Exception e) {
                         }
