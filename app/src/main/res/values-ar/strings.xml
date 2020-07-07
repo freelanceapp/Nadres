@@ -86,5 +86,6 @@
     <string name="no_requests">لا توجد طلبات</string>
     <string name="req_refused">تم رفض طلبك</string>
     <string name="req_accepted">تم قبول طلبك</string>
+    <string name="no_conversation">لا توجد محادثات</string>
 
 </resources>

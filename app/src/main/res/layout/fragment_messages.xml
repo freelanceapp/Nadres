@@ -30,6 +30,7 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
+
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <ProgressBar
@@ -55,6 +56,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:text="@string/no_conversation"
                     />
             </LinearLayout>
 

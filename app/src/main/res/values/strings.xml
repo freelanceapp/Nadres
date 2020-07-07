@@ -86,6 +86,7 @@
     <string name="no_requests">No requests</string>
     <string name="req_refused">Your request refused</string>
     <string name="req_accepted">Your request accepted</string>
+    <string name="no_conversation">No conversation</string>
 
 
 </resources>
