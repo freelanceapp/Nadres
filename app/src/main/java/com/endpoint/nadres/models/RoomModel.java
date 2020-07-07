@@ -13,6 +13,7 @@ public class RoomModel implements Serializable {
     private LastMsg last_msg;
     private String chat_room_image;
     private String room_code_link;
+    private String status;
     private List<RoomUsers> room_users;
 
     public int getId() {
@@ -49,6 +50,10 @@ public class RoomModel implements Serializable {
 
     public String getRoom_code_link() {
         return room_code_link;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public static class RoomUsers implements Serializable {

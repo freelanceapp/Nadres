@@ -11,6 +11,7 @@ public class ChatUserModel implements Serializable {
     private String message;
     private String shareLink;
     private String notification_type;
+    private String roomStatus;
 
     public ChatUserModel() {
     }
@@ -77,5 +78,13 @@ public class ChatUserModel implements Serializable {
 
     public String getNotification_type() {
         return notification_type;
+    }
+
+    public void setRoomStatus(String roomStatus) {
+        this.roomStatus = roomStatus;
+    }
+
+    public String getRoomStatus() {
+        return roomStatus;
     }
 }

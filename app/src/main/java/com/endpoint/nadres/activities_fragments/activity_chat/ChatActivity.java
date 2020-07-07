@@ -257,10 +257,23 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
         }
         binding.imageInfo.setOnClickListener(v -> createInfoAlertDialog());
+
+        updateUIContent(chatUserModel.getRoomStatus());
         EventBus.getDefault().register(this);
         getAllMessages();
         createRoomId();
 
+    }
+
+    private void updateUIContent(String status) {
+        if (status!=null){
+            if (status.equals("close")){
+                binding.imageCamera.setVisibility(View.INVISIBLE);
+                binding.imageRecord.setVisibility(View.INVISIBLE);
+                binding.imageSend.setVisibility(View.INVISIBLE);
+                binding.msgContent.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     private void createInfoAlertDialog() {
@@ -354,8 +367,12 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
                             if (response.body() != null && response.body().getData() != null) {
 
+                                if (response.body().getRoom()!=null){
+                                    updateUIContent(response.body().getRoom().getStatus());
+                                }
                                 if (response.body().getRoom().getRoom_type().equals("group")) {
                                     updateUi(response.body().getRoom());
+
                                 }
                                 if (response.body().getData().size() > 0) {
                                     messageModelList.clear();

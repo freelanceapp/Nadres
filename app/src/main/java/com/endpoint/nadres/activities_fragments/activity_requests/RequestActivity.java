@@ -1,6 +1,7 @@
 package com.endpoint.nadres.activities_fragments.activity_requests;
 
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.endpoint.nadres.models.RequestDataModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
+import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
 
 import org.greenrobot.eventbus.EventBus;
@@ -159,13 +161,15 @@ public class RequestActivity extends AppCompatActivity  implements Listeners.Bac
 
 
     public void accept_refuse(RequestDataModel.RequestModel model, String action, int pos) {
-
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.show();
         Api.getService(Tags.base_url)
                 .requestAction("Bearer "+userModel.getData().getToken(),model.getId(),model.getRoom_id(),userModel.getData().getId(),model.getFrom_user(),action)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
+                            dialog.dismiss();
                             requestModelList.remove(pos);
                             adapter.notifyItemRemoved(pos);
                             if (action.equals("accept")){
@@ -179,6 +183,7 @@ public class RequestActivity extends AppCompatActivity  implements Listeners.Bac
 
                             }
                         } else {
+                            dialog.dismiss();
                             try {
                                 Log.e("error", response.code() + "_" + response.errorBody().string());
                             } catch (IOException e) {
@@ -192,6 +197,7 @@ public class RequestActivity extends AppCompatActivity  implements Listeners.Bac
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         try {
+                            dialog.dismiss();
                             Log.e("Error", t.getMessage());
                         } catch (Exception e) {
                         }

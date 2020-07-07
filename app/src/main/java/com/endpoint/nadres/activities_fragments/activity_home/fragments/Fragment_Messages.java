@@ -74,7 +74,7 @@ public class Fragment_Messages extends Fragment {
         binding.recView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         binding.recView.setDrawingCacheEnabled(true);
         binding.recView.setAdapter(adapter);
-        binding.swipeRefresh.setOnRefreshListener(() -> getRooms());
+        binding.swipeRefresh.setOnRefreshListener(this::getRooms);
         binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -245,6 +245,7 @@ public class Fragment_Messages extends Fragment {
     public void setItemRoomData(RoomModel model, int adapterPosition) {
 
         ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getChat_room_image(),model.getRoom_type(),model.getRoom_code_link());
+        chatUserModel.setRoomStatus(model.getStatus());
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra("data",chatUserModel);
         startActivityForResult(intent,100);

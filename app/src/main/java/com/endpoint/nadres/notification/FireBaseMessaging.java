@@ -168,6 +168,7 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
             chatUserModel.setNotification_type(not_type);
+            chatUserModel.setRoomStatus("open");
 
             if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity")) {
 
@@ -264,6 +265,7 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             chatUserModel.setMessage_type(message_type);
             chatUserModel.setMessage(message);
             chatUserModel.setNotification_type(not_type);
+            chatUserModel.setRoomStatus("open");
 
             ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
             String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
