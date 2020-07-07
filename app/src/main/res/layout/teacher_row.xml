@@ -35,8 +35,8 @@
                 android:layout_height="130dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/linear_shape"
-                app:cardElevation="8dp"
                 android:padding="7dp"
+                app:cardElevation="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/card"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,10 +50,10 @@
                     image="@{model.teachers_fk.logo}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="15dp"
                     android:layout_marginStart="8dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/logo"
-                    android:layout_margin="15dp"
                     tools:ignore="RtlCompat" />
             </androidx.cardview.widget.CardView>
 
@@ -90,16 +90,16 @@
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
+                            android:layout_gravity="center"
                             android:layout_marginStart="8dp"
+                            android:gravity="center"
                             android:text="@{model.teachers_fk.name}"
                             android:textColor="@color/colorAccent"
                             android:textSize="15sp"
-                            tools:ignore="RtlCompat"
-                            android:gravity="center"
-                            />
+                            tools:ignore="RtlCompat" />
 
                         <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                            rate="@{model.teachers_fk.rate}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -113,7 +113,9 @@
                             app:srb_starSize="15dp"
                             app:srb_starsSeparation="10dp"
                             app:srb_stepSize=".5"
-                            tools:ignore="RtlCompat" />
+                            tools:ignore="RtlCompat"
+                            android:visibility="gone"
+                            />
 
 
                     </LinearLayout>

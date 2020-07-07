@@ -46,6 +46,7 @@ public class TeacherModel implements Serializable {
             private String latitude;
             private String longitude;
             private String address;
+            private double rate;
 
             public int getId() {
                 return id;
@@ -94,6 +95,11 @@ public class TeacherModel implements Serializable {
             public String getAddress() {
                 return address;
             }
+
+            public double getRate() {
+                return rate;
+            }
         }
+
     }
 }
