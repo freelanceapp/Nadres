@@ -27,6 +27,7 @@ import com.endpoint.nadres.activities_fragments.activity_notification.Notificati
 import com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.MessageDataModel;
+import com.endpoint.nadres.models.RequestActionModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
@@ -224,10 +225,20 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 message = getString(R.string.req_accepted);
 
             }
+            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
             ChatUserModel chatUserModel = new ChatUserModel(room_id,name,image,"","");
             chatUserModel.setNotification_type(not_type);
             chatUserModel.setMessage(message);
-            sendNotification_VersionNew(chatUserModel, sound_Path);
+
+            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_wait.WaitActivity")){
+                RequestActionModel model = new RequestActionModel(action_type,room_id);
+
+                EventBus.getDefault().post(model);
+            }else {
+
+                sendNotification_VersionNew(chatUserModel, sound_Path);
+            }
         }
 
     }
@@ -320,10 +331,23 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 message = getString(R.string.req_accepted);
 
             }
+
+
+            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            String current_class = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
             ChatUserModel chatUserModel = new ChatUserModel(room_id,name,image,"","");
             chatUserModel.setNotification_type(not_type);
             chatUserModel.setMessage(message);
-            sendNotification_VersionOld(chatUserModel, sound_Path);
+
+            if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_wait.WaitActivity")){
+                RequestActionModel model = new RequestActionModel(action_type,room_id);
+                EventBus.getDefault().post(model);
+            }else {
+
+                sendNotification_VersionOld(chatUserModel, sound_Path);
+            }
+
+
         }
 
     }
