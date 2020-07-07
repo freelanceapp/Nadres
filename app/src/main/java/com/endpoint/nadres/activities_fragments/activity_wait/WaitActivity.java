@@ -152,6 +152,7 @@ public class WaitActivity extends AppCompatActivity implements Listeners.BackLis
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void listenToAction(RequestActionModel model){
+        Log.e("eeeeee","eeeeee");
         if (model.getAction().equals("nothing")){
             Toast.makeText(this, R.string.req_refused, Toast.LENGTH_SHORT).show();
         }else {
