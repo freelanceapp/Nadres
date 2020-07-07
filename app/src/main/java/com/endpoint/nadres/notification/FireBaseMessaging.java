@@ -235,6 +235,8 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 Log.e("wait","1111");
                 RequestActionModel model = new RequestActionModel(action_type,room_id);
                 EventBus.getDefault().post(model);
+            }else if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_home.HomeActivity")){
+                EventBus.getDefault().post(chatUserModel);
             }else {
 
                 sendNotification_VersionNew(chatUserModel, sound_Path);
@@ -342,6 +344,8 @@ public class FireBaseMessaging extends FirebaseMessagingService {
             if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_wait.WaitActivity")){
                 RequestActionModel model = new RequestActionModel(action_type,room_id);
                 EventBus.getDefault().post(model);
+            }else if (current_class.equals("com.endpoint.nadres.activities_fragments.activity_home.HomeActivity")){
+                EventBus.getDefault().post(chatUserModel);
             }else {
 
                 sendNotification_VersionOld(chatUserModel, sound_Path);
