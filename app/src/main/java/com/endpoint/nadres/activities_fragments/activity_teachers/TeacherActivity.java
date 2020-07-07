@@ -85,7 +85,8 @@ public class TeacherActivity extends AppCompatActivity implements Listeners.Back
         createRoomModel = new CreateRoomModel();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
-        createRoomModel.setUser_id(userModel.getData().getId());
+        if(userModel!=null){
+        createRoomModel.setUser_id(userModel.getData().getId());}
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.input), PorterDuff.Mode.SRC_IN);
         manager = new LinearLayoutManager(this);
         binding.recView.setLayoutManager(manager);
