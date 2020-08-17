@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -19,10 +20,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.endpoint.nadres.R;
+import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.DialogAlertBinding;
 
 import java.io.File;
@@ -40,7 +43,17 @@ public class Common {
         DialogAlertBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_alert, null, false);
 
         binding.tvMsg.setText(msg);
-        binding.btnCancel.setOnClickListener(v -> dialog.dismiss()
+        binding.btnCancel.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     dialog.dismiss();
+                                                     if(msg.equals(context.getResources().getString(R.string.please_sign_in_or_sign_up))){
+                                                         Intent intent=new Intent(context, SignInActivity.class);
+                                                         context.startActivity(intent);
+                                                         ((AppCompatActivity) context).finish();
+                                                     }
+                                                 }
+                                             }
 
         );
      //   dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
