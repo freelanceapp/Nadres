@@ -36,7 +36,7 @@ import okhttp3.RequestBody;
 
 public class Common {
 
-    public static void CreateDialogAlert(Context context,String msg) {
+    public static void CreateDialogAlert(Context context, String msg) {
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .create();
 
@@ -47,8 +47,8 @@ public class Common {
                                                  @Override
                                                  public void onClick(View v) {
                                                      dialog.dismiss();
-                                                     if(msg.equals(context.getResources().getString(R.string.please_sign_in_or_sign_up))){
-                                                         Intent intent=new Intent(context, SignInActivity.class);
+                                                     if (msg.equals(context.getResources().getString(R.string.please_sign_in_or_sign_up))) {
+                                                         Intent intent = new Intent(context, SignInActivity.class);
                                                          context.startActivity(intent);
                                                          ((AppCompatActivity) context).finish();
                                                      }
@@ -56,8 +56,8 @@ public class Common {
                                              }
 
         );
-     //   dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
-       // dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        //   dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        // dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setView(binding.getRoot());
         dialog.show();
@@ -298,7 +298,7 @@ public class Common {
 
     public static MultipartBody.Part getMultiPartImage(Context context, Uri uri, String partName) {
         File file = getFileFromImagePath(getImagePath(context, uri));
-        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String name = System.currentTimeMillis() + file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
         RequestBody requestBody = getRequestBodyImage(file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
         return part;
@@ -307,7 +307,7 @@ public class Common {
 
     public static MultipartBody.Part getMultiPartAudio(Context context, String audio_path, String partName) {
         File file = new File(audio_path);
-        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String name = System.currentTimeMillis() + file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
         RequestBody requestBody = getRequestBodyAudio(file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
         return part;
@@ -316,7 +316,7 @@ public class Common {
 
     public static MultipartBody.Part getMultiPartVideo(Context context, Uri uri, String partName) {
         File file = getFileFromImagePath(getImagePath(context, uri));
-        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String name = System.currentTimeMillis() + file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
         RequestBody requestBody = getRequestBodyVideo(file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
         return part;

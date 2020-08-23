@@ -245,12 +245,25 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         .into(holderImageLeft.binding.image);
 
             }
+            holderImageLeft.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MessageDataModel.MessageModel messageModel = list.get(holderImageLeft.getAdapterPosition());
+                    activity.setImageUrl(messageModel.getAttachment());
+                }
+            });
 
         } else if (holder instanceof HolderImageRight) {
             HolderImageRight holderImageRight = (HolderImageRight) holder;
             holderImageRight.binding.setModel(model);
             holderImageRight.binding.tvTime.setText(getTime(model.getDate()));
-
+holderImageRight.itemView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        MessageDataModel.MessageModel messageModel = list.get(holderImageRight.getAdapterPosition());
+        activity.setImageUrl(messageModel.getAttachment());
+    }
+});
 
 
 

@@ -30,6 +30,10 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             />
+        <activity android:name=".activities_fragments.activity_teachers.TeacherActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            />
         <activity
             android:name=".activities_fragments.activity_wait.WaitActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

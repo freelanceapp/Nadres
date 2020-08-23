@@ -33,40 +33,37 @@ public class Notification_Adapter extends RecyclerView.Adapter<RecyclerView.View
         this.context = context;
         inflater = LayoutInflater.from(context);
         Paper.init(context);
- lang = Paper.book().read("lang", Locale.getDefault().getLanguage());}
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+    }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (viewType==ITEM_DATA)
-        {
-            NotificationRowBinding binding  = DataBindingUtil.inflate(inflater, R.layout.notification_row,parent,false);
+        if (viewType == ITEM_DATA) {
+            NotificationRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.notification_row, parent, false);
             return new EventHolder(binding);
 
-        }else
-            {
-                LoadMoreBinding binding = DataBindingUtil.inflate(inflater, R.layout.load_more,parent,false);
-                return new LoadHolder(binding);
-            }
+        } else {
+            LoadMoreBinding binding = DataBindingUtil.inflate(inflater, R.layout.load_more, parent, false);
+            return new LoadHolder(binding);
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         NotificationDataModel.NotificationModel order_data = orderlist.get(position);
-        if (holder instanceof EventHolder)
-        {
+        if (holder instanceof EventHolder) {
             EventHolder eventHolder = (EventHolder) holder;
             eventHolder.binding.setLang(lang);
 
-          //  eventHolder.binding.setNotificationModel(order_data);
+            //  eventHolder.binding.setNotificationModel(order_data);
 
 
-        }else
-            {
-                LoadHolder loadHolder = (LoadHolder) holder;
-                loadHolder.binding.progBar.setIndeterminate(true);
-            }
+        } else {
+            LoadHolder loadHolder = (LoadHolder) holder;
+            loadHolder.binding.progBar.setIndeterminate(true);
+        }
     }
 
     @Override
@@ -76,6 +73,7 @@ public class Notification_Adapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class EventHolder extends RecyclerView.ViewHolder {
         public NotificationRowBinding binding;
+
         public EventHolder(@NonNull NotificationRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -85,10 +83,11 @@ public class Notification_Adapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class LoadHolder extends RecyclerView.ViewHolder {
         private LoadMoreBinding binding;
+
         public LoadHolder(@NonNull LoadMoreBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context,R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+            binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         }
 
     }
@@ -96,13 +95,11 @@ public class Notification_Adapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemViewType(int position) {
         NotificationDataModel.NotificationModel order_Model = orderlist.get(position);
-        if (order_Model!=null)
-        {
+        if (order_Model != null) {
             return ITEM_DATA;
-        }else
-            {
-                return LOAD;
-            }
+        } else {
+            return LOAD;
+        }
 
     }
 

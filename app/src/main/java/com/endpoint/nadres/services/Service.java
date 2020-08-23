@@ -273,4 +273,9 @@ public interface Service {
 
 
     );
+    @GET("api/search-users")
+    Call<TeacherModel> Search(@Query("pagination") String pagination,
+                                  @Query("user_type") String user_type,
+                                  @Query("name") String name);
+
 }

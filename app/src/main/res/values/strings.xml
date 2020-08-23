@@ -87,6 +87,7 @@
     <string name="req_refused">Your request refused</string>
     <string name="req_accepted">Your request accepted</string>
     <string name="no_conversation">No conversation</string>
+    <string name="search2">Search</string>
 
 
 </resources>

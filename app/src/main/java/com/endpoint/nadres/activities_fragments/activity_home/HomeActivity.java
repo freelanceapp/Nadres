@@ -26,6 +26,7 @@ import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment
 import com.endpoint.nadres.activities_fragments.activity_home.fragments.Fragment_Profile;
 import com.endpoint.nadres.activities_fragments.activity_notification.NotificationsActivity;
 import com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity;
+import com.endpoint.nadres.activities_fragments.activity_search.SearchActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
 import com.endpoint.nadres.databinding.ActivityHomeBinding;
 import com.endpoint.nadres.language.Language;
@@ -159,8 +160,11 @@ public class HomeActivity extends AppCompatActivity {
 
         if (userModel!=null&&userModel.getData().getType().equals("teacher")){
             binding.flRequest.setVisibility(View.VISIBLE);
+            binding.flsearch.setVisibility(View.GONE);
         }else {
             binding.flRequest.setVisibility(View.GONE);
+            binding.flsearch.setVisibility(View.VISIBLE);
+
 
         }
         binding.imagenotifi.setOnClickListener(view -> {
@@ -172,7 +176,10 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RequestActivity.class);
             startActivityForResult(intent, 2);
         });
-
+        binding.flsearch.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivityForResult(intent, 2);
+        });
 
         setUpBottomNavigation();
     }

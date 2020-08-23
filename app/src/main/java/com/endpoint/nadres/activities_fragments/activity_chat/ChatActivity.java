@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.activities_fragments.activity_video.VideoActivity;
@@ -96,6 +98,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private Call<MessageDataModel> loadMoreCall;
     private boolean isNewMessage = false;
     private boolean isFromFireBase = false;
+    private ImagePopup imagePopup;
 
 
     @Override
@@ -133,6 +136,11 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
+        imagePopup = new ImagePopup(this);
+        imagePopup.setBackgroundColor(Color.BLACK);
+        imagePopup.setFullScreen(false);
+        imagePopup.setHideCloseIcon(true);
+        imagePopup.setImageOnClickClose(true);
         messageModelList = new ArrayList<>();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
@@ -252,13 +260,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
             }
         });
 
-        if (userModel.getData().getType().equals("student")&&chatUserModel.getShareLink().isEmpty()){
+        if (userModel.getData().getType().equals("student") && chatUserModel.getShareLink().isEmpty()) {
             binding.imageInfo.setVisibility(View.GONE);
-        }else{
-            if (chatUserModel.getRoomStatus().equals("close")){
+        } else {
+            if (chatUserModel.getRoomStatus().equals("close")) {
                 binding.imageInfo.setVisibility(View.INVISIBLE);
 
-            }else {
+            } else {
                 binding.imageInfo.setVisibility(View.VISIBLE);
 
             }
@@ -274,8 +282,8 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     }
 
     private void updateUIContent(String status) {
-        if (status!=null){
-            if (status.equals("close")){
+        if (status != null) {
+            if (status.equals("close")) {
                 binding.imageCamera.setVisibility(View.INVISIBLE);
                 binding.imageRecord.setVisibility(View.INVISIBLE);
                 binding.imageSend.setVisibility(View.INVISIBLE);
@@ -294,16 +302,16 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         DialogChatInfoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_chat_info, null, false);
 
 
-        if (chatUserModel.getShareLink().isEmpty()){
+        if (chatUserModel.getShareLink().isEmpty()) {
             binding.btnInvite.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.btnInvite.setVisibility(View.VISIBLE);
 
         }
 
-        if (userModel.getData().getType().equals("teacher")){
+        if (userModel.getData().getType().equals("teacher")) {
             binding.btnDelete.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.btnDelete.setVisibility(View.GONE);
 
         }
@@ -328,11 +336,11 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         dialog.show();
     }
 
-    private void deleteRoom(){
-        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+    private void deleteRoom() {
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
         dialog.show();
         Api.getService(Tags.base_url)
-                .endConversation(chatUserModel.getRoom_id(),userModel.getData().getId())
+                .endConversation(chatUserModel.getRoom_id(), userModel.getData().getId())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -381,7 +389,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
                             if (response.body() != null && response.body().getData() != null) {
 
-                                if (response.body().getRoom()!=null){
+                                if (response.body().getRoom() != null) {
                                     updateUIContent(response.body().getRoom().getStatus());
                                 }
                                 if (response.body().getRoom().getRoom_type().equals("group")) {
@@ -513,13 +521,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private void updateUi(RoomModel room) {
         chatUserModel.setShareLink(room.getRoom_code_link());
 
-        if (userModel.getData().getType().equals("student")&&chatUserModel.getShareLink().isEmpty()){
+        if (userModel.getData().getType().equals("student") && chatUserModel.getShareLink().isEmpty()) {
             binding.imageInfo.setVisibility(View.GONE);
-        }else{
-            if (room.getStatus().equals("close")){
+        } else {
+            if (room.getStatus().equals("close")) {
                 binding.imageInfo.setVisibility(View.INVISIBLE);
 
-            }else {
+            } else {
                 binding.imageInfo.setVisibility(View.VISIBLE);
 
             }
@@ -871,10 +879,17 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private void share() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT,"مشاركة لينك المحادثة تطبيق ندرس:-"+"\n"+chatUserModel.getShareLink());
+        intent.putExtra(Intent.EXTRA_TEXT, "مشاركة لينك المحادثة تطبيق ندرس:-" + "\n" + chatUserModel.getShareLink());
         startActivity(intent);
     }
 
 
+    public void setImageUrl(String attachment) {
+
+        imagePopup.initiatePopupWithPicasso(Tags.IMAGE_URL + attachment);
+        imagePopup.viewPopup();
+
+
+    }
 }
 
