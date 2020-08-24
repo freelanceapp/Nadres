@@ -92,5 +92,8 @@
     <string name="newversion">يتوفر إصدار أحدث من هذا التطبيق ، انقر فوق "موافق" للترقية الآن؟</string>
     <string name="Myapp">تحميل تطبيقى</string>
     <string name="later">لاحقا</string>
+    <string name="next">التالى</string>
+    <string name="rate_suc">تم التقييم بنجاح</string>
+    <string name="you_rate_before">قمت بالتقييم من قبل</string>
 
 </resources>

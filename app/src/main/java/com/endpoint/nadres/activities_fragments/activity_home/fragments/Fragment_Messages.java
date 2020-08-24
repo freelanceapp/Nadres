@@ -1,6 +1,8 @@
 package com.endpoint.nadres.activities_fragments.activity_home.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,19 +22,27 @@ import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
 import com.endpoint.nadres.activities_fragments.activity_home.HomeActivity;
 import com.endpoint.nadres.adapters.RoomAdapter;
+import com.endpoint.nadres.databinding.DialogRateBinding;
+import com.endpoint.nadres.databinding.DialogSkillBinding;
 import com.endpoint.nadres.databinding.FragmentMessagesBinding;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.MyRoomDataModel;
 import com.endpoint.nadres.models.RoomModel;
+import com.endpoint.nadres.models.SearchTeacherModel;
 import com.endpoint.nadres.models.UserModel;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
+import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +59,7 @@ public class Fragment_Messages extends Fragment {
     private int current_page = 1;
     private boolean isLoading = false;
     private Call<MyRoomDataModel> loadMoreCall;
+    private AlertDialog dialog;
 
     public static Fragment_Messages newInstance() {
         return new Fragment_Messages();
@@ -99,7 +110,7 @@ public class Fragment_Messages extends Fragment {
     }
 
     public void getRooms() {
-        if (loadMoreCall!=null){
+        if (loadMoreCall != null) {
             loadMoreCall.cancel();
         }
         binding.llConversation.setVisibility(View.GONE);
@@ -112,7 +123,7 @@ public class Fragment_Messages extends Fragment {
                         binding.progBar.setVisibility(View.GONE);
                         if (response.isSuccessful()) {
 
-                            if (response.body() != null && response.body().getData() != null){
+                            if (response.body() != null && response.body().getData() != null) {
                                 if (response.body().getData().size() > 0) {
                                     list.clear();
                                     list.addAll(response.body().getData());
@@ -125,8 +136,7 @@ public class Fragment_Messages extends Fragment {
                             }
 
 
-
-                        }else {
+                        } else {
                             binding.llConversation.setVisibility(View.VISIBLE);
 
                             if (response.code() == 500) {
@@ -155,9 +165,9 @@ public class Fragment_Messages extends Fragment {
 
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
                                     Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
-                                }else if (t.getMessage().contains("socket")){
+                                } else if (t.getMessage().contains("socket")) {
 
-                                }else {
+                                } else {
                                     Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -248,18 +258,110 @@ public class Fragment_Messages extends Fragment {
 
     public void setItemRoomData(RoomModel model, int adapterPosition) {
 
-        ChatUserModel chatUserModel = new ChatUserModel(model.getId(),model.getNames(),model.getChat_room_image(),model.getRoom_type(),model.getRoom_code_link());
+        ChatUserModel chatUserModel = new ChatUserModel(model.getId(), model.getNames(), model.getChat_room_image(), model.getRoom_type(), model.getRoom_code_link());
         chatUserModel.setRoomStatus(model.getStatus());
         Intent intent = new Intent(activity, ChatActivity.class);
-        intent.putExtra("data",chatUserModel);
-        startActivityForResult(intent,100);
+        intent.putExtra("data", chatUserModel);
+        startActivityForResult(intent, 100);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==100&&resultCode== Activity.RESULT_OK){
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             getRooms();
         }
     }
+
+    public void createRateDialog(MyRoomDataModel.MyRoomModel myRoomModel) {
+
+        dialog = new AlertDialog.Builder(activity)
+                .create();
+
+        DialogRateBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_rate, null, false);
+
+        binding.btnRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float rate = binding.simplerate.getRating();
+                addRate(myRoomModel, rate);
+                dialog.dismiss();
+
+
+            }
+        });
+        binding.imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
+
+    }
+
+    private void addRate(MyRoomDataModel.MyRoomModel myRoomModel, float rate) {
+
+        final ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        Api.getService(Tags.base_url)
+                .addRate("Bearer " + userModel.getData().getToken(), myRoomModel.getRoom_id() + "", userModel.getData().getId() + "", myRoomModel.getTeacher_id() + "", rate)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+
+
+                            JSONObject obj = null;
+
+                            try {
+                                String re = response.body().string();
+                                obj = new JSONObject(re);
+                                boolean staus = (boolean) obj.get("status");
+                                if (staus) {
+                                    Toast.makeText(activity, R.string.rate_suc, Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(activity, R.string.you_rate_before, Toast.LENGTH_LONG).show();
+
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //.e("data",e.getMessage());
+                            }
+                            dialog.dismiss();
+
+                        } else {
+                            try {
+                                Log.e("error_code", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            dialog.dismiss();
+
+                            Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        try {
+                            dialog.dismiss();
+                            Log.e("Error", t.getMessage());
+                            Toast.makeText(activity, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                        } catch (Exception re) {
+                        }
+                    }
+                });
+
+
+    }
+
 }

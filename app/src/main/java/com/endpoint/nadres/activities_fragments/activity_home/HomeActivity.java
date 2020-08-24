@@ -127,6 +127,7 @@ public class HomeActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
+
                 //show the alert message
                 builder.create().show();
             }
@@ -232,7 +233,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         binding.flsearch.setOnClickListener(view -> {
             Intent intent = new Intent(this, SearchActivity.class);
-            startActivityForResult(intent, 2);
+            startActivity(intent);
         });
 
         setUpBottomNavigation();

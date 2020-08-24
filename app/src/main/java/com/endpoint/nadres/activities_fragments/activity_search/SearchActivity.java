@@ -1,5 +1,6 @@
 package com.endpoint.nadres.activities_fragments.activity_search;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,8 +24,10 @@ import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
 import com.endpoint.nadres.activities_fragments.activity_teachers.TeacherActivity;
 import com.endpoint.nadres.adapters.Search_Teacher_Adapter;
+import com.endpoint.nadres.adapters.Skill_Teacher_Adapter;
 import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivitySearchBinding;
+import com.endpoint.nadres.databinding.DialogSkillBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
@@ -54,10 +58,14 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
     private LinearLayoutManager manager;
     private List<SearchTeacherModel.Data> teaDatalist;
     private Search_Teacher_Adapter teacher_adapter;
+    private List<SearchTeacherModel.Data.SkillsFk> skillsFkList;
+    private Skill_Teacher_Adapter skill_teacher_adapter;
     private String query = "all";
     private UserModel userModel;
     private Preferences preferences;
     private CreateRoomModel createRoomModel;
+    private AlertDialog dialog;
+    private String skill_type;
 
 
     @Override
@@ -80,6 +88,7 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
     private void initView() {
         createRoomModel = new CreateRoomModel();
         preferences = Preferences.getInstance();
+        skillsFkList = new ArrayList<>();
         userModel = preferences.getUserData(this);
         if (userModel != null) {
             createRoomModel.setUser_id(userModel.getData().getId());
@@ -90,9 +99,9 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
         binding.setBackListener(this);
         binding.setLang(lang);
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-
+        skill_teacher_adapter = new Skill_Teacher_Adapter(skillsFkList, this);
         //productModelList = new ArrayList<>();
-        manager = new GridLayoutManager(this,1);
+        manager = new GridLayoutManager(this, 1);
         binding.recView.setLayoutManager(manager);
         teacher_adapter = new Search_Teacher_Adapter(teaDatalist, this);
         binding.recView.setAdapter(teacher_adapter);
@@ -170,8 +179,6 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
 //        });
 
     }
-
-
 
 
     public void search() {
@@ -259,7 +266,7 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
         if (userModel != null) {
             List<Integer> ids = new ArrayList<>();
             ids.add(userModel.getData().getId());
-           // createRoomModel.setSkill_type(model.getSkill_type());
+            createRoomModel.setSkill_type(skill_type);
             createRoomModel.setTeacher_id(model.getId());
             createRoomModel.setStudent_ids(ids);
             CreateChatRoom();
@@ -333,7 +340,9 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
         Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
         intent.putExtra("data", chatUserModel);
         startActivity(intent);
+       // finish();
     }
+
     @Override
     public void back() {
 //        if (isFavoriteChange) {
@@ -355,10 +364,39 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
 
     }
 
+    public void createSkillDialog(SearchTeacherModel.Data skillsFks) {
+        skillsFkList.clear();
+        skillsFkList.addAll(skillsFks.getSkills_fk());
+        skill_teacher_adapter.notifyDataSetChanged();
+        dialog = new AlertDialog.Builder(this)
+                .create();
+
+        DialogSkillBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_skill, null, false);
+        binding.recView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recView.setAdapter(skill_teacher_adapter);
+        binding.btnext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                setItemData(skillsFks);
+            }
+        });
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
+
+    }
 
 
     @Override
     public void onBackPressed() {
         back();
+    }
+
+    public void setskill(String skill_type) {
+        this.skill_type = skill_type;
     }
 }

@@ -13,12 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_search.SearchActivity;
-import com.endpoint.nadres.activities_fragments.activity_teachers.TeacherActivity;
 import com.endpoint.nadres.databinding.LoadMoreBinding;
 import com.endpoint.nadres.databinding.SearchTeacherRowBinding;
-import com.endpoint.nadres.databinding.TeacherRowBinding;
 import com.endpoint.nadres.models.SearchTeacherModel;
-import com.endpoint.nadres.models.TeacherModel;
 
 import java.util.List;
 import java.util.Locale;
@@ -70,7 +67,7 @@ public class Search_Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
                 public void onClick(View v) {
                     if(context instanceof SearchActivity){
                         SearchActivity teacherActivity=(SearchActivity) context;
-                        teacherActivity.setItemData(dataList.get(eventHolder.getLayoutPosition()));
+                        teacherActivity.createSkillDialog(dataList.get(eventHolder.getLayoutPosition()));
                     }
 
                 }

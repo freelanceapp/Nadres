@@ -92,6 +92,9 @@
     <string name="newversion">There is newer version of this application available, click OK to upgrade now?</string>
     <string name="Myapp">My Andorid App Download</string>
     <string name="later">Remind Later</string>
+    <string name="next">Next</string>
+    <string name="rate_suc">Rate Success</string>
+    <string name="you_rate_before">You Rate Before</string>
 
 
 </resources>

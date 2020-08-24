@@ -12,73 +12,87 @@ public class SearchTeacherModel implements Serializable {
 
     public class Data implements Serializable {
 
-            private int id;
-            private String name;
-            private String email;
-            private String city;
-            private String phone_code;
-            private String phone;
-            private String logo;
+        private int id;
+        private String name;
+        private String email;
+        private String city;
+        private String phone_code;
+        private String phone;
+        private String logo;
 
-            private String banner_image;
-            private String token;
-            private String latitude;
-            private String longitude;
-            private String address;
-            private double rate;
+        private String banner_image;
+        private String token;
+        private String latitude;
+        private String longitude;
+        private String address;
+        private double rate;
+        private List<SkillsFk> skills_fk;
 
-            public int getId() {
-                return id;
-            }
+        public int getId() {
+            return id;
+        }
 
-            public String getName() {
-                return name;
-            }
+        public String getName() {
+            return name;
+        }
 
-            public String getEmail() {
-                return email;
-            }
+        public String getEmail() {
+            return email;
+        }
 
-            public String getCity() {
-                return city;
-            }
+        public String getCity() {
+            return city;
+        }
 
-            public String getPhone_code() {
-                return phone_code;
-            }
+        public String getPhone_code() {
+            return phone_code;
+        }
 
-            public String getPhone() {
-                return phone;
-            }
+        public String getPhone() {
+            return phone;
+        }
 
-            public String getLogo() {
-                return logo;
-            }
+        public String getLogo() {
+            return logo;
+        }
 
-            public String getBanner_image() {
-                return banner_image;
-            }
+        public String getBanner_image() {
+            return banner_image;
+        }
 
-            public String getToken() {
-                return token;
-            }
+        public String getToken() {
+            return token;
+        }
 
-            public String getLatitude() {
-                return latitude;
-            }
+        public String getLatitude() {
+            return latitude;
+        }
 
-            public String getLongitude() {
-                return longitude;
-            }
+        public String getLongitude() {
+            return longitude;
+        }
 
-            public String getAddress() {
-                return address;
-            }
+        public String getAddress() {
+            return address;
+        }
 
-            public double getRate() {
-                return rate;
+        public double getRate() {
+            return rate;
+        }
+
+        public List<SkillsFk> getSkills_fk() {
+            return skills_fk;
+        }
+
+        public class SkillsFk implements Serializable {
+
+            private String skill_type;
+
+            public String getSkill_type() {
+                return skill_type;
             }
         }
+    }
 
 
 }

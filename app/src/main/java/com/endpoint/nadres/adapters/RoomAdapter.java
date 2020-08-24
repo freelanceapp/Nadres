@@ -18,6 +18,7 @@ import com.endpoint.nadres.databinding.LoadMoreBinding;
 import com.endpoint.nadres.databinding.RoomRowBinding;
 import com.endpoint.nadres.models.MyRoomDataModel;
 import com.endpoint.nadres.models.RoomModel;
+import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.share.Time_Ago;
 
 import java.util.List;
@@ -70,10 +71,16 @@ public class RoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 myHolder.binding.setTime(Time_Ago.getTimeAgo(model.getLast_msg().getDate() * 1000, context));
 
             }
-            if (list.get(position).getRoom().getStatus().equals("close")) {
+            if (list.get(position).getRoom().getStatus().equals("close") && Preferences.getInstance().getUserData(context).getData().getType().equals("student")) {
                 ((MyHolder) holder).binding.btrate.setVisibility(View.VISIBLE);
 
             }
+            myHolder.binding.btrate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.createRateDialog(list.get(holder.getLayoutPosition()));
+                }
+            });
             myHolder.itemView.setOnClickListener(view -> {
 
                 RoomModel model2 = list.get(myHolder.getAdapterPosition()).getRoom();

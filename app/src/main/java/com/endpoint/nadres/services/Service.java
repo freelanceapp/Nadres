@@ -274,9 +274,20 @@ public interface Service {
 
 
     );
+
     @GET("api/search-users")
     Call<SearchTeacherModel> Search(@Query("pagination_status") String pagination,
                                     @Query("user_type") String user_type,
                                     @Query("name") String name);
+
+    @FormUrlEncoded
+    @POST("/api/rate-teacher")
+    Call<ResponseBody> addRate(
+            @Header("Authorization") String user_token,
+            @Field("room_id") String room_id,
+            @Field("user_id") String user_id,
+            @Field("teacher_id") String teacher_id,
+            @Field("rate_num") double rate_num
+    );
 
 }
