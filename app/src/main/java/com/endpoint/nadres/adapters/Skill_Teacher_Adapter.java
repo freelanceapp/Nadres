@@ -64,35 +64,29 @@ public class Skill_Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
             EventHolder eventHolder = (EventHolder) holder;
             // eventHolder.binding.setLang(lang);
 
-            if(dataList.get(position).getSkill_type().equals("listening")){
-             ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.listening));
-            }
-            else  if(dataList.get(position).getSkill_type().equals("speaking")){
+            if (dataList.get(position).getSkill_type().equals("listening")) {
+                ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.listening));
+            } else if (dataList.get(position).getSkill_type().equals("speaking")) {
                 ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.speaking));
 
-            }
-            else  if(dataList.get(position).getSkill_type().equals("reading")){
+            } else if (dataList.get(position).getSkill_type().equals("reading")) {
                 ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.reading));
 
-            }
-            else  if(dataList.get(position).getSkill_type().equals("writing")){
+            } else if (dataList.get(position).getSkill_type().equals("writing")) {
                 ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.writing));
 
-            }
-            else  if(dataList.get(position).getSkill_type().equals("vocabulary")){
+            } else if (dataList.get(position).getSkill_type().equals("vocabulary")) {
                 ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.vocabulary));
 
 
-            }
-            else  if(dataList.get(position).getSkill_type().equals("grammer")){
+            } else if (dataList.get(position).getSkill_type().equals("grammer")) {
                 ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.grammer));
 
-            }
-            else  if(dataList.get(position).getSkill_type().equals("dictation")){
+            } else if (dataList.get(position).getSkill_type().equals("dictation")) {
                 ((EventHolder) eventHolder).binding.tvtitle.setText(context.getResources().getString(R.string.dictation));
 
             }
-           // eventHolder.binding.setModel(order_data);
+            // eventHolder.binding.setModel(order_data);
             eventHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
