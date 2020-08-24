@@ -205,6 +205,7 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
                             if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
 
                                 teaDatalist.clear();
+                                teacher_adapter.notifyDataSetChanged();
                                 teaDatalist.addAll(response.body().getData());
                                 if (teaDatalist.size() > 0) {
                                     teacher_adapter.notifyDataSetChanged();

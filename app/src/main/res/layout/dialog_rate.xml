@@ -51,7 +51,7 @@
             android:layout_marginTop="10dp"
             app:civ_border_color="@color/colorPrimary"
             app:civ_border_width="1dp"
-
+android:visibility="gone"
             />
 
         <TextView
@@ -76,7 +76,7 @@
             app:srb_isIndicator="false"
             app:srb_numberOfStars="5"
             app:srb_starBackgroundColor="@color/white"
-            app:srb_starBorderWidth="3"
+            app:srb_starBorderWidth="8"
             app:srb_starSize="15dp"
             app:srb_starsSeparation="10dp"
             app:srb_stepSize=".5"
