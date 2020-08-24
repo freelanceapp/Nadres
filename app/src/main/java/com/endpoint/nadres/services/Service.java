@@ -281,7 +281,7 @@ public interface Service {
                                     @Query("name") String name);
 
     @FormUrlEncoded
-    @POST("/api/rate-teacher")
+    @POST("api/rate-teacher")
     Call<ResponseBody> addRate(
             @Header("Authorization") String user_token,
             @Field("room_id") String room_id,

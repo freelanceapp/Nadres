@@ -305,14 +305,13 @@ public class Fragment_Messages extends Fragment {
     }
 
     private void addRate(MyRoomDataModel.MyRoomModel myRoomModel, float rate) {
-
         final ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
 
         Api.getService(Tags.base_url)
-                .addRate("Bearer " + userModel.getData().getToken(), myRoomModel.getRoom_id() + "", userModel.getData().getId() + "", myRoomModel.getTeacher_id() + "", rate)
+                .addRate("Bearer " + userModel.getData().getToken(), myRoomModel.getRoom_id() + "", userModel.getData().getId() + "", myRoomModel.getRoom().getTeacher_id() + "", rate)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
