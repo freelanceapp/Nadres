@@ -1,14 +1,22 @@
 package com.endpoint.nadres.activities_fragments.activity_home;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +36,7 @@ import com.endpoint.nadres.activities_fragments.activity_notification.Notificati
 import com.endpoint.nadres.activities_fragments.activity_requests.RequestActivity;
 import com.endpoint.nadres.activities_fragments.activity_search.SearchActivity;
 import com.endpoint.nadres.activities_fragments.activity_sign_in.activities.SignInActivity;
+import com.endpoint.nadres.activities_fragments.activity_splash.Splash_Activity;
 import com.endpoint.nadres.databinding.ActivityHomeBinding;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
@@ -36,6 +45,7 @@ import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.remote.Api;
 import com.endpoint.nadres.share.Common;
 import com.endpoint.nadres.tags.Tags;
+import com.endpoint.nadres.versioncheck.VersionChecker;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,6 +72,8 @@ public class HomeActivity extends AppCompatActivity {
     private Preferences preferences;
     private UserModel userModel;
     private String token;
+    private DownloadManager downloadManager;
+    private long downloadReference;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -82,6 +94,48 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        VersionChecker versionChecker = new VersionChecker();
+        try {
+            String latestVersion = versionChecker.execute().get();
+            PackageManager packageManager = this.getPackageManager();
+            PackageInfo packageInfo = null;
+            packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            String currentVersion = packageInfo.versionName;
+            if (!latestVersion.equals(currentVersion)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setMessage(R.string.newversion)
+                        .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            //if the user agrees to upgrade
+                            public void onClick(DialogInterface dialog, int id) {
+                                //start downloading the file using the download manager
+//                                downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//                                Uri Download_Uri = Uri.parse("https://play.google.com/store/apps/details?id=" + "com.endpoint.nadres"+ "&hl=en");
+//                                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+//                                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+//                                request.setAllowedOverRoaming(false);
+//                                request.setTitle(getString(R.string.Myapp));
+//                                request.setDestinationInExternalFilesDir(HomeActivity.this, Environment.DIRECTORY_DOWNLOADS, "MyAndroidApp.apk");
+//                                downloadReference = downloadManager.enqueue(request);
+//
+                                dialog.dismiss();
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.endpoint.nadres" + "&hl=en")));
+                            }
+                        })
+                        .setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                                dialog.dismiss();
+                            }
+                        });
+                //show the alert message
+                builder.create().show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("llll", e.toString())
+            ;
+        }
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (manager != null) {
             manager.cancel(Tags.not_tag, Tags.not_id);
@@ -158,10 +212,10 @@ public class HomeActivity extends AppCompatActivity {
         binding.toolbar.setTitle("");
 
 
-        if (userModel!=null&&userModel.getData().getType().equals("teacher")){
+        if (userModel != null && userModel.getData().getType().equals("teacher")) {
             binding.flRequest.setVisibility(View.VISIBLE);
             binding.flsearch.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.flRequest.setVisibility(View.GONE);
             binding.flsearch.setVisibility(View.VISIBLE);
 
@@ -515,8 +569,8 @@ public class HomeActivity extends AppCompatActivity {
         for (Fragment fragment : fragmentList) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
-        if (requestCode==2&&resultCode==RESULT_OK){
-            if (fragment_messages!=null&&fragment_messages.isAdded()){
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            if (fragment_messages != null && fragment_messages.isAdded()) {
                 fragment_messages.getRooms();
             }
         }

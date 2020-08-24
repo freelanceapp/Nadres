@@ -81,7 +81,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activities_fragments.activity_teachers.TeacherActivity"
+            android:name=".activities_fragments.activity_search.SearchActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity

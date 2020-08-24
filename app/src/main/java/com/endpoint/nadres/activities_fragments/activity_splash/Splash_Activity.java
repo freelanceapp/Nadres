@@ -2,9 +2,13 @@ package com.endpoint.nadres.activities_fragments.activity_splash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -16,8 +20,10 @@ import com.endpoint.nadres.databinding.ActivitySplashBinding;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.preferences.Preferences;
 import com.endpoint.nadres.tags.Tags;
+import com.endpoint.nadres.versioncheck.VersionChecker;
 
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import io.paperdb.Paper;
 
@@ -41,7 +47,7 @@ public class Splash_Activity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         preferences = Preferences.getInstance();
 
-        animation= AnimationUtils.loadAnimation(getBaseContext(),R.anim.lanuch);
+        animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.lanuch);
         binding.cons.startAnimation(animation);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -53,14 +59,12 @@ public class Splash_Activity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 String session = preferences.getSession(Splash_Activity.this);
-                if (session.equals(Tags.session_login))
-                {
-                    Intent intent=new Intent(Splash_Activity.this, HomeActivity.class);
+                if (session.equals(Tags.session_login)) {
+                    Intent intent = new Intent(Splash_Activity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
-                }else
-                {
-                    Intent intent=new Intent(Splash_Activity.this, SignInActivity.class);
+                } else {
+                    Intent intent = new Intent(Splash_Activity.this, SignInActivity.class);
                     startActivity(intent);
                     finish();
                 }

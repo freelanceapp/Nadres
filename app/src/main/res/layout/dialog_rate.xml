@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+
+            >
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_close"
+                android:tint="@color/gray4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/rate"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="1dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            app:srb_drawBorderEnabled="true"
+            app:srb_isIndicator="false"
+            app:srb_numberOfStars="5"
+            app:srb_starBackgroundColor="@color/white"
+            app:srb_starBorderWidth="3"
+            app:srb_starSize="15dp"
+            app:srb_starsSeparation="10dp"
+            app:srb_stepSize=".5"
+            tools:ignore="RtlCompat" />
+
+
+        <Button
+            android:id="@+id/btn_rate"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/small_rounded_primary"
+            android:text="@string/rate"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+
+            />
+
+
+    </LinearLayout>
+
+
+</layout>

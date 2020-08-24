@@ -88,6 +88,10 @@
     <string name="req_accepted">Your request accepted</string>
     <string name="no_conversation">No conversation</string>
     <string name="search2">Search</string>
+    <string name="rate">Rate</string>
+    <string name="newversion">There is newer version of this application available, click OK to upgrade now?</string>
+    <string name="Myapp">My Andorid App Download</string>
+    <string name="later">Remind Later</string>
 
 
 </resources>

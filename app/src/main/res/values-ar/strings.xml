@@ -88,5 +88,9 @@
     <string name="req_accepted">تم قبول طلبك</string>
     <string name="no_conversation">لا توجد محادثات</string>
     <string name="search2">بحث</string>
+    <string name="rate">Rate</string>
+    <string name="newversion">يتوفر إصدار أحدث من هذا التطبيق ، انقر فوق "موافق" للترقية الآن؟</string>
+    <string name="Myapp">تحميل تطبيقى</string>
+    <string name="later">لاحقا</string>
 
 </resources>

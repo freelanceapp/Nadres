@@ -15,8 +15,9 @@ import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_search.SearchActivity;
 import com.endpoint.nadres.activities_fragments.activity_teachers.TeacherActivity;
 import com.endpoint.nadres.databinding.LoadMoreBinding;
+import com.endpoint.nadres.databinding.SearchTeacherRowBinding;
 import com.endpoint.nadres.databinding.TeacherRowBinding;
-import com.endpoint.nadres.models.NotificationDataModel;
+import com.endpoint.nadres.models.SearchTeacherModel;
 import com.endpoint.nadres.models.TeacherModel;
 
 import java.util.List;
@@ -24,15 +25,15 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Search_Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int ITEM_DATA = 1;
     private final int LOAD = 2;
-    private List<TeacherModel.Data> dataList;
+    private List<SearchTeacherModel.Data> dataList;
     private Context context;
     private LayoutInflater inflater;
     private String lang;
 
-    public Teacher_Adapter(List<TeacherModel.Data> dataList, Context context) {
+    public Search_Teacher_Adapter(List<SearchTeacherModel.Data> dataList, Context context) {
         this.dataList = dataList;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -45,7 +46,7 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if (viewType==ITEM_DATA)
         {
-            TeacherRowBinding binding  = DataBindingUtil.inflate(inflater, R.layout.teacher_row,parent,false);
+            SearchTeacherRowBinding binding  = DataBindingUtil.inflate(inflater, R.layout.search_teacher_row,parent,false);
             return new EventHolder(binding);
 
         }else
@@ -57,7 +58,7 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TeacherModel.Data order_data = dataList.get(position);
+        SearchTeacherModel.Data order_data = dataList.get(position);
         if (holder instanceof EventHolder)
         {
             EventHolder eventHolder = (EventHolder) holder;
@@ -67,14 +68,10 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             eventHolder.binding.imchat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(context instanceof TeacherActivity){
-                        TeacherActivity teacherActivity=(TeacherActivity)context;
+                    if(context instanceof SearchActivity){
+                        SearchActivity teacherActivity=(SearchActivity) context;
                         teacherActivity.setItemData(dataList.get(eventHolder.getLayoutPosition()));
                     }
-//                    else   if(context instanceof SearchActivity){
-//                        SearchActivity teacherActivity=(SearchActivity) context;
-//                        teacherActivity.setItemData(dataList.get(eventHolder.getLayoutPosition()));
-//                    }
 
                 }
             });
@@ -93,8 +90,8 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public class EventHolder extends RecyclerView.ViewHolder {
-        public TeacherRowBinding binding;
-        public EventHolder(@NonNull TeacherRowBinding binding) {
+        public SearchTeacherRowBinding binding;
+        public EventHolder(@NonNull SearchTeacherRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
@@ -113,7 +110,7 @@ public class Teacher_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-     TeacherModel.Data order_Model = dataList.get(position);
+     SearchTeacherModel.Data order_Model = dataList.get(position);
         if (order_Model!=null)
         {
             return ITEM_DATA;

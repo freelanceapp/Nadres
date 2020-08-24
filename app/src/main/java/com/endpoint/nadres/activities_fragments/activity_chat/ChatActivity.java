@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -138,9 +139,9 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private void initView() {
         imagePopup = new ImagePopup(this);
         imagePopup.setBackgroundColor(Color.BLACK);
-        imagePopup.setFullScreen(false);
-        imagePopup.setHideCloseIcon(true);
-        imagePopup.setImageOnClickClose(true);
+        imagePopup.setHideCloseIcon(false);
+        //  imagePopup.setImageOnClickClose(true);
+        imagePopup.setFullScreen(true);
         messageModelList = new ArrayList<>();
         preferences = Preferences.getInstance();
         userModel = preferences.getUserData(this);
@@ -885,7 +886,6 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
 
     public void setImageUrl(String attachment) {
-
         imagePopup.initiatePopupWithPicasso(Tags.IMAGE_URL + attachment);
         imagePopup.viewPopup();
 

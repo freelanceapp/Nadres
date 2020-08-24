@@ -6,6 +6,7 @@ import com.endpoint.nadres.models.CreateRoomModel;
 import com.endpoint.nadres.models.MessageDataModel;
 import com.endpoint.nadres.models.MyRoomDataModel;
 import com.endpoint.nadres.models.RequestDataModel;
+import com.endpoint.nadres.models.SearchTeacherModel;
 import com.endpoint.nadres.models.SettingModel;
 import com.endpoint.nadres.models.SingleArticleModel;
 import com.endpoint.nadres.models.SingleMessageDataModel;
@@ -274,8 +275,8 @@ public interface Service {
 
     );
     @GET("api/search-users")
-    Call<TeacherModel> Search(@Query("pagination") String pagination,
-                                  @Query("user_type") String user_type,
-                                  @Query("name") String name);
+    Call<SearchTeacherModel> Search(@Query("pagination_status") String pagination,
+                                    @Query("user_type") String user_type,
+                                    @Query("name") String name);
 
 }

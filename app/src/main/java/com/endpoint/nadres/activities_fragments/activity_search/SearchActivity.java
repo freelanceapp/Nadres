@@ -21,12 +21,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.endpoint.nadres.R;
 import com.endpoint.nadres.activities_fragments.activity_chat.ChatActivity;
 import com.endpoint.nadres.activities_fragments.activity_teachers.TeacherActivity;
+import com.endpoint.nadres.adapters.Search_Teacher_Adapter;
 import com.endpoint.nadres.adapters.Teacher_Adapter;
 import com.endpoint.nadres.databinding.ActivitySearchBinding;
 import com.endpoint.nadres.interfaces.Listeners;
 import com.endpoint.nadres.language.Language;
 import com.endpoint.nadres.models.ChatUserModel;
 import com.endpoint.nadres.models.CreateRoomModel;
+import com.endpoint.nadres.models.SearchTeacherModel;
 import com.endpoint.nadres.models.SingleRoomModel;
 import com.endpoint.nadres.models.TeacherModel;
 import com.endpoint.nadres.models.UserModel;
@@ -50,8 +52,8 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
     private ActivitySearchBinding binding;
     private String lang;
     private LinearLayoutManager manager;
-    private List<TeacherModel.Data> teaDatalist;
-    private Teacher_Adapter teacher_adapter;
+    private List<SearchTeacherModel.Data> teaDatalist;
+    private Search_Teacher_Adapter teacher_adapter;
     private String query = "all";
     private UserModel userModel;
     private Preferences preferences;
@@ -90,9 +92,9 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //productModelList = new ArrayList<>();
-        manager = new GridLayoutManager(this, 2);
+        manager = new GridLayoutManager(this,1);
         binding.recView.setLayoutManager(manager);
-        teacher_adapter = new Teacher_Adapter(teaDatalist, this);
+        teacher_adapter = new Search_Teacher_Adapter(teaDatalist, this);
         binding.recView.setAdapter(teacher_adapter);
        /* searchAdapter = new SearchAdapter(this,productModelList,this);
         binding.recView.setAdapter(searchAdapter);
@@ -188,9 +190,9 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
             }
             Api.getService(Tags.base_url).
                     Search("off", "teacher", query).
-                    enqueue(new Callback<TeacherModel>() {
+                    enqueue(new Callback<SearchTeacherModel>() {
                         @Override
-                        public void onResponse(Call<TeacherModel> call, Response<TeacherModel> response) {
+                        public void onResponse(Call<SearchTeacherModel> call, Response<SearchTeacherModel> response) {
                             binding.progBar.setVisibility(View.GONE);
 
                             if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
@@ -227,7 +229,7 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
                         }
 
                         @Override
-                        public void onFailure(Call<TeacherModel> call, Throwable t) {
+                        public void onFailure(Call<SearchTeacherModel> call, Throwable t) {
                             binding.progBar.setVisibility(View.GONE);
                             binding.tvNoData.setVisibility(View.VISIBLE);
                             try {
@@ -253,12 +255,12 @@ public class SearchActivity extends AppCompatActivity implements Listeners.BackL
 
     }
 
-    public void setItemData(TeacherModel.Data model) {
+    public void setItemData(SearchTeacherModel.Data model) {
         if (userModel != null) {
             List<Integer> ids = new ArrayList<>();
             ids.add(userModel.getData().getId());
-            createRoomModel.setSkill_type(model.getSkill_type());
-            createRoomModel.setTeacher_id(model.getUser_id());
+           // createRoomModel.setSkill_type(model.getSkill_type());
+            createRoomModel.setTeacher_id(model.getId());
             createRoomModel.setStudent_ids(ids);
             CreateChatRoom();
 
